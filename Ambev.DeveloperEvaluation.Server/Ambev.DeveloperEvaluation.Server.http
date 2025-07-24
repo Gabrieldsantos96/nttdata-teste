@@ -1,0 +1,6 @@
+@Ambev.DeveloperEvaluation.Server_HostAddress = http://localhost:5056
+
+GET {{Ambev.DeveloperEvaluation.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

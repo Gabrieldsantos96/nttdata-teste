@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:59393",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\..\\ambev.developerevaluation.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

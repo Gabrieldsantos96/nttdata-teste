@@ -1,0 +1,11 @@
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.deps.json
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.pdb
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.AssemblyInfoInputs.cache
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.AssemblyInfo.cs
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.csproj.CoreCompileInputs.cache
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\refint\Ambev.DeveloperEvaluation.Infra.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Infra.pdb
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Infra\obj\Debug\net9.0\ref\Ambev.DeveloperEvaluation.Infra.dll

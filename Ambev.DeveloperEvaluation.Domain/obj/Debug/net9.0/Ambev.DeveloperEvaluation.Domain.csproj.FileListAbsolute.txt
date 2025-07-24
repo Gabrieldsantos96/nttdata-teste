@@ -1,0 +1,15 @@
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.csproj.AssemblyReference.cache
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.AssemblyInfoInputs.cache
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.AssemblyInfo.cs
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.csproj.CoreCompileInputs.cache
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.deps.json
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.pdb
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Shared.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\bin\Debug\net9.0\Ambev.DeveloperEvaluation.Shared.pdb
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.De.3B55B412.Up2Date
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\refint\Ambev.DeveloperEvaluation.Domain.dll
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\Ambev.DeveloperEvaluation.Domain.pdb
+C:\Users\gahds\source\repos\Ambev.DeveloperEvaluation\Ambev.DeveloperEvaluation.Domain\obj\Debug\net9.0\ref\Ambev.DeveloperEvaluation.Domain.dll
