@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2uDSwGju+nI=",
+  "dgSpecHash": "pY8u1LXkm5A=",
   "success": true,
   "projectFilePath": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Infra\\Ambev.DeveloperEvaluation.Infra.csproj",
   "expectedPackageFiles": [
@@ -42,6 +42,7 @@
     "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.7\\microsoft.extensions.caching.abstractions.9.0.7.nupkg.sha512",
     "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.7\\microsoft.extensions.caching.memory.9.0.7.nupkg.sha512",
     "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.7\\microsoft.extensions.configuration.abstractions.9.0.7.nupkg.sha512",
+    "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.configuration.binder\\9.0.7\\microsoft.extensions.configuration.binder.9.0.7.nupkg.sha512",
     "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.7\\microsoft.extensions.dependencyinjection.9.0.7.nupkg.sha512",
     "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.7\\microsoft.extensions.dependencyinjection.abstractions.9.0.7.nupkg.sha512",
     "C:\\Users\\gahds\\.nuget\\packages\\microsoft.extensions.dependencymodel\\9.0.7\\microsoft.extensions.dependencymodel.9.0.7.nupkg.sha512",

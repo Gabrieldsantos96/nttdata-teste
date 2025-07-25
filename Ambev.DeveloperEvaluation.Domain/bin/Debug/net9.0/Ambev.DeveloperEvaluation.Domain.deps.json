@@ -13,7 +13,8 @@
           "FluentValidation.DependencyInjectionExtensions": "12.0.0",
           "MediatR": "13.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.6",
-          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.6"
+          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.6",
+          "NodaMoney": "2.2.1"
         },
         "runtime": {
           "Ambev.DeveloperEvaluation.Domain.dll": {}
@@ -489,6 +490,14 @@
           }
         }
       },
+      "NodaMoney/2.2.1": {
+        "runtime": {
+          "lib/net9.0/NodaMoney.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.2.1.0"
+          }
+        }
+      },
       "System.ClientModel/1.0.0": {
         "dependencies": {
           "System.Memory.Data": "1.0.2",
@@ -937,6 +946,13 @@
       "sha512": "sha512-hqTM5628jSsQiv+HGpiq3WKBl2c8v1KZfby2J6Pr7pEPlK9waPdgEO6b8A/+/xn/yZ9ulv8HuqK71ONy2tg67A==",
       "path": "microsoft.win32.systemevents/6.0.0",
       "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
+    },
+    "NodaMoney/2.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z0pVYENfwwo7ARrc1ijpc/rcJYYTN5d7U8eWS10fex7gdygh/eUVX6Pftt1mjsfu8ZxhzGPt9wAlCcpHyXhCWg==",
+      "path": "nodamoney/2.2.1",
+      "hashPath": "nodamoney.2.2.1.nupkg.sha512"
     },
     "System.ClientModel/1.0.0": {
       "type": "package",

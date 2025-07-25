@@ -3,32 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\domainevents\\salecompletedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\domainevents\\salecompletedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{84C5FF99-F88C-4538-84E5-432C38DA0D71}|Ambev.DeveloperEvaluation.Server\\Ambev.DeveloperEvaluation.Server.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.server\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{84C5FF99-F88C-4538-84E5-432C38DA0D71}|Ambev.DeveloperEvaluation.Server\\Ambev.DeveloperEvaluation.Server.csproj|solutionrelative:ambev.developerevaluation.server\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\domainevents\\salecreatedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\domainevents\\salecreatedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{84C5FF99-F88C-4538-84E5-432C38DA0D71}|Ambev.DeveloperEvaluation.Server\\Ambev.DeveloperEvaluation.Server.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.server\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{84C5FF99-F88C-4538-84E5-432C38DA0D71}|Ambev.DeveloperEvaluation.Server\\Ambev.DeveloperEvaluation.Server.csproj|solutionrelative:ambev.developerevaluation.server\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\entities\\sale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\entities\\sale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2997AEAB-CBAA-4D4D-B5FE-547F7EF49074}|Ambev.DeveloperEvaluation.Infra\\Ambev.DeveloperEvaluation.Infra.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.infra\\adapters\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2997AEAB-CBAA-4D4D-B5FE-547F7EF49074}|Ambev.DeveloperEvaluation.Infra\\Ambev.DeveloperEvaluation.Infra.csproj|solutionrelative:ambev.developerevaluation.infra\\adapters\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\domainevents\\salecancelledevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\domainevents\\salecancelledevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\domainevents\\itemcancelledevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\domainevents\\itemcancelledevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\domainevents\\ihasdomainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\domainevents\\ihasdomainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\domainevents\\domainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\domainevents\\domainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\valueobjects\\name.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\valueobjects\\name.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,102 +26,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SaleCreatedEvent.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCreatedEvent.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCreatedEvent.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCreatedEvent.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCreatedEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T16:29:04.482Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SaleCompletedEvent.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCompletedEvent.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCompletedEvent.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCompletedEvent.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCompletedEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T16:28:59.115Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SaleCancelledEvent.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCancelledEvent.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCancelledEvent.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCancelledEvent.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\SaleCancelledEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T16:26:56.902Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ItemCancelledEvent.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\ItemCancelledEvent.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\ItemCancelledEvent.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\ItemCancelledEvent.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\ItemCancelledEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T16:11:10.498Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "docker-compose.yml",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\docker-compose.yml",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Server\\docker-compose.yml",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\docker-compose.yml",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Server\\docker-compose.yml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
+              "WhenOpened": "2025-07-25T23:27:55.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-25T23:24:53.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Name.cs",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T22:09:35.801Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Sale.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\Entities\\Sale.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\Entities\\Sale.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\Entities\\Sale.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\Entities\\Sale.cs",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAAwIwAAAAFAAAAAAAAAA==",
+              "Title": "DatabaseContext.cs",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T15:57:42.889Z",
+              "WhenOpened": "2025-07-25T22:05:39.183Z",
               "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DomainEvent.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\DomainEvent.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\DomainEvent.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\DomainEvent.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\DomainEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T15:41:30.935Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IHasDomainEvent.cs",
-              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\IHasDomainEvent.cs",
-              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\IHasDomainEvent.cs",
-              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\DomainEvents\\IHasDomainEvent.cs",
-              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\DomainEvents\\IHasDomainEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T15:41:28.906Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             }
           ]
         }

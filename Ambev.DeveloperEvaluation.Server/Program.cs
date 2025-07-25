@@ -51,8 +51,6 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseAntiforgery();
-
 app.UseFastEndpoints(c =>
 {
     c.Endpoints.RoutePrefix = "api";

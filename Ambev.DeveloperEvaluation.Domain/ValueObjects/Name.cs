@@ -1,16 +1,18 @@
 ﻿
 using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Shared.Validations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
+[Owned]
 public sealed class Name : IEquatable<Name>
 {
     public string FirstName { get; } = null!;
     public string LastName { get; } = null!;
 
-    private const char Separator = '|'; // Separador para serialização
-
+    private const char Separator = '|';
+    public Name() { }
     public Name(string firstName, string lastName)
     {
         if (string.IsNullOrWhiteSpace(firstName))

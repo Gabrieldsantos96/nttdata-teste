@@ -1,0 +1,62 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.NET Core / .NET
+
+Build output
+
+bin/ obj/ *.user *.suo *.userprefs *.cache *.bak *.ncb *.aps *.log *.tlog *.sdf *.opensdf *.pdb *.idb *.ilk *.exe *.dll *.obj *.iobj *.ipdb *.tlog *.meta *.DS_Store
+
+NuGet Packages
+
+*.nupkg packages/ **/project.lock.json **/project.fragment.lock.json **/artifacts/
+
+Visual Studio / Rider
+
+.idea/ *.sln.iml *.csproj.user .vscode/ *.vs/ *.suo .ntvs*.njsproj *.sln.docstates
+
+Test results
+
+TestResults/ *.trx *.xml *.coverage *.coveragexml
+
+Publish output
+
+[Pp]ublish/ [Pp]ublishOutput/ [Pp]ublishWebOutput/ *.pubxml *.pubxml.user
+
+Azure / Cloud
+
+.azure*.azurePubxml
+
+Miscellaneous
+
+*.bak *.cache *.log *.swp *~ *.tmp *.temp .tmpproj Thumbs.db .env appsettings..json secrets.json *.local.settings.json
+
+Docker
+
+docker-compose.override.yml *.dockerignore
+
+Node.js (from your Dockerfile with Node.js)
+
+node_modules/ npm-debug.log yarn-error.log package-lock.json yarn.lock

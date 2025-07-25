@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 
-namespace Ambev.DeveloperEvaluation.Infra.Services;
+namespace Ambev.DeveloperEvaluation.Infra.Adapters;
 public sealed class JwtService(IConfiguration _config) : IJwtService
 {
     private string CreateToken(List<Claim> claims)
@@ -17,7 +17,7 @@ public sealed class JwtService(IConfiguration _config) : IJwtService
         issuer: _config["Jwt:Issuer"],
         audience: _config["Jwt:Audience"],
         claims: claims,
-        expires: DateTime.UtcNow.AddMinutes(_config.GetValue("Jwt:ExpirationInMinutes")),
+        expires: DateTime.UtcNow.AddMinutes(_config.GetValue<int>("Jwt:ExpirationInMinutes")),
         signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
     );
         return new JwtSecurityTokenHandler().WriteToken(token);

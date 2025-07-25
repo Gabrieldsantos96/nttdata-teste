@@ -1,6 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
+using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;
 using Ambev.DeveloperEvaluation.Infra.Adapters;
-using Ambev.DeveloperEvaluation.Infra.Messaging.Idempotency;
+using Ambev.DeveloperEvaluation.Infra.Repositories;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
@@ -36,6 +37,12 @@ public static class ConfigureServices
             
         services.AddMemoryCache();
 
-        services.AddSingleton<IProcessedMessageStore, ProcessedMessageStore>();
+        services.AddScoped<IDatabaseContextFactory,DatabaseContextFactory>();
+
+        services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IClaimsService, ClaimsService>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
     }
 }

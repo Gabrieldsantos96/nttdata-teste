@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{84C5FF99-F88C-4538-84E5-432C38DA0D71}|Ambev.DeveloperEvaluation.Server\\Ambev.DeveloperEvaluation.Server.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.server\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{84C5FF99-F88C-4538-84E5-432C38DA0D71}|Ambev.DeveloperEvaluation.Server\\Ambev.DeveloperEvaluation.Server.csproj|solutionrelative:ambev.developerevaluation.server\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2997AEAB-CBAA-4D4D-B5FE-547F7EF49074}|Ambev.DeveloperEvaluation.Infra\\Ambev.DeveloperEvaluation.Infra.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.infra\\adapters\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2997AEAB-CBAA-4D4D-B5FE-547F7EF49074}|Ambev.DeveloperEvaluation.Infra\\Ambev.DeveloperEvaluation.Infra.csproj|solutionrelative:ambev.developerevaluation.infra\\adapters\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|c:\\users\\gahds\\source\\repos\\ambev.developerevaluation\\ambev.developerevaluation.domain\\valueobjects\\name.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C3D5B68-6E5E-4DB8-829D-BC1876A3ABB0}|Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj|solutionrelative:ambev.developerevaluation.domain\\valueobjects\\name.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +22,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Server\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-25T23:24:53.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Name.cs",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Domain\\ValueObjects\\Name.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T22:09:35.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DatabaseContext.cs",
+              "DocumentMoniker": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "RelativeDocumentMoniker": "Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "ToolTip": "C:\\Users\\gahds\\source\\repos\\Ambev.DeveloperEvaluation\\Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "RelativeToolTip": "Ambev.DeveloperEvaluation.Infra\\Adapters\\DatabaseContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T22:05:39.183Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             }
           ]
         }

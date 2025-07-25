@@ -19,7 +19,7 @@ public class User : IdentityUser<int>
     public Name Name { get; set; }
     public Address Address { get; set; }
     public string Phone { get; set; } = null!;
-    public string Status { get; set; } = null!;
+    public string Status { get; set; } = UserStatusConsts.ACTIVE;
     public string Role { get; set; } = RoleConsts.Customer;
 
     public User() { }
@@ -122,7 +122,7 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(x => x.Status)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Status"))
-            .Must(s => new[] { "Active", "Inactive", "Suspended" }.Contains(s))
+            .Must(s => new[] { UserStatusConsts.ACTIVE,UserStatusConsts.SUSPENDED,UserStatusConsts.INACTIVE }.Contains(s))
             .WithMessage("O status deve ser Active, Inactive ou Suspended")
             .MaximumLength(20).WithMessage(ValidationHelper.MaxLengthErrorMessage("Status", 20));
 

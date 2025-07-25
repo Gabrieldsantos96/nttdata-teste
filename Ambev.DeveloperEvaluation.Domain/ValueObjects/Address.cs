@@ -2,8 +2,6 @@ using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Shared.Validations;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace Ambev.DeveloperEvaluation.Domain.ValueObjects;
@@ -11,29 +9,24 @@ namespace Ambev.DeveloperEvaluation.Domain.ValueObjects;
 [Owned]
 public class Address
 {
-    [MaxLength(1000)]
-    public required string Street { get; set; }
-
-    [MaxLength(20)]
-    public required string Zipcode { get; set; }
-
-    public required int Number { get; set; }
-
-    [MaxLength(100)]
-    public required string City { get; set; }
-
-    public required Geolocation Geolocation { get; set; }
-
-    [SetsRequiredMembers]
-    public Address(string street, string zipcode, int number, string city, Geolocation geolocation)
+    public string Street { get; set; } = null!;
+    public string Zipcode { get; set; } = null!;
+    public int Number { get; set; }
+    public string City { get; set; } = null!;
+    public string Geolocation { get; set; } = null!;
+    public static Address Create(string street, string zipcode, int number, string city, string geo)
     {
-        Street = street;
-        Zipcode = zipcode.Replace("-", "");
-        Number = number;
-        City = city;
-        Geolocation = geolocation;
+        var address = new Address
+        {
+            Street = street,
+            Zipcode = zipcode,
+            Number = number,
+            City = city,
+            Geolocation = geo
+        };
 
-        new AddressValidator().ValidateAndThrow(this);
+        new AddressValidator().ValidateAndThrow(address);
+        return address;
     }
     public string ToJsonString()
     {
@@ -47,22 +40,8 @@ public class Address
     }
 }
 
-public class Geolocation
-{
-    [MaxLength(50)]
-    public required string Lat { get; set; }
-
-    [MaxLength(50)]
-    public required string Long { get; set; }
-
-    [SetsRequiredMembers]
-    public Geolocation(string lat, string long_)
-    {
-        Lat = lat;
-        Long = long_;
-    }
-}
-
+[Owned]
+public record Geolocation(string Lat,string Long);
 public class AddressValidator : AbstractValidator<Address>
 {
     public AddressValidator()
@@ -85,12 +64,8 @@ public class AddressValidator : AbstractValidator<Address>
         RuleFor(x => x.Geolocation)
             .NotNull().WithMessage(ValidationHelper.RequiredErrorMessage("Geolocalização"));
 
-        RuleFor(x => x.Geolocation.Lat)
-            .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Latitude"))
+        RuleFor(x => x.Geolocation)
+            .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Latitude - Longitude"))
             .MaximumLength(50).WithMessage(ValidationHelper.MaxLengthErrorMessage("Latitude", 50));
-
-        RuleFor(x => x.Geolocation.Long)
-            .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Longitude"))
-            .MaximumLength(50).WithMessage(ValidationHelper.MaxLengthErrorMessage("Longitude", 50));
     }
 }

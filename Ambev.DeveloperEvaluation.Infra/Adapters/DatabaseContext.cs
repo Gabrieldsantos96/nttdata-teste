@@ -1,8 +1,9 @@
+using Ambev.DeveloperEvaluation.Domain.DomainEvents;
+using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 
 namespace Ambev.DeveloperEvaluation.Infra.Adapters;
 
@@ -16,9 +17,10 @@ public class DatabaseContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         #region DbConfig
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AI");
+
+        modelBuilder.Ignore<DomainEvent>();
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
         {
