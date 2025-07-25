@@ -1,5 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.DomainEvents;
-using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces;
+using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

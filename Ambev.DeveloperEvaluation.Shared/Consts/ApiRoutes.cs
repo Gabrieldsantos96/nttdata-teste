@@ -2,9 +2,12 @@ namespace Ambev.DeveloperEvaluation.Shared.Consts;
 
 public static class ApiRoutes
 {
-    public static class Auth
+    public static class Authentication
     {
-        public const string Login = "/auth/login";
+        public const string SignIn = "/auth/login";
+        public const string SignOut = "/auth/sign-out";
+        public const string RefreshJwt = "/auth/refresh-jwt";
+        public const string GetProfile = "/auth/get-profile";
     }
 
     public static class Carts

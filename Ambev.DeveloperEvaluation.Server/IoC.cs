@@ -1,6 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Behaviors;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Infra.Data;
+using Ambev.DeveloperEvaluation.Infra.Adapters;
 using Ambev.DeveloperEvaluation.Server.Config;
 using Ambev.DeveloperEvaluation.Server.Identity;
 using FastEndpoints;

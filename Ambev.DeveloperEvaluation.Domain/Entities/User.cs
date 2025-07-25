@@ -22,7 +22,7 @@ public class User : IdentityUser<int>
     public string Status { get; set; } = null!;
     public string Role { get; set; } = RoleConsts.Customer;
 
-    private User() { }
+    public User() { }
 
     public static User Create(
         string email,

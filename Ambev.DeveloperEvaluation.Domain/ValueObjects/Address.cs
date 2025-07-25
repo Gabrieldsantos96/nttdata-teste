@@ -1,8 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Shared.Validations;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace Ambev.DeveloperEvaluation.Domain.ValueObjects;
 
@@ -32,6 +34,16 @@ public class Address
         Geolocation = geolocation;
 
         new AddressValidator().ValidateAndThrow(this);
+    }
+    public string ToJsonString()
+    {
+        return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+    }
+    public static Address FromJsonString(string json)
+    {
+        var address = JsonSerializer.Deserialize<Address>(json) ?? throw new DomainException(nameof(Address));
+        new AddressValidator().ValidateAndThrow(address);
+        return address;
     }
 }
 

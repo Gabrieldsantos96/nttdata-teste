@@ -1,4 +1,4 @@
-namespace Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces;
+namespace Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 
 public interface IDatabaseContextFactory
 {

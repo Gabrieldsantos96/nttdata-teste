@@ -13,8 +13,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\Authentication\Commands\" />
-	  <Folder Include="Features\Authentication\Queries\" />
 	  <Folder Include="Features\Carts\Commands\" />
 	  <Folder Include="Features\Carts\Queries\" />
 	  <Folder Include="Features\Costumer\Commands\" />

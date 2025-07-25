@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces;
+namespace Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 public interface IDatabaseContext : IDisposable, IAsyncDisposable
 {
     ChangeTracker ChangeTracker { get; }
 
     public DbSet<User> Users { get; set; }
+
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     DbSet<T> Set<T>() where T : class;
 

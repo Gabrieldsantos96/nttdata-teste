@@ -1,7 +1,7 @@
-using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces;
+using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ambev.DeveloperEvaluation.Infra.Data;
+namespace Ambev.DeveloperEvaluation.Infra.Adapters;
 
 public class DatabaseContextFactory(IDbContextFactory<DatabaseContext> databaseContextFactory) : IDatabaseContextFactory
 {

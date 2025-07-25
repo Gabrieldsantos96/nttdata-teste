@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Ambev.DeveloperEvaluation.Infra.Data;
+namespace Ambev.DeveloperEvaluation.Infra.Adapters;
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
 {
     public DatabaseContext CreateDbContext(string[] args)

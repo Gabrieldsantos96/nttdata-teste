@@ -1,17 +1,16 @@
-using Ambev.DeveloperEvaluation.Infra.Messaging.Idempotency;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces;
+using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 
-namespace Ambev.DeveloperEvaluation.Infra.Data;
+namespace Ambev.DeveloperEvaluation.Infra.Adapters;
 
 public class DatabaseContext(
     DbContextOptions<DatabaseContext> options)
     : IdentityDbContext<User, UserRole, int>(options), IDataProtectionKeyContext, IDatabaseContext
 {
-    public DbSet<ProcessedMessage> ProcessedMessages { get; set; } = null!;
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

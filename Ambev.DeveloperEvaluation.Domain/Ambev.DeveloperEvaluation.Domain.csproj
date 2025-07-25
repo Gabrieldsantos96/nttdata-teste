@@ -18,9 +18,5 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
 		<PackageReference Include="NodaMoney" Version="2.2.1" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="NovaPasta\" />
-	</ItemGroup>
 
 </Project>

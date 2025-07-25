@@ -1,6 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces;
-using Ambev.DeveloperEvaluation.Infra.Claims;
-using Ambev.DeveloperEvaluation.Infra.Data;
+﻿using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
+using Ambev.DeveloperEvaluation.Infra.Adapters;
 using Ambev.DeveloperEvaluation.Infra.Messaging.Idempotency;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
