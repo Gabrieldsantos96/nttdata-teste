@@ -18,7 +18,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": ["vite-plugin-svgr/client", "vite/client"]
   },
-  "include": ["src"]
+  "include": ["vite-env.d.ts", "src"]
 }

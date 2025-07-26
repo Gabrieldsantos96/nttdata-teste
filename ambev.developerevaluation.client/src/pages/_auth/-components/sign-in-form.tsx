@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Mail, LockIcon, Loader2Icon } from "lucide-react";
 import TextInput from "@/components/text-input";
-import Logo from "@/assets/react.svg";
+import Logo from "@/assets/react.svg?react";
 import { useSession } from "@/contexts/session-provider";
 
 export function SignInForm() {

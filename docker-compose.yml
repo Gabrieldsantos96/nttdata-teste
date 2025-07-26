@@ -1,0 +1,63 @@
+
+services:
+  ambev.developerevaluation.server:
+    image: ${DOCKER_REGISTRY:-}ambevdeveloperevaluationserver
+    build:
+      context: .
+      dockerfile: Ambev.DeveloperEvaluation.Server/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - SqlServer=Server=sqlserver;Database=AmbevDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=True
+    depends_on:
+      - sqlserver
+    restart: always
+    networks:
+      - app-backend
+      - app-frontend
+    links:
+      - sqlserver
+
+  ambev.developerevaluation.client:
+    image: ${DOCKER_REGISTRY:-}ambevdeveloperevaluationclient
+    build:
+      context: ./ambev.developerevaluation.client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./ambev.developerevaluation.client:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - DEV_SERVER_PORT=5173
+      - VITE_BACKEND_URL=http://ambev.developerevaluation.server:8080
+    depends_on:
+      - ambev.developerevaluation.server
+    networks:
+      - app-frontend
+    links:
+      - ambev.developerevaluation.server
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - app-backend
+
+networks:
+  app-backend: {}
+  app-frontend: {}
+
+volumes:
+  sqlserver-data:

@@ -5,7 +5,7 @@ import {
   Routes,
 } from "@/constants/consts";
 
-const API_HTTP_URL = `https://${import.meta.env.VITE_API_URL}`;
+const API_HTTP_URL = `http://${import.meta.env.VITE_BACKEND_URL}`;
 
 const httpClient = axios.create({
   baseURL: API_HTTP_URL,

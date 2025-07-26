@@ -67,7 +67,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         password,
       });
 
-      const { accessToken, refreshToken } = result;
+      const { accessToken, refreshToken } = result!;
 
       localStorage.setItem(AUTH_STORAGE_KEY, accessToken);
       localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);

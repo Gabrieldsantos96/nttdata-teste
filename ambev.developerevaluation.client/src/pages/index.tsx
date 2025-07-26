@@ -11,5 +11,7 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/_authenticated/"!</div>;
+  const data = import.meta.env.VITE_BACKEND_URL;
+  console.log(data);
+  return <div>Hello "/_authenticated/"!111</div>;
 }
