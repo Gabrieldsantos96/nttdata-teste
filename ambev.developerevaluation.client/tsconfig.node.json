@@ -1,17 +1,14 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ESNext",
-    "lib": ["ESNext"],
-    "module": "ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "composite": true,
     "skipLibCheck": true,
+    "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "strictNullChecks": true,
-    "types": ["vite-plugin-svgr/client", "vite/client"]
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["vite-env.d.ts", "src"]
+  "include": ["vite.config.ts"]
 }

@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs;
-using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
+﻿using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Shared.Models;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;

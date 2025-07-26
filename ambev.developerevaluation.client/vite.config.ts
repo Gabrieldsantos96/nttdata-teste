@@ -1,3 +1,6 @@
+/// <reference types="vite/client"/>
+/// <reference types="vite-plugin-svgr/client" />
+
 import { defineConfig } from "vite";
 import plugin from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
@@ -5,9 +8,7 @@ import svgr from "vite-plugin-svgr";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-const backendUrl =
-  process.env.VITE_BACKEND_URL ||
-  "http://ambev.developerevaluation.server:8080";
+const BACKEND_URL = "http://ambev.developerevaluation.server:8080";
 
 export default defineConfig({
   plugins: [
@@ -20,9 +21,7 @@ export default defineConfig({
     }),
     plugin(),
     tailwindcss(),
-    svgr({
-      include: "**/*.svg",
-    }),
+    svgr(),
   ],
   resolve: {
     alias: {
@@ -31,11 +30,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "^/api": {
-        target: backendUrl,
-        secure: false,
+      "/api": {
+        target: BACKEND_URL,
+        changeOrigin: true,
       },
     },
-    port: parseInt(process.env.DEV_SERVER_PORT || "5173"),
   },
 });

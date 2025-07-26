@@ -1,7 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.ValueObjects;
+using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs;
-public sealed class UserProfileDto
+namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Queries;
+public sealed class GetProfileQuery : IRequest<UserProfileResult>;
+public record UserProfileResult
 {
     public Guid RefId { get; set; }
     public string Role { get; set; } = null!;

@@ -1,13 +1,13 @@
-﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs;
+﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Queries;
-public sealed class GetProfileQueryHandler(IClaimsService claimsService) : IRequestHandler<GetProfileQuery, UserProfileDto>
+public sealed class GetProfileQueryHandler(IClaimsService claimsService) : IRequestHandler<GetProfileQuery, UserProfileResult>
 {
-    public Task<UserProfileDto> Handle(GetProfileQuery input, CancellationToken ct)
+    public Task<UserProfileResult> Handle(GetProfileQuery input, CancellationToken ct)
     {
-        var userProfileDto = new UserProfileDto()
+        var userProfileDto = new UserProfileResult()
         {
             RefId = claimsService.GetUserRefId(),
             Name = claimsService.GetUsernameValueObject()!,

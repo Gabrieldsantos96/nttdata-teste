@@ -53,11 +53,11 @@ function ToastMessageComponent({
   const getVariantClasses = () => {
     switch (message.type) {
       case MessageType.Danger:
-        return "bg-destructive text-destructive-foreground border-destructive/20";
+        return "bg-destructive text-white border-destructive/20";
       case MessageType.Success:
-        return "bg-green-50 text-green-900 border-green-200 dark:bg-green-950 dark:text-green-100 dark:border-green-800";
+        return "bg-green-500 text-white border-green-200 dark:bg-green-950 dark:text-green-100 dark:border-green-800";
       case MessageType.Warning:
-        return "bg-yellow-50 text-yellow-900 border-yellow-200 dark:bg-yellow-950 dark:text-yellow-100 dark:border-yellow-800";
+        return "bg-yellow-50 text-white border-yellow-200 dark:bg-yellow-950 dark:text-yellow-100 dark:border-yellow-800";
       default:
         return "bg-background text-foreground border-border";
     }

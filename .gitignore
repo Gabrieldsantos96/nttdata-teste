@@ -57,6 +57,7 @@ packages/
 **/project.fragment.lock.json
 **/artifacts/
 
+
 .idea/
 *.sln.iml
 *.csproj.user
@@ -124,4 +125,3 @@ Thumbs.db
 
 *.sublime-project
 *.sublime-workspace
-Ambev.DeveloperEvaluation.Application/obj/Debug/net9.0/Ambev.DeveloperEvaluation.Application.dll

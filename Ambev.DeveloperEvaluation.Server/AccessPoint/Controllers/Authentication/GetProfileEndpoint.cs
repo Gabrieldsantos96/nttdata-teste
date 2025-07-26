@@ -1,9 +1,9 @@
-﻿using Ambev.DeveloperEvaluation.Shared.Consts;
-using Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs;
+﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.Queries;
+using Ambev.DeveloperEvaluation.Shared.Consts;
 using FastEndpoints;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Server.EntryPoints.Authentication;
+namespace Ambev.DeveloperEvaluation.Server.AccessPoint.Controllers.Authentication;
 public class GetProfileEndpoint(IMediator mediator) : EndpointWithoutRequest
 {
     public override void Configure()

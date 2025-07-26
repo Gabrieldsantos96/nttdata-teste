@@ -1,6 +1,6 @@
 import { useSession } from "@/contexts/session-provider";
 import type { IUserRole } from "@/interfaces/IUserProfileDto";
-import { redirect } from "@tanstack/react-router";
+import { UnauthorizedComponent } from "./unauthorized-access";
 
 export function Authorize(
   Component: React.ComponentType<any>,
@@ -16,7 +16,7 @@ export function Authorize(
       );
 
     if (!hasRequiredRole) {
-      redirect({ to: "/sign-in" });
+      return <UnauthorizedComponent />;
     }
 
     return <Component {...props} />;

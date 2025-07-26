@@ -21,7 +21,11 @@ import TextInput from "@/components/text-input";
 import Logo from "@/assets/react.svg?react";
 import { useSession } from "@/contexts/session-provider";
 
-export function SignInForm() {
+type SignInFormProps = {
+  logo?: boolean;
+};
+
+export function SignInForm({ logo = true }: SignInFormProps) {
   const { signIn, isFetchingSignin } = useSession();
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signinSchema),
@@ -31,6 +35,7 @@ export function SignInForm() {
     try {
       signIn(data.email, data.password);
     } catch (error) {
+      console.log(error);
       showToast(error?.message);
     }
   }
@@ -40,12 +45,15 @@ export function SignInForm() {
       <CardHeader>
         <div className="text-center">
           <Link to="/" className="inline-block">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Logo
-                style={{ width: "100px", height: "100px", fill: "red" }}
-                className="animate-[spin_4s_linear_infinite]"
-              />
-            </div>
+            {logo ? (
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <Logo
+                  width={100}
+                  height={100}
+                  className="animate-[spin_4s_linear_infinite]"
+                />
+              </div>
+            ) : null}
           </Link>
           <h3 className="text-2xl font-bold text-foreground mb-2">
             Entre na sua conta

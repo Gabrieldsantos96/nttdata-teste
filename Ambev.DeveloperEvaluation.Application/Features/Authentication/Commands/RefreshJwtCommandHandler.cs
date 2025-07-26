@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;

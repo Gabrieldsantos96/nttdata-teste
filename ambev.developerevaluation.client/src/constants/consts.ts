@@ -19,7 +19,7 @@ export const enum Plataforms {
 
 export class Routes {
   static Authentication = {
-    SIGN_IN: "/auth/sign-in",
+    SIGN_IN: "/auth/login",
     REFRESH_TOKEN: "/auth/refresh-token",
     REGISTER: "/auth/register",
     SIGN_OUT: "/auth/sign-out",

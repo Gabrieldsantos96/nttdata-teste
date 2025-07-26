@@ -3,15 +3,14 @@ using Ambev.DeveloperEvaluation.Shared.Validations;
 using Ambev.DeveloperEvaluation.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Authentication;
-using CommonSignInResult = Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs.SignInResult;
+using CommonSignInResult = Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands.SignInResult;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;
-using Ambev.DeveloperEvaluation.Application.Features.Authentication.DTOs;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
 public sealed class SignInCommandHandler(IUserRepository userRepository, IAuthenticationService authenticationService, IJwtService jwtService, SignInManager<User> signInManager, IClaimsService claimsService)
 {
-    public async Task<MutationResult<object>> Handle(SignInCommand input, CancellationToken ct)
+    public async Task<MutationResult<CommonSignInResult>> Handle(SignInCommand input, CancellationToken ct)
     {
         var user = await userRepository.GetUserAsync(input.Email, ct)
          ?? throw new AuthenticationException(ValidationMessages.DefaultAuthenticationError);
@@ -28,7 +27,7 @@ public sealed class SignInCommandHandler(IUserRepository userRepository, IAuthen
                 TokenHash = refreshTokenHash
             }, ct);
 
-            return MutationResult<object>.Ok("Usuário autenticado com sucesso", new CommonSignInResult(accessToken, refreshTokenHash));
+            return MutationResult<CommonSignInResult>.Ok("Usuário autenticado com sucesso", new CommonSignInResult(accessToken, refreshTokenHash));
         }
 
         if (result.IsNotAllowed) throw new Exception(ValidationMessages.IsNotAllowed);
