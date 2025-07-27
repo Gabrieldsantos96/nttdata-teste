@@ -1,10 +1,11 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
 using Ambev.DeveloperEvaluation.Shared.Consts;
+using Ambev.DeveloperEvaluation.Shared.Models;
 using FastEndpoints;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Server.AccessPoint.Controllers.Authentication;
-public class SignInEndpoint(IMediator mediator) : Endpoint<SignInDto, SignInResult>
+public class SignInEndpoint(IMediator mediator) : Endpoint<SignInDto, MutationResult<SignInResult>>
 {
     public override void Configure()
     {

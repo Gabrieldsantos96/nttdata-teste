@@ -1,10 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Shared.Validations;
+﻿using Ambev.DeveloperEvaluation.Shared.Models;
+using Ambev.DeveloperEvaluation.Shared.Validations;
 using FluentValidation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
 public record SignInDto(string Email, string Password);
-public record SignInCommand : IRequest<SignInResult>
+public record SignInCommand : IRequest<MutationResult<SignInResult>>
 {
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;

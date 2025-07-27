@@ -6,9 +6,10 @@ using System.Security.Authentication;
 using CommonSignInResult = Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands.SignInResult;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
-public sealed class SignInCommandHandler(IUserRepository userRepository, IAuthenticationService authenticationService, IJwtService jwtService, SignInManager<User> signInManager, IClaimsService claimsService)
+public sealed class SignInCommandHandler(IUserRepository userRepository, IAuthenticationService authenticationService, IJwtService jwtService, SignInManager<User> signInManager, IClaimsService claimsService) : IRequestHandler<SignInCommand, MutationResult<CommonSignInResult>>
 {
     public async Task<MutationResult<CommonSignInResult>> Handle(SignInCommand input, CancellationToken ct)
     {
