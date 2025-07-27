@@ -101,9 +101,6 @@ secrets.json
 
 docker-compose.override.yml
 *.dockerignore
-Dockerfile
-Dockerfile.prod
-
 
 coverage/
 
