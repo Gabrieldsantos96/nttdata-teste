@@ -5,7 +5,7 @@ import { IUserRole } from "@/interfaces/IUserProfileDto";
 export const Route = createFileRoute("/")({
   component: Authorize(RouteComponent, [
     IUserRole.ADMIN,
-    IUserRole.COSTUMER,
+    IUserRole.CLIENT,
     IUserRole.MANAGER,
   ]),
 });

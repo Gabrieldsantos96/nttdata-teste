@@ -21,10 +21,7 @@ export const signupSchema = z
     confirmPassword: z
       .string()
       .nonempty(
-        ValidationMessages.FieldRequired.replace(
-          "{field}",
-          "confirmação de senha"
-        )
+        ValidationMessages.FieldRequired.replace("{field}", "confirmação")
       ),
     name: z.object({
       firstName: z
@@ -61,6 +58,11 @@ export const signupSchema = z
         .nonempty(
           ValidationMessages.FieldRequired.replace("{field}", "cidade")
         ),
+      number: z
+        .string()
+        .nonempty(
+          ValidationMessages.FieldRequired.replace("{field}", "número")
+        ),
       state: z
         .string()
         .nonempty(
@@ -72,6 +74,12 @@ export const signupSchema = z
       country: z
         .string()
         .nonempty(ValidationMessages.FieldRequired.replace("{field}", "país")),
+      latitude: z.number(
+        ValidationMessages.FieldRequired.replace("{field}", "latitude")
+      ),
+      longitude: z.number(
+        ValidationMessages.FieldRequired.replace("{field}", "longitude")
+      ),
     }),
     phone: z
       .string()
@@ -96,7 +104,7 @@ export const signupSchema = z
       .nonempty(ValidationMessages.FieldRequired.replace("{field}", "função"))
       .refine(
         (value) =>
-          [IUserRole.ADMIN, IUserRole.COSTUMER, IUserRole.MANAGER].includes(
+          [IUserRole.ADMIN, IUserRole.CLIENT, IUserRole.MANAGER].includes(
             value as IUserRole
           ),
         {
@@ -107,7 +115,7 @@ export const signupSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: ValidationMessages.FieldValueInvalid.replace(
       "{field}",
-      "confirmação de senha"
+      "confirmação"
     ),
     path: ["confirmPassword"],
   });

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_authenticated/products/")({
     Authorize(RouteComponent, [
       IUserRole.ADMIN,
       IUserRole.MANAGER,
-      IUserRole.COSTUMER,
+      IUserRole.CLIENT,
     ]),
 });
 

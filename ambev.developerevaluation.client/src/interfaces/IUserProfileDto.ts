@@ -1,12 +1,12 @@
 export const enum IUserRole {
   MANAGER = "MANAGER",
-  COSTUMER = "COSTUMER",
+  CLIENT = "CLIENT",
   ADMIN = "ADMIN",
 }
 
 export const USER_ROLE: Record<string, string> = {
   Gerente: "MANAGER",
-  Cliente: "COSTUMER",
+  Cliente: "CLIENT",
   Administrador: "ADMIN",
 };
 

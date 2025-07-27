@@ -20,7 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import Logo from "@/assets/react.svg?react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -31,24 +30,22 @@ import {
   Settings,
   Mail,
   LockIcon,
+  Navigation,
+  Loader,
 } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import {
-  signupSchema,
-  type SignupFormData,
-} from "@/validations/sign-up-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import TextInput from "@/components/text-input";
+import LocationPicker from "@/components/location-picker";
+import type { LocationData } from "@/components/location-picker";
 import {
   IUserStatus,
   USER_ROLE,
   USER_STATUS,
 } from "@/interfaces/IUserProfileDto";
-import TextInput from "@/components/text-input";
+import { SignupFormData, signupSchema } from "@/validations/sign-up-schema";
 import { useMutation } from "@tanstack/react-query";
-import { showToast } from "@/utils/trigger-toast";
 import httpClient from "@/lib/http-client";
 import { Routes } from "@/constants/consts";
-import { MessageType } from "@/services/toast-service";
 
 const rolesOptions = Object.entries(USER_ROLE).map(([key, value]) => ({
   value: value,
@@ -76,7 +73,7 @@ const steps = [
   },
   {
     id: 2,
-    title: "Endereço",
+    title: "Endereço & Localização",
     icon: MapPin,
     fields: [
       "address.street",
@@ -84,6 +81,8 @@ const steps = [
       "address.state",
       "address.zipCode",
       "address.country",
+      "address.latitude",
+      "address.longitude",
     ],
   },
   {
@@ -94,27 +93,17 @@ const steps = [
   },
 ];
 
+async function signUpRequest(data: unknown) {
+  return httpClient.post(Routes.Authentication.REGISTER, data);
+}
+
 export function SignUpFormSteps() {
+  const { isPending } = useMutation({ mutationFn: signUpRequest });
   const [currentStep, setCurrentStep] = useState(1);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState<number | undefined>(
     undefined
   );
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (data: SignupFormData) => {
-      httpClient.post(Routes.Authentication.REGISTER, data);
-    },
-    onSuccess: () => {
-      showToast({
-        text: "Conta criada com sucesso",
-        type: MessageType.Success,
-      });
-    },
-    onError: () => {
-      showToast({ text: "Erro ao criar conta", type: MessageType.Danger });
-    },
-  });
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -133,7 +122,10 @@ export function SignUpFormSteps() {
         city: "",
         state: "",
         zipCode: "",
-        country: "",
+        country: "Brasil",
+        latitude: 0,
+        longitude: 0,
+        number: "",
       },
       phone: "",
       status: IUserStatus.ACTIVE,
@@ -148,24 +140,19 @@ export function SignUpFormSteps() {
         setContentHeight(height);
       }
     };
-
     const timeoutId = setTimeout(measureHeight, 50);
-
     return () => clearTimeout(timeoutId);
   }, [currentStep]);
 
   useEffect(() => {
     if (!contentRef.current) return;
-
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const height = entry.target.scrollHeight;
         setContentHeight(height);
       }
     });
-
     resizeObserver.observe(contentRef.current);
-
     return () => {
       resizeObserver.disconnect();
     };
@@ -206,7 +193,15 @@ export function SignUpFormSteps() {
 
   async function onSubmit(data: SignupFormData) {
     try {
-      console.log(data);
+      const {
+        address: { longitude, latitude, ...partialAddress },
+        ...partialData
+      } = data;
+      const formData = {
+        ...partialData,
+        ...partialAddress,
+        geo: `LONG-${longitude},LAT-${latitude}`,
+      };
     } catch (error) {
       console.error(error);
     }
@@ -225,18 +220,15 @@ export function SignUpFormSteps() {
 
   return (
     <div className="min-h-screen flex justify-center p-4">
-      <div className="w-full max-w-[35rem] md:mt-24 md:w-2/3">
+      <div className="w-full max-w-[45rem] md:mt-24 md:w-2/3">
         <Card className="shadow-xl border-0 bg-card backdrop-blur-sm w-full overflow-hidden">
           <CardHeader>
             <div className="text-center">
-              <Link to="/" className="inline-block">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <Logo
-                    style={{ width: "100px", height: "100px", fill: "red" }}
-                    className="animate-[spin_4s_linear_infinite]"
-                  />
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+                  <User className="w-8 h-8 text-primary-foreground" />
                 </div>
-              </Link>
+              </div>
               <h3 className="text-2xl font-bold text-foreground mb-2">
                 Cadastre sua conta
               </h3>
@@ -251,7 +243,6 @@ export function SignUpFormSteps() {
               </div>
             </div>
           </CardHeader>
-
           <CardContent className="p-6">
             <div className="flex justify-between mb-6">
               {steps.map((step) => {
@@ -290,13 +281,11 @@ export function SignUpFormSteps() {
                 );
               })}
             </div>
-
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-4">
                 <Badge variant="outline">{currentStepData.title}</Badge>
               </div>
             </div>
-
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -334,7 +323,6 @@ export function SignUpFormSteps() {
                     </AnimatePresence>
                   </div>
                 </motion.div>
-
                 <div className="flex justify-between pt-4">
                   <Button
                     type="button"
@@ -358,25 +346,25 @@ export function SignUpFormSteps() {
                   ) : (
                     <Button
                       type="submit"
-                      disabled={isPending}
                       className="flex items-center gap-2"
+                      disabled={isPending}
                     >
-                      {isPending ? "Cadastrando..." : "Finalizar Cadastro"}
+                      {isPending ? <Loader className="animate-spin" /> : null}
+                      Finalizar Cadastro
                     </Button>
                   )}
                 </div>
               </form>
             </Form>
-
             <div className="mt-6 text-center">
               <p className="text-gray-600">
                 Já tem uma conta?{" "}
-                <Link
-                  to="/sign-in"
+                <a
+                  href="/sign-in"
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Faça login
-                </Link>
+                </a>
               </p>
             </div>
           </CardContent>
@@ -528,28 +516,80 @@ function FirstStep({ form }: StepProps) {
 }
 
 function SecondStep({ form }: StepProps) {
+  const handleLocationChange = (locationData: LocationData): void => {
+    form.setValue("address.latitude", locationData.lat);
+    form.setValue("address.longitude", locationData.lng);
+
+    if (locationData.address) {
+      if (locationData.address.street) {
+        form.setValue("address.street", locationData.address.street);
+      }
+      if (locationData.address.houseNumber) {
+        form.setValue("address.number", locationData.address.houseNumber);
+      }
+
+      if (locationData.address.city) {
+        form.setValue("address.city", locationData.address.city);
+      }
+      if (locationData.address.state) {
+        form.setValue("address.state", locationData.address.state);
+      }
+      if (locationData.address.zipCode) {
+        form.setValue("address.zipCode", locationData.address.zipCode);
+      }
+      if (locationData.address.country) {
+        form.setValue("address.country", locationData.address.country);
+      }
+    }
+  };
+
+  console.log(form.getValues());
+
   return (
     <div className="space-y-4">
-      <FormField
-        control={form.control}
-        name="address.street"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Rua</FormLabel>
-            <FormControl>
-              <TextInput
-                id="street"
-                name="street"
-                required
-                placeholder="Rua, número, complemento"
-                onChange={field.onChange}
-                value={field.value}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className="grid grid-cols-12 gap-4">
+        <FormField
+          control={form.control}
+          name="address.street"
+          render={({ field }) => (
+            <FormItem className="col-span-12 md:col-span-9">
+              <FormLabel>Rua</FormLabel>
+              <FormControl>
+                <TextInput
+                  id="street"
+                  name="street"
+                  required
+                  placeholder="Rua, número, complemento"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address.number"
+          render={({ field }) => (
+            <FormItem className="col-span-12 md:col-span-3">
+              <FormLabel>Número</FormLabel>
+              <FormControl>
+                <TextInput
+                  id="number"
+                  name="number"
+                  required
+                  placeholder="Número"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
           control={form.control}
@@ -633,6 +673,79 @@ function SecondStep({ form }: StepProps) {
             </FormItem>
           )}
         />
+      </div>
+
+      {/* Seção do Mapa com Geocoding Reverso */}
+      <div className="space-y-4 border-t pt-4">
+        <div className="flex items-center gap-2">
+          <Navigation className="w-4 h-4 text-primary" />
+          <h4 className="text-sm font-medium">Localização no Mapa</h4>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Clique no mapa para definir sua localização e preencher
+          automaticamente os campos de endereço.
+        </p>
+
+        <LocationPicker
+          onLocationChange={handleLocationChange}
+          initialValueLat={form.watch("address.latitude")}
+          initialValueLng={form.watch("address.longitude")}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="address.latitude"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Latitude</FormLabel>
+                <FormControl>
+                  <TextInput
+                    id="latitude"
+                    name="latitude"
+                    type="number"
+                    step="any"
+                    placeholder="Ex: -23.5505"
+                    onChange={(e) =>
+                      field.onChange(
+                        Number.parseFloat(e.target.value) || undefined
+                      )
+                    }
+                    value={field.value?.toString() || ""}
+                    readOnly
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="address.longitude"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Longitude</FormLabel>
+                <FormControl>
+                  <TextInput
+                    id="longitude"
+                    name="longitude"
+                    type="number"
+                    step="any"
+                    placeholder="Ex: -46.6333"
+                    onChange={(e) =>
+                      field.onChange(
+                        Number.parseFloat(e.target.value) || undefined
+                      )
+                    }
+                    value={field.value?.toString() || ""}
+                    readOnly
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
     </div>
   );
