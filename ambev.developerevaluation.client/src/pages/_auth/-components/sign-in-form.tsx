@@ -4,8 +4,8 @@ import { Link } from "@tanstack/react-router";
 import {
   type SignInFormData,
   signinSchema,
-} from "@/validations/sign-in-schema";
-import { showToast } from "@/utils/trigger-toast";
+} from "~/validations/sign-in-schema";
+import { showToast } from "~/utils/trigger-toast";
 import {
   Form,
   FormControl,
@@ -13,13 +13,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+} from "~/components/ui/form";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Mail, LockIcon, Loader2Icon } from "lucide-react";
-import TextInput from "@/components/text-input";
-import Logo from "@/assets/react.svg?react";
-import { useSession } from "@/contexts/session-provider";
+import TextInput from "~/components/text-input";
+import Logo from "~/assets/react.svg?react";
+import { useSession } from "~/contexts/session-provider";
 
 type SignInFormProps = {
   logo?: boolean;

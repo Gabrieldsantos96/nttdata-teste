@@ -1,5 +1,5 @@
-import { EventManager } from "@/lib/event-manager";
-import { cn } from "@/utils/cn";
+import { EventManager } from "~/lib/event-manager";
+import { cn } from "~/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,

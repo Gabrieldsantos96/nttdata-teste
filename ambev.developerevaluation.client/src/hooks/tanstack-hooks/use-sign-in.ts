@@ -1,8 +1,8 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { Routes } from "@/constants/consts";
-import httpClient from "@/lib/http-client";
+import { Routes } from "~/constants/consts";
+import httpClient from "~/lib/http-client";
 
 interface SignInInput {
   email: string;

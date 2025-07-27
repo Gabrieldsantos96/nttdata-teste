@@ -1,14 +1,14 @@
-import { LaunchScreen } from "@/components/launch-screen";
+import { LaunchScreen } from "~/components/launch-screen";
 import {
   AUTH_STORAGE_KEY,
   REFRESH_TOKEN_STORAGE_KEY,
-} from "@/constants/consts";
-import { type IUserProfileDto } from "@/interfaces/IUserProfileDto";
-import { useProfile } from "@/hooks/tanstack-hooks/use-profile";
-import { useSignOut } from "@/hooks/tanstack-hooks/use-sign-out";
-import { useSignIn } from "@/hooks/tanstack-hooks/use-sign-in";
-import { queryClient } from "@/lib/tanstack-query";
-import { handleError } from "@/utils/handle-error";
+} from "~/constants/consts";
+import { type IUserProfileDto } from "~/interfaces/IUserProfileDto";
+import { useProfile } from "~/hooks/tanstack-hooks/use-profile";
+import { useSignOut } from "~/hooks/tanstack-hooks/use-sign-out";
+import { useSignIn } from "~/hooks/tanstack-hooks/use-sign-in";
+import { queryClient } from "~/lib/tanstack-query";
+import { handleError } from "~/utils/handle-error";
 
 import {
   createContext,
@@ -17,6 +17,7 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
+import { useRouter } from "@tanstack/react-router";
 
 type AuthState = {
   isFetching: boolean;
@@ -39,6 +40,7 @@ export const AuthContext = createContext<AuthState>({
 });
 
 export function SessionProvider({ children }: PropsWithChildren) {
+  const router = useRouter();
   const { signInAsync, loading: isFetchingSignin } = useSignIn();
   const { signOutAsync } = useSignOut();
 
@@ -73,6 +75,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
       localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
 
       setSignedIn(true);
+
+      router.navigate({ to: "/" });
     } catch (error) {
       handleError(error);
     }

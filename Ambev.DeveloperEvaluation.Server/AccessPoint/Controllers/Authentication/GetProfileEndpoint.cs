@@ -9,7 +9,7 @@ public class GetProfileEndpoint(IMediator mediator) : EndpointWithoutRequest
     public override void Configure()
     {
         Post(ApiRoutes.Authentication.GetProfile);
-        Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Customer);
+        Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Client);
     }
 
     public override async Task HandleAsync(CancellationToken ct)

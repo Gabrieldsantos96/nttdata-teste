@@ -1,15 +1,16 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent } from "~/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "~/components/ui/dialog";
 import { Shield, LogIn, Building2, Users, Lock } from "lucide-react";
 import { useState } from "react";
-import { SignInForm } from "@/pages/_auth/-components/sign-in-form";
+import { SignInForm } from "~/pages/_auth/-components/sign-in-form";
+import { DropdownMenu } from "~/components/ui/dropdown-menu";
 
 interface UnauthorizedComponentProps {
   title?: string;
@@ -31,6 +32,7 @@ export function UnauthorizedComponent({
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="w-full max-w-lg"
         >
+          <DropdownMenu>bla</DropdownMenu>
           <Card className="shadow-lg border border-slate-200 bg-white/95 backdrop-blur-sm">
             <CardContent className="p-8 text-center">
               <motion.div

@@ -2,7 +2,7 @@ import type React from "react";
 import {
   dialogEventManager,
   type IDialogEventProps,
-} from "@/services/dialog-service";
+} from "~/services/dialog-service";
 
 export function openDialog<T = unknown>(
   component: React.ComponentType<any>,

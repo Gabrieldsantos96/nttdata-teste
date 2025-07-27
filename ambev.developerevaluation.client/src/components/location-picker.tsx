@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { MapPin, Navigation, Loader2, Search } from "lucide-react";
 
 declare global {

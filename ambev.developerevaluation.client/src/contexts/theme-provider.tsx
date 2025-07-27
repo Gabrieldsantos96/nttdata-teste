@@ -1,5 +1,5 @@
-import { APP_THEME } from "@/constants/consts";
-import { hexColors, type IHexColors } from "@/wwwroot/styles/theme";
+import { APP_THEME } from "~/constants/consts";
+import { hexColors, type IHexColors } from "~/wwwroot/styles/theme";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface ThemeProviderProps {

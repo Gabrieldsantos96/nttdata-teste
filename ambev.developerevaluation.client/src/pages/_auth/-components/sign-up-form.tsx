@@ -10,18 +10,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
+} from "~/components/ui/form";
+import { Button } from "~/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+} from "~/components/ui/select";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Progress } from "~/components/ui/progress";
+import { Badge } from "~/components/ui/badge";
 import {
   ChevronLeft,
   ChevronRight,
@@ -34,18 +34,21 @@ import {
   Loader,
 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import TextInput from "@/components/text-input";
-import LocationPicker from "@/components/location-picker";
-import type { LocationData } from "@/components/location-picker";
+import TextInput from "~/components/text-input";
+import LocationPicker from "~/components/location-picker";
+import type { LocationData } from "~/components/location-picker";
 import {
   IUserStatus,
   USER_ROLE,
   USER_STATUS,
-} from "@/interfaces/IUserProfileDto";
-import { SignupFormData, signupSchema } from "@/validations/sign-up-schema";
+} from "~/interfaces/IUserProfileDto";
+import { SignupFormData, signupSchema } from "~/validations/sign-up-schema";
 import { useMutation } from "@tanstack/react-query";
-import httpClient from "@/lib/http-client";
-import { Routes } from "@/constants/consts";
+import httpClient from "~/lib/http-client";
+import { Routes } from "~/constants/consts";
+import { showToast } from "~/utils/trigger-toast";
+import { MessageType } from "~/services/toast-service";
+import { handleError } from "~/utils/handle-error";
 
 const rolesOptions = Object.entries(USER_ROLE).map(([key, value]) => ({
   value: value,
@@ -98,7 +101,7 @@ async function signUpRequest(data: unknown) {
 }
 
 export function SignUpFormSteps() {
-  const { isPending } = useMutation({ mutationFn: signUpRequest });
+  const { isPending, mutateAsync } = useMutation({ mutationFn: signUpRequest });
   const [currentStep, setCurrentStep] = useState(1);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState<number | undefined>(
@@ -202,8 +205,15 @@ export function SignUpFormSteps() {
         ...partialAddress,
         geo: `LONG-${longitude},LAT-${latitude}`,
       };
+
+      await mutateAsync(formData);
+
+      showToast({
+        type: MessageType.Success,
+        text: "Conta criada com sucesso",
+      });
     } catch (error) {
-      console.error(error);
+      handleError(error);
     }
   }
 

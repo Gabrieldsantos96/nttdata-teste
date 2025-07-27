@@ -1,9 +1,9 @@
 "use client";
 
-import { EventManager } from "@/lib/event-manager";
+import { EventManager } from "~/lib/event-manager";
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
+import { Dialog, DialogContent } from "~/components/ui/dialog";
+import { cn } from "~/lib/utils";
 
 export type IDialogEventProps = {
   component: any;

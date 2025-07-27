@@ -10,7 +10,7 @@ public class RefreshJwtEndpoint(IMediator mediator) : Endpoint<RefreshJwtDto, Mu
     public override void Configure()
     {
         Post(ApiRoutes.Authentication.RefreshJwt);
-        Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Customer);
+        Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Client);
     }
     public override async Task HandleAsync(RefreshJwtDto req, CancellationToken ct)
     {

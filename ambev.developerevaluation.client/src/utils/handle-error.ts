@@ -1,4 +1,4 @@
-import { MessageType } from "@/services/toast-service";
+import { MessageType } from "~/services/toast-service";
 import { showToast } from "./trigger-toast";
 
 export function handleError(error: any) {

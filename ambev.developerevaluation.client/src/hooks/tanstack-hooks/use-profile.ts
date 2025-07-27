@@ -1,10 +1,11 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { IUserProfileDto } from "@/interfaces/IUserProfileDto";
-import httpClient from "@/lib/http-client";
-import { Routes } from "@/constants/consts";
-import { isSuccessStatus } from "@/lib/http-.status";
+import type { IUserProfileDto } from "~/interfaces/IUserProfileDto";
+import httpClient from "~/lib/http-client";
+import { Routes } from "~/constants/consts";
+import { isSuccessStatus } from "~/lib/http-.status";
+import { sleep } from "~/utils/sleep";
 
 interface UseProfileOptions {
   enabled?: boolean;
@@ -14,6 +15,8 @@ interface UseProfileOptions {
 
 async function fetchUserProfile(): Promise<IUserProfileDto> {
   const { status, data } = await httpClient.post(Routes.Authentication.PROFILE);
+
+  await sleep(1200);
 
   if (!isSuccessStatus(status)) {
     throw new Error(`${Routes.Authentication.PROFILE}: ${status}`);

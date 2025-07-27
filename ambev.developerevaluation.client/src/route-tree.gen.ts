@@ -9,20 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
-import { Route as IndexRouteImport } from './pages/index'
+import { Route as AuthenticatedIndexRouteImport } from './pages/_authenticated/index'
+import { Route as AuthenticatedAuthenticatedRouteImport } from './pages/_authenticated/_authenticated'
 import { Route as AuthSignUpRouteImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
 import { Route as AuthForgotPasswordRouteImport } from './pages/_auth/forgot-password'
-import { Route as AuthenticatedUsersIndexRouteImport } from './pages/_authenticated/users/index'
-import { Route as AuthenticatedProductsIndexRouteImport } from './pages/_authenticated/products/index'
-import { Route as AuthenticatedUsersUserIdIndexRouteImport } from './pages/_authenticated/users/$userId/index'
-import { Route as AuthenticatedProductsProductIdIndexRouteImport } from './pages/_authenticated/products/$productId/index'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/_authenticated/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAuthenticatedRoute =
+  AuthenticatedAuthenticatedRouteImport.update({
+    id: '/_authenticated/_authenticated',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/_auth/sign-up',
   path: '/sign-up',
@@ -38,112 +40,63 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
-  id: '/_authenticated/users/',
-  path: '/users/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedProductsIndexRoute =
-  AuthenticatedProductsIndexRouteImport.update({
-    id: '/_authenticated/products/',
-    path: '/products/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedUsersUserIdIndexRoute =
-  AuthenticatedUsersUserIdIndexRouteImport.update({
-    id: '/_authenticated/users/$userId/',
-    path: '/users/$userId/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedProductsProductIdIndexRoute =
-  AuthenticatedProductsProductIdIndexRouteImport.update({
-    id: '/_authenticated/products/$productId/',
-    path: '/products/$productId/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/products': typeof AuthenticatedProductsIndexRoute
-  '/users': typeof AuthenticatedUsersIndexRoute
-  '/products/$productId': typeof AuthenticatedProductsProductIdIndexRoute
-  '/users/$userId': typeof AuthenticatedUsersUserIdIndexRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/products': typeof AuthenticatedProductsIndexRoute
-  '/users': typeof AuthenticatedUsersIndexRoute
-  '/products/$productId': typeof AuthenticatedProductsProductIdIndexRoute
-  '/users/$userId': typeof AuthenticatedUsersUserIdIndexRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
-  '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
-  '/_authenticated/products/$productId/': typeof AuthenticatedProductsProductIdIndexRoute
-  '/_authenticated/users/$userId/': typeof AuthenticatedUsersUserIdIndexRoute
+  '/_authenticated/_authenticated': typeof AuthenticatedAuthenticatedRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/forgot-password'
-    | '/sign-in'
-    | '/sign-up'
-    | '/products'
-    | '/users'
-    | '/products/$productId'
-    | '/users/$userId'
+  fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/forgot-password'
-    | '/sign-in'
-    | '/sign-up'
-    | '/products'
-    | '/users'
-    | '/products/$productId'
-    | '/users/$userId'
+  to: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
   id:
     | '__root__'
-    | '/'
     | '/_auth/forgot-password'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
-    | '/_authenticated/products/'
-    | '/_authenticated/users/'
-    | '/_authenticated/products/$productId/'
-    | '/_authenticated/users/$userId/'
+    | '/_authenticated/_authenticated'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
-  AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
-  AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
-  AuthenticatedProductsProductIdIndexRoute: typeof AuthenticatedProductsProductIdIndexRoute
-  AuthenticatedUsersUserIdIndexRoute: typeof AuthenticatedUsersUserIdIndexRoute
+  AuthenticatedAuthenticatedRoute: typeof AuthenticatedAuthenticatedRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/_authenticated': {
+      id: '/_authenticated/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedAuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/sign-up': {
@@ -167,47 +120,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/users/': {
-      id: '/_authenticated/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/products/': {
-      id: '/_authenticated/products/'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof AuthenticatedProductsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/users/$userId/': {
-      id: '/_authenticated/users/$userId/'
-      path: '/users/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof AuthenticatedUsersUserIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/products/$productId/': {
-      id: '/_authenticated/products/$productId/'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof AuthenticatedProductsProductIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
-  AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
-  AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
-  AuthenticatedProductsProductIdIndexRoute:
-    AuthenticatedProductsProductIdIndexRoute,
-  AuthenticatedUsersUserIdIndexRoute: AuthenticatedUsersUserIdIndexRoute,
+  AuthenticatedAuthenticatedRoute: AuthenticatedAuthenticatedRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,4 +1,4 @@
-import { ValidationMessages } from "@/utils/validation-messages";
+import { ValidationMessages } from "~/utils/validation-messages";
 import { z } from "zod";
 
 export const signinSchema = z.object({

@@ -1,5 +1,5 @@
-import { useSession } from "@/contexts/session-provider";
-import type { IUserRole } from "@/interfaces/IUserProfileDto";
+import { useSession } from "~/contexts/session-provider";
+import type { IUserRole } from "~/interfaces/IUserProfileDto";
 import { UnauthorizedComponent } from "./unauthorized-access";
 
 export function Authorize(
@@ -10,10 +10,7 @@ export function Authorize(
     const { applicationUser } = useSession();
 
     const hasRequiredRole =
-      Array.isArray(applicationUser?.roles) &&
-      applicationUser?.roles?.some((role: IUserRole) =>
-        allowedRoles.includes(role)
-      );
+      applicationUser && allowedRoles.includes(applicationUser.role);
 
     if (!hasRequiredRole) {
       return <UnauthorizedComponent />;

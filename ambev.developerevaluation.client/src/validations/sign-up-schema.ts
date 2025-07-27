@@ -1,5 +1,5 @@
-import { IUserRole, IUserStatus } from "@/interfaces/IUserProfileDto";
-import { ValidationMessages } from "@/utils/validation-messages";
+import { IUserRole, IUserStatus } from "~/interfaces/IUserProfileDto";
+import { ValidationMessages } from "~/utils/validation-messages";
 import { z } from "zod";
 
 export const signupSchema = z

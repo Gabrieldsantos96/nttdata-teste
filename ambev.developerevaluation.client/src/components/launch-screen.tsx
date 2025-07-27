@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "@/contexts/theme-provider";
+import { useTheme } from "~/contexts/theme-provider";
 
 interface LaunchScreenProps {
   isLoading: boolean;

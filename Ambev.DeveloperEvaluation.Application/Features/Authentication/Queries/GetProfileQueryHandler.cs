@@ -13,7 +13,8 @@ public sealed class GetProfileQueryHandler(IClaimsService claimsService) : IRequ
             Name = claimsService.GetUsernameValueObject()!,
             Address = claimsService.GetAddressValueObject()!,
             Phone = claimsService.GetPhone()!,
-            Status = claimsService.GetStatus()!
+            Status = claimsService.GetStatus()!,
+            Role = claimsService.GetRole()!,
         };
 
         return Task.FromResult(userProfileDto);

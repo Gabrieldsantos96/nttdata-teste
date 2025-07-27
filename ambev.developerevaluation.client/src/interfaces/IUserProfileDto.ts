@@ -23,7 +23,9 @@ export const USER_STATUS: Record<string, string> = {
 };
 
 export interface IUserProfileDto {
-  id: string;
-  roles: IUserRole[];
-  user: IUserStatus;
+  refId: string;
+  name: string;
+  phone: string;
+  role: IUserRole;
+  status: IUserStatus;
 }

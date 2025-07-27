@@ -3,7 +3,7 @@ import {
   AUTH_STORAGE_KEY,
   REFRESH_TOKEN_STORAGE_KEY,
   Routes,
-} from "@/constants/consts";
+} from "~/constants/consts";
 
 const API_HTTP_URL = "/api";
 

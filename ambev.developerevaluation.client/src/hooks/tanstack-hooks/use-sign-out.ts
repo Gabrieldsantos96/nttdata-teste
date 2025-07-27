@@ -5,8 +5,8 @@ import {
   AUTH_STORAGE_KEY,
   REFRESH_TOKEN_STORAGE_KEY,
   Routes,
-} from "@/constants/consts";
-import httpClient from "@/lib/http-client";
+} from "~/constants/consts";
+import httpClient from "~/lib/http-client";
 
 interface SignOutInput {
   refreshToken: string;
