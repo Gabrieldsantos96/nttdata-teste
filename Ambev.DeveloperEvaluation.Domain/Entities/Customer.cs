@@ -14,7 +14,7 @@ public sealed class Customer : Entity
     public string LastName { get; set; } = null!;
     public Address Address { get; set; } = null!;
     public string Phone { get; set; } = null!;
-    public string Role { get; set; } = RoleConsts.Customer;
+    public string Role { get; set; } = RoleConsts.Client;
     public static Customer Create(string email, string username, string firstName, string lastName, Address address, string phone)
     {
         var customer = new Customer()
@@ -96,8 +96,8 @@ public sealed class CustomerValidator : AbstractValidator<Customer>
             .MaximumLength(20).WithMessage(ValidationHelper.MaxLengthErrorMessage("Telefone", 20));
 
         RuleFor(x => x.Role)
-        .Must(role => new[] { RoleConsts.Customer, RoleConsts.Manager, RoleConsts.Admin }.Contains(role))
-        .WithMessage($"A função deve ser uma das seguintes: {RoleConsts.Customer}, {RoleConsts.Manager} ou {RoleConsts.Admin}");
+        .Must(role => new[] { RoleConsts.Client, RoleConsts.Manager, RoleConsts.Admin }.Contains(role))
+        .WithMessage($"A função deve ser uma das seguintes: {RoleConsts.Client}, {RoleConsts.Manager} ou {RoleConsts.Admin}");
 
     }
 }

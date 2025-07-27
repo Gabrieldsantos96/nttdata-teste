@@ -20,7 +20,7 @@ public class User : IdentityUser<int>
     public Address Address { get; set; }
     public string Phone { get; set; } = null!;
     public string Status { get; set; } = UserStatusConsts.ACTIVE;
-    public string Role { get; set; } = RoleConsts.Customer;
+    public string Role { get; set; } = RoleConsts.Client;
 
     public User() { }
     public static User Create(
@@ -159,8 +159,8 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(x => x.Role)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Função"))
-            .Must(r => new[] { RoleConsts.Customer, RoleConsts.Manager, RoleConsts.Admin }.Contains(r))
-            .WithMessage($"A função deve ser {RoleConsts.Customer}, {RoleConsts.Manager} ou {RoleConsts.Admin}")
+            .Must(r => new[] { RoleConsts.Client, RoleConsts.Manager, RoleConsts.Admin }.Contains(r))
+            .WithMessage($"A função deve ser {RoleConsts.Client}, {RoleConsts.Manager} ou {RoleConsts.Admin}")
             .MaximumLength(20).WithMessage(ValidationHelper.MaxLengthErrorMessage("Função", 20));
 
         RuleFor(x => x.RefId)
