@@ -23,7 +23,6 @@ public class User : IdentityUser<int>
     public string Role { get; set; } = RoleConsts.Customer;
 
     public User() { }
-
     public static User Create(
         string email,
         string userName,
@@ -39,6 +38,38 @@ public class User : IdentityUser<int>
             UserName = userName,
             Name = name,
             Address = address,
+            Phone = phone,
+            Status = status,
+            Role = role,
+            RefId = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        new UserValidator().ValidateAndThrow(user);
+        return user;
+    }
+
+    public static User Create(
+        string email,
+        string userName,
+        Name name,
+        string phone,
+        string status,
+        string role,
+        string street,
+        string zipcode,
+        string city,
+        string geo,
+        string number
+        )
+    {
+        var user = new User
+        {
+            Email = email,
+            UserName = userName,
+            Name = name,
+            Address = Address.Create(street: street, zipcode: zipcode, city: city, geo: geo, number: number),
             Phone = phone,
             Status = status,
             Role = role,
@@ -122,7 +153,7 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(x => x.Status)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Status"))
-            .Must(s => new[] { UserStatusConsts.ACTIVE,UserStatusConsts.SUSPENDED,UserStatusConsts.INACTIVE }.Contains(s))
+            .Must(s => new[] { UserStatusConsts.ACTIVE, UserStatusConsts.SUSPENDED, UserStatusConsts.INACTIVE }.Contains(s))
             .WithMessage("O status deve ser Active, Inactive ou Suspended")
             .MaximumLength(20).WithMessage(ValidationHelper.MaxLengthErrorMessage("Status", 20));
 

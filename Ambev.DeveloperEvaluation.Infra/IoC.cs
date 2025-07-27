@@ -41,6 +41,7 @@ public static class ConfigureServices
 
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IClaimsService, ClaimsService>();
+        services.AddScoped<IPasswordHelper, PasswordHelper>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();

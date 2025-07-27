@@ -11,10 +11,10 @@ public class Address
 {
     public string Street { get; set; } = null!;
     public string Zipcode { get; set; } = null!;
-    public int Number { get; set; }
+    public string Number { get; set; } = null!;
     public string City { get; set; } = null!;
     public string Geolocation { get; set; } = null!;
-    public static Address Create(string street, string zipcode, int number, string city, string geo)
+    public static Address Create(string street, string zipcode, string number, string city, string geo)
     {
         var address = new Address
         {
@@ -55,7 +55,8 @@ public class AddressValidator : AbstractValidator<Address>
             .MaximumLength(20).WithMessage(ValidationHelper.MaxLengthErrorMessage("CEP", 20));
 
         RuleFor(x => x.Number)
-            .GreaterThanOrEqualTo(1).WithMessage(ValidationHelper.RequiredErrorMessage("Número"));
+            .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("CEP"))
+            .MaximumLength(20).WithMessage(ValidationHelper.MaxLengthErrorMessage("CEP", 20));
 
         RuleFor(x => x.City)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Cidade"))
