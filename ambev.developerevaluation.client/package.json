@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev-exposed": "vite",
+    "dev-exposed": "vite --host",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
