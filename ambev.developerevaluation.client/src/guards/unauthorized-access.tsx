@@ -32,7 +32,6 @@ export function UnauthorizedComponent({
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="w-full max-w-lg"
         >
-          <DropdownMenu>bla</DropdownMenu>
           <Card className="shadow-lg border border-slate-200 bg-white/95 backdrop-blur-sm">
             <CardContent className="p-8 text-center">
               <motion.div

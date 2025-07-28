@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Authorize } from "~/guards/guards";
 import { IUserRole } from "~/interfaces/IUserProfileDto";
-import { Button } from "~/components/ui/button";
 
-export const Route = createFileRoute("/_authenticated/")({
+export const Route = createFileRoute(
+  "/_authenticated/_authenticated/users/edit/$userId"
+)({
   component: Authorize(RouteComponent, [
     IUserRole.ADMIN,
     IUserRole.CLIENT,
@@ -12,9 +13,5 @@ export const Route = createFileRoute("/_authenticated/")({
 });
 
 function RouteComponent() {
-  return (
-    <>
-      <Button>jskasopdkoasjdaiojdoa</Button>
-    </>
-  );
+  return <div>Hello "/_authenticated/_authenticated/users/edit/$userId"!</div>;
 }

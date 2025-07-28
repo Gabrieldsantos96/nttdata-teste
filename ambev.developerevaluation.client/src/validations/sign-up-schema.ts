@@ -4,6 +4,7 @@ import { z } from "zod";
 
 export const signupSchema = z
   .object({
+    id: z.string().optional(),
     email: z
       .string()
       .nonempty(ValidationMessages.FieldRequired.replace("{field}", "email"))

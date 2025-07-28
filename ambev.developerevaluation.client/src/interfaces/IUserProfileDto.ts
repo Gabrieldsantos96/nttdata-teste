@@ -23,9 +23,23 @@ export const USER_STATUS: Record<string, string> = {
 };
 
 export interface IUserProfileDto {
-  refId: string;
-  name: string;
+  id: string;
+  email: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  userName: string;
   phone: string;
   role: IUserRole;
   status: IUserStatus;
+  createdAt: string;
+  updatedAt?: string;
+  address: {
+    city: string;
+    street: string;
+    zipcode: string;
+    number: string;
+    geo: string;
+  };
 }

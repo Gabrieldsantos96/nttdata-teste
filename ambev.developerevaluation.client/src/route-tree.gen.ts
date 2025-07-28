@@ -9,15 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
-import { Route as AuthenticatedIndexRouteImport } from './pages/_authenticated/index'
+import { Route as EmptyRouteImport } from './pages/_empty'
 import { Route as AuthenticatedAuthenticatedRouteImport } from './pages/_authenticated/_authenticated'
 import { Route as AuthSignUpRouteImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
 import { Route as AuthForgotPasswordRouteImport } from './pages/_auth/forgot-password'
+import { Route as AuthenticatedAuthenticatedIndexRouteImport } from './pages/_authenticated/_authenticated.index'
+import { Route as AuthenticatedAuthenticatedUsersIndexRouteImport } from './pages/_authenticated/_authenticated.users.index'
+import { Route as AuthenticatedAuthenticatedSalesIndexRouteImport } from './pages/_authenticated/_authenticated.sales.index'
+import { Route as AuthenticatedAuthenticatedProductsIndexRouteImport } from './pages/_authenticated/_authenticated.products.index'
+import { Route as AuthenticatedAuthenticatedProductsNewRouteImport } from './pages/_authenticated/_authenticated.products.new'
+import { Route as AuthenticatedAuthenticatedUsersEditUserIdRouteImport } from './pages/_authenticated/_authenticated.users.edit.$userId'
+import { Route as AuthenticatedAuthenticatedProductsEditProductIdRouteImport } from './pages/_authenticated/_authenticated.products.edit.$productId'
 
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/_authenticated/',
-  path: '/',
+const EmptyRoute = EmptyRouteImport.update({
+  id: '/_empty',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAuthenticatedRoute =
@@ -40,56 +46,144 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAuthenticatedIndexRoute =
+  AuthenticatedAuthenticatedIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
+const AuthenticatedAuthenticatedUsersIndexRoute =
+  AuthenticatedAuthenticatedUsersIndexRouteImport.update({
+    id: '/users/',
+    path: '/users/',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
+const AuthenticatedAuthenticatedSalesIndexRoute =
+  AuthenticatedAuthenticatedSalesIndexRouteImport.update({
+    id: '/sales/',
+    path: '/sales/',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
+const AuthenticatedAuthenticatedProductsIndexRoute =
+  AuthenticatedAuthenticatedProductsIndexRouteImport.update({
+    id: '/products/',
+    path: '/products/',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
+const AuthenticatedAuthenticatedProductsNewRoute =
+  AuthenticatedAuthenticatedProductsNewRouteImport.update({
+    id: '/products/new',
+    path: '/products/new',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
+const AuthenticatedAuthenticatedUsersEditUserIdRoute =
+  AuthenticatedAuthenticatedUsersEditUserIdRouteImport.update({
+    id: '/users/edit/$userId',
+    path: '/users/edit/$userId',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
+const AuthenticatedAuthenticatedProductsEditProductIdRoute =
+  AuthenticatedAuthenticatedProductsEditProductIdRouteImport.update({
+    id: '/products/edit/$productId',
+    path: '/products/edit/$productId',
+    getParentRoute: () => AuthenticatedAuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/': typeof AuthenticatedIndexRoute
+  '/': typeof AuthenticatedAuthenticatedIndexRoute
+  '/products/new': typeof AuthenticatedAuthenticatedProductsNewRoute
+  '/products': typeof AuthenticatedAuthenticatedProductsIndexRoute
+  '/sales': typeof AuthenticatedAuthenticatedSalesIndexRoute
+  '/users': typeof AuthenticatedAuthenticatedUsersIndexRoute
+  '/products/edit/$productId': typeof AuthenticatedAuthenticatedProductsEditProductIdRoute
+  '/users/edit/$userId': typeof AuthenticatedAuthenticatedUsersEditUserIdRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/': typeof AuthenticatedIndexRoute
+  '/': typeof AuthenticatedAuthenticatedIndexRoute
+  '/products/new': typeof AuthenticatedAuthenticatedProductsNewRoute
+  '/products': typeof AuthenticatedAuthenticatedProductsIndexRoute
+  '/sales': typeof AuthenticatedAuthenticatedSalesIndexRoute
+  '/users': typeof AuthenticatedAuthenticatedUsersIndexRoute
+  '/products/edit/$productId': typeof AuthenticatedAuthenticatedProductsEditProductIdRoute
+  '/users/edit/$userId': typeof AuthenticatedAuthenticatedUsersEditUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_empty': typeof EmptyRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_authenticated/_authenticated': typeof AuthenticatedAuthenticatedRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/_authenticated': typeof AuthenticatedAuthenticatedRouteWithChildren
+  '/_authenticated/_authenticated/': typeof AuthenticatedAuthenticatedIndexRoute
+  '/_authenticated/_authenticated/products/new': typeof AuthenticatedAuthenticatedProductsNewRoute
+  '/_authenticated/_authenticated/products/': typeof AuthenticatedAuthenticatedProductsIndexRoute
+  '/_authenticated/_authenticated/sales/': typeof AuthenticatedAuthenticatedSalesIndexRoute
+  '/_authenticated/_authenticated/users/': typeof AuthenticatedAuthenticatedUsersIndexRoute
+  '/_authenticated/_authenticated/products/edit/$productId': typeof AuthenticatedAuthenticatedProductsEditProductIdRoute
+  '/_authenticated/_authenticated/users/edit/$userId': typeof AuthenticatedAuthenticatedUsersEditUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
+  fullPaths:
+    | '/forgot-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/'
+    | '/products/new'
+    | '/products'
+    | '/sales'
+    | '/users'
+    | '/products/edit/$productId'
+    | '/users/edit/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
+  to:
+    | '/forgot-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/'
+    | '/products/new'
+    | '/products'
+    | '/sales'
+    | '/users'
+    | '/products/edit/$productId'
+    | '/users/edit/$userId'
   id:
     | '__root__'
+    | '/_empty'
     | '/_auth/forgot-password'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
     | '/_authenticated/_authenticated'
-    | '/_authenticated/'
+    | '/_authenticated/_authenticated/'
+    | '/_authenticated/_authenticated/products/new'
+    | '/_authenticated/_authenticated/products/'
+    | '/_authenticated/_authenticated/sales/'
+    | '/_authenticated/_authenticated/users/'
+    | '/_authenticated/_authenticated/products/edit/$productId'
+    | '/_authenticated/_authenticated/users/edit/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  EmptyRoute: typeof EmptyRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
-  AuthenticatedAuthenticatedRoute: typeof AuthenticatedAuthenticatedRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAuthenticatedRoute: typeof AuthenticatedAuthenticatedRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+    '/_empty': {
+      id: '/_empty'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof EmptyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/_authenticated': {
@@ -120,15 +214,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/_authenticated/': {
+      id: '/_authenticated/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
+    '/_authenticated/_authenticated/users/': {
+      id: '/_authenticated/_authenticated/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedUsersIndexRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
+    '/_authenticated/_authenticated/sales/': {
+      id: '/_authenticated/_authenticated/sales/'
+      path: '/sales'
+      fullPath: '/sales'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedSalesIndexRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
+    '/_authenticated/_authenticated/products/': {
+      id: '/_authenticated/_authenticated/products/'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedProductsIndexRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
+    '/_authenticated/_authenticated/products/new': {
+      id: '/_authenticated/_authenticated/products/new'
+      path: '/products/new'
+      fullPath: '/products/new'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedProductsNewRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
+    '/_authenticated/_authenticated/users/edit/$userId': {
+      id: '/_authenticated/_authenticated/users/edit/$userId'
+      path: '/users/edit/$userId'
+      fullPath: '/users/edit/$userId'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedUsersEditUserIdRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
+    '/_authenticated/_authenticated/products/edit/$productId': {
+      id: '/_authenticated/_authenticated/products/edit/$productId'
+      path: '/products/edit/$productId'
+      fullPath: '/products/edit/$productId'
+      preLoaderRoute: typeof AuthenticatedAuthenticatedProductsEditProductIdRouteImport
+      parentRoute: typeof AuthenticatedAuthenticatedRoute
+    }
   }
 }
 
+interface AuthenticatedAuthenticatedRouteChildren {
+  AuthenticatedAuthenticatedIndexRoute: typeof AuthenticatedAuthenticatedIndexRoute
+  AuthenticatedAuthenticatedProductsNewRoute: typeof AuthenticatedAuthenticatedProductsNewRoute
+  AuthenticatedAuthenticatedProductsIndexRoute: typeof AuthenticatedAuthenticatedProductsIndexRoute
+  AuthenticatedAuthenticatedSalesIndexRoute: typeof AuthenticatedAuthenticatedSalesIndexRoute
+  AuthenticatedAuthenticatedUsersIndexRoute: typeof AuthenticatedAuthenticatedUsersIndexRoute
+  AuthenticatedAuthenticatedProductsEditProductIdRoute: typeof AuthenticatedAuthenticatedProductsEditProductIdRoute
+  AuthenticatedAuthenticatedUsersEditUserIdRoute: typeof AuthenticatedAuthenticatedUsersEditUserIdRoute
+}
+
+const AuthenticatedAuthenticatedRouteChildren: AuthenticatedAuthenticatedRouteChildren =
+  {
+    AuthenticatedAuthenticatedIndexRoute: AuthenticatedAuthenticatedIndexRoute,
+    AuthenticatedAuthenticatedProductsNewRoute:
+      AuthenticatedAuthenticatedProductsNewRoute,
+    AuthenticatedAuthenticatedProductsIndexRoute:
+      AuthenticatedAuthenticatedProductsIndexRoute,
+    AuthenticatedAuthenticatedSalesIndexRoute:
+      AuthenticatedAuthenticatedSalesIndexRoute,
+    AuthenticatedAuthenticatedUsersIndexRoute:
+      AuthenticatedAuthenticatedUsersIndexRoute,
+    AuthenticatedAuthenticatedProductsEditProductIdRoute:
+      AuthenticatedAuthenticatedProductsEditProductIdRoute,
+    AuthenticatedAuthenticatedUsersEditUserIdRoute:
+      AuthenticatedAuthenticatedUsersEditUserIdRoute,
+  }
+
+const AuthenticatedAuthenticatedRouteWithChildren =
+  AuthenticatedAuthenticatedRoute._addFileChildren(
+    AuthenticatedAuthenticatedRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
+  EmptyRoute: EmptyRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
-  AuthenticatedAuthenticatedRoute: AuthenticatedAuthenticatedRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAuthenticatedRoute: AuthenticatedAuthenticatedRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
