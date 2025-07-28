@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
     {
         public string UserId { get; set; } = null!;
         public string UserName { get; set; } = null!;
-        public List<CartItem> Items { get; set; } = [];
+        public List<CartItem> Products { get; set; } = [];
 
         private Cart() { }
 
@@ -19,7 +19,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             {
                 UserId = userId,
                 UserName = userName,
-                Items = items ?? []
             };
 
             new CartValidator().ValidateAndThrow(cart);
@@ -48,7 +47,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
             new CartItemValidator().ValidateAndThrow(item);
 
-            var existingItem = Items.FirstOrDefault(i => i.ProductId == item.ProductId);
+            var existingItem = Products.FirstOrDefault(i => i.ProductId == item.ProductId);
             if (existingItem != null)
             {
                 existingItem.Quantity += item.Quantity;
@@ -56,32 +55,30 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             }
             else
             {
-                Items.Add(item);
+                Products.Add(item);
             }
         }
 
         public void RemoveCartItem(string productId)
         {
-            var item = Items.FirstOrDefault(i => i.ProductId == productId)
+            var item = Products.FirstOrDefault(i => i.ProductId == productId)
                 ?? throw new DomainException($"Item with ProductId {productId} not found in cart.");
 
-            Items.Remove(item);
+            Products.Remove(item);
 
-            if (Items.Count == 0)
+            if (Products.Count == 0)
                 throw new DomainException("O carrinho está vazio e deve ser removido.");
         }
 
         public void UpdateCartItem(string productId, int quantity)
         {
-            var cartItem = Items.FirstOrDefault(i => i.ProductId == productId)
+            var cartItem = Products.FirstOrDefault(i => i.ProductId == productId)
                 ?? throw new DomainException($"Item with ProductId {productId} not found in cart.");
 
             cartItem.Quantity = quantity;
 
             new CartItemValidator().ValidateAndThrow(cartItem);
         }
-
-        public MoneyValue Total => MoneyValue.Sum([.. Items.Select(s => s.TotalPriceWithDiscount)]);
     }
 
     public class CartItem : Entity
@@ -89,31 +86,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public string ProductId { get; set; } = null!;
         public string ProductName { get; set; } = null!;
         public int Quantity { get; set; }
-        public MoneyValue UnitPrice { get; set; }
-
-        public int DiscountPercentage
-        {
-            get
-            {
-                if (Quantity < 4)
-                {
-                    return 0;
-                }
-                else if (Quantity >= 4 && Quantity < 10)
-                {
-                    return 10;
-                }
-                else
-                {
-                    return 20;
-                }
-            }
-        }
-
-
-        public MoneyValue TotalPriceWithDiscount =>
-            UnitPrice * Quantity * (1 - DiscountPercentage / 100m);
-
         private CartItem() { }
 
         public static CartItem Create(string productId, string productName, int quantity, MoneyValue unitPrice)
@@ -122,7 +94,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             {
                 ProductId = productId,
                 ProductName = productName,
-                UnitPrice = unitPrice,
                 Quantity = quantity
             };
 
@@ -141,11 +112,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             RuleFor(x => x.UserName)
                 .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("UserName"));
 
-            RuleFor(x => x.Items)
+            RuleFor(x => x.Products)
                 .NotNull().WithMessage(ValidationHelper.RequiredErrorMessage("Items"))
                 .Must(items => items != null && items.Count > 0).WithMessage("O carrinho deve ter pelo menos um item.");
 
-            RuleForEach(x => x.Items).SetValidator(new CartItemValidator());
+            RuleForEach(x => x.Products).SetValidator(new CartItemValidator());
         }
     }
 
@@ -162,10 +133,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             RuleFor(x => x.Quantity)
                 .GreaterThan(0).WithMessage("A quantidade deve ser maior que zero")
                 .LessThanOrEqualTo(20).WithMessage("A quantidade máxima permitida por produto é 20");
-
-            RuleFor(x => x.UnitPrice)
-                .Must(x => (decimal)x >= 0)
-                .WithMessage("O preço unitário deve ser maior ou igual a zero");
         }
     }
 }

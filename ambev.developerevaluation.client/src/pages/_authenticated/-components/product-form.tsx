@@ -81,8 +81,16 @@ export function ProductForm({
         category: product.category,
         image: product.image,
       });
+
+      if (product.image) {
+        setImagePreview(
+          product.image.startsWith("data:")
+            ? product.image
+            : `data:image/jpeg;base64,${product.image}`
+        );
+      }
     }
-  }, [product]);
+  }, [product, isEditing, form]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -90,21 +98,22 @@ export function ProductForm({
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result as string;
-
         const base64String = base64.split(",")[1];
-
         form.setValue("image", base64String);
+        setImagePreview(base64);
       };
       reader.readAsDataURL(file);
     }
   };
-
-  const handleImageUrlChange = (url: string) => {
-    setImagePreview(url);
-  };
-
   const removeImage = () => {
     setImagePreview("");
+    form.setValue("image", "");
+    const fileInput = document.getElementById(
+      "image-upload"
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   const onSubmit = async (data: ProductFormData) => {
@@ -127,10 +136,7 @@ export function ProductForm({
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Link to="/products">
-          <Button variant="outline" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Voltar
-          </Button>
+          <ArrowLeft className="h-4 w-4 mr-2" />
         </Link>
         <h1 className="text-2xl font-bold">
           {isEditing ? "Editar Produto" : "Novo Produto"}
@@ -161,6 +167,20 @@ export function ProductForm({
 
                 <FormField
                   control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Preço *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="R$ 0,00" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="description"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
@@ -171,20 +191,6 @@ export function ProductForm({
                           rows={4}
                           {...field}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Preço *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="R$ 0,00" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -222,10 +228,15 @@ export function ProductForm({
                 <div className="md:col-span-2 space-y-4">
                   <FormLabel>Imagem do Produto</FormLabel>
 
-                  {imagePreview && (
+                  {(imagePreview || form.watch("image")) && (
                     <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
                       <img
-                        src={imagePreview || "/placeholder.svg"}
+                        src={
+                          imagePreview ||
+                          (form.watch("image")
+                            ? `data:image/jpeg;base64,${form.watch("image")}`
+                            : "/placeholder.svg")
+                        }
                         alt="Preview"
                         className="w-full h-full object-cover"
                       />
@@ -267,18 +278,18 @@ export function ProductForm({
                 </div>
               </div>
 
-              <div className="flex gap-4 pt-4">
+              <div className="flex justify-end gap-4 pt-4">
+                <Link to="/products">
+                  <Button type="button" variant="outline">
+                    Cancelar
+                  </Button>
+                </Link>
                 <Button type="submit" disabled={isPending}>
                   {isPending && (
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   )}
                   {isEditing ? "Atualizar" : "Criar"} Produto
                 </Button>
-                <Link to="/products">
-                  <Button type="button" variant="outline">
-                    Cancelar
-                  </Button>
-                </Link>
               </div>
             </form>
           </Form>

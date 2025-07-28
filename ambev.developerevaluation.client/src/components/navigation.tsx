@@ -18,9 +18,11 @@ export function Navigation() {
     },
     []
   );
-  if (breadcrumb_routes.length < 2) return null;
+  if (breadcrumb_routes.length < 2) {
+    return <div className="w-full flex flex-wrap gap-0.1 p-1" />;
+  }
   return (
-    <div className="w-full flex flex-wrap md:justify-end gap-0.1 p-1">
+    <div className="w-full flex flex-wrap gap-0.1 p-1">
       {breadcrumb_routes.map((crumb) => {
         if (
           breadcrumb_routes.length - 1 ===

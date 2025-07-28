@@ -35,6 +35,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark");
+  }, [themeColor]);
+
   const _hexColors = hexColors[themeColor]!;
   const isDark = themeColor === Theme.Dark;
 

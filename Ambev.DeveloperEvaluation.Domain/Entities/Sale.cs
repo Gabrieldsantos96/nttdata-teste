@@ -162,6 +162,7 @@ public sealed class Sale : Entity, IHasDomainEvent
             item.Cancel();
         }
         new SaleValidator().ValidateAndThrow(this);
+
         DomainEvents.Add(new SaleCancelledEvent(SaleNumber, userEmail));
     }
 

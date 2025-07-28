@@ -10,7 +10,6 @@ import {
 import { Shield, LogIn, Building2, Users, Lock } from "lucide-react";
 import { useState } from "react";
 import { SignInForm } from "~/pages/_auth/-components/sign-in-form";
-import { DropdownMenu } from "~/components/ui/dropdown-menu";
 
 interface UnauthorizedComponentProps {
   title?: string;
@@ -25,7 +24,7 @@ export function UnauthorizedComponent({
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

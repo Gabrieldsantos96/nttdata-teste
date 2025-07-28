@@ -73,6 +73,8 @@ public class User : IdentityUser<int>
             Phone = phone,
             Status = status,
             Role = role,
+            LockoutEnabled = false,
+            EmailConfirmed = true,
             RefId = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
