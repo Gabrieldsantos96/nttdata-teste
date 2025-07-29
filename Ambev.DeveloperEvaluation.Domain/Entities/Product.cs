@@ -8,7 +8,7 @@ public record Rating(int Rate, int Count);
 public sealed class Product : Entity
 {
     public string Title { get; set; } = null!;
-    public MoneyValue Price { get; set; }
+    public MoneyValue Price { get; set; } = null!;
     public string Description { get; set; } = null!;
     public string Category { get; set; } = null!;
     public string Image { get; set; } = null!;
@@ -20,7 +20,9 @@ public sealed class Product : Entity
         string description,
         string category,
         string image,
-        Rating rating)
+        Rating rating,
+        string userId
+        )
     {
         var product = new Product
         {
@@ -29,7 +31,9 @@ public sealed class Product : Entity
             Description = description,
             Category = category,
             Image = image,
-            Rating = rating
+            Rating = rating,
+            CreatedBy = userId,
+
         };
 
         new ProductValidator().ValidateAndThrow(product);
@@ -51,7 +55,7 @@ public sealed class Product : Entity
             Title = ThrowIfNull(title, nameof(Title));
 
         if (price is not null)
-            Price = price.Value;
+            Price = price;
 
         if (description is not null)
             Description = ThrowIfNull(description, nameof(Description));

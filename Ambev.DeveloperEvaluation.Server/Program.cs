@@ -5,6 +5,7 @@ using Ambev.DeveloperEvaluation.Server;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
+using Raven.Client.Documents;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);

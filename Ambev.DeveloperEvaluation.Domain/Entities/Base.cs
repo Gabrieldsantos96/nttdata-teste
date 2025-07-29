@@ -5,7 +5,7 @@ public abstract class Entity
 {
     public virtual String Id { get; init; } = string.Empty;
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [MaxLength(255)]
     public string? CreatedBy { get; set; }

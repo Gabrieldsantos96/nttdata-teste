@@ -13,7 +13,7 @@ using Raven.Client.Documents;
 namespace Ambev.DeveloperEvaluation.Infra;
 public static class ConfigureServices
 {
-    public static void AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static async Task AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContextFactory<DatabaseContext>(options =>
         {
@@ -44,6 +44,21 @@ public static class ConfigureServices
             return store;
         });
 
+        services.AddSingleton<IDocumentStore>(serviceProvider =>
+        {
+            var requiredService = serviceProvider.GetRequiredService<IConfiguration>();
+
+            string serverUrl = configuration["RavenDB:Server"]!;
+            string databaseName = configuration["RavenDB:Database"]!;
+
+            var store = RavenDbContext.CreateDocumentStore(
+                serverUrl: serverUrl,
+                databaseName: databaseName!);
+
+            return store;
+        });
+
+
         services.AddScoped<IClaimsService, ClaimsService>();
 
         services.AddDataProtection()
@@ -52,10 +67,10 @@ public static class ConfigureServices
                 EncryptionAlgorithm = EncryptionAlgorithm.AES_256_GCM,
                 ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
             }).PersistKeysToDbContext<DatabaseContext>();
-            
+
         services.AddMemoryCache();
 
-        services.AddScoped<IDatabaseContextFactory,DatabaseContextFactory>();
+        services.AddScoped<IDatabaseContextFactory, DatabaseContextFactory>();
 
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IClaimsService, ClaimsService>();
@@ -66,5 +81,11 @@ public static class ConfigureServices
         services.AddScoped<ISaleRepository, SaleRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+        using var serviceScope = services.BuildServiceProvider().CreateScope();
+        var store = serviceScope.ServiceProvider.GetRequiredService<IDocumentStore>();
+
+        await RavenDbContext.SeedDatabase(store);
+
     }
 }
