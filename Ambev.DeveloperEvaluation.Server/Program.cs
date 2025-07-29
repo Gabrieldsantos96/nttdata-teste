@@ -5,14 +5,13 @@ using Ambev.DeveloperEvaluation.Server;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
-using Raven.Client.Documents;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddWebServices(builder.Configuration);
 builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
+await builder.Services.AddInfrastructureServices(builder.Configuration);
 
 if (builder.Environment.IsDevelopment())
 {
