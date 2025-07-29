@@ -23,7 +23,7 @@ public static class ApiRoutes
     public static class Sales
     {
         public const string GetPaginatedSales = "/sales";
-        public const string CreateSale = "/sale";
+        public const string CreateSale = "/sale/{cartId}";
         public const string GetSaleById = "/sale/{id}";
         public const string UpdateSale = "/sale/{id}";
         public const string DeleteSale = "/sale/{id}";

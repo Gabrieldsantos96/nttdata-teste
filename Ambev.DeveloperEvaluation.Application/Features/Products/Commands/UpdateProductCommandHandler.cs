@@ -11,7 +11,7 @@ public sealed class UpdateProductCommandHandler(IProductRepository productReposi
 {
     public async Task<MutationResult<Product>> Handle(UpdateProductCommand request, CancellationToken ct)
     {
-        var existing = await productRepository.GetProductAsync(request.Id)
+        var existing = await productRepository.GetProductAsync(request.Id, ct)
             ?? throw new NotFoundException($"Produto com ID '{request.Id}' não encontrado.");
 
         existing.Update(
@@ -23,7 +23,7 @@ public sealed class UpdateProductCommandHandler(IProductRepository productReposi
             new Rating(request.RatingRate, request.RatingCount)
         );
 
-        await productRepository.UpsertProductAsync(existing);
+        await productRepository.UpsertProductAsync(existing, ct);
 
         return MutationResult<Product>.Ok("Produto atualizado com sucesso", existing);
     }

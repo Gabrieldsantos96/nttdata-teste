@@ -8,66 +8,65 @@ using Raven.Client.Documents.Linq;
 namespace Ambev.DeveloperEvaluation.Infra.Repositories;
 public sealed class ProductRepository(IDocumentStore documentStore) : IProductRepository
 {
-    public async Task<PaginatedResponse<Product>> GetPaginatedProductsAsync(int skip = 0, int take = 20, string? filter = null)
+    public async Task<PaginatedResponse<Product>> GetPaginatedProductsAsync(int skip = 0, int take = 20, string? filter = null, CancellationToken ct = default)
     {
         using var session = documentStore.OpenAsyncSession();
 
         var query = session.Query<Product>()
             .OrderByDescending(s => s.CreatedAt);
 
-        var paginatedTask = query.Skip(skip).Take(take).ToListAsync();
-        var countTask = query.CountAsync();
-
-        await Task.WhenAll(paginatedTask, countTask);
-
-        var products = paginatedTask.Result;
-        var totalItems = countTask.Result;
+        var products = await query.Skip(skip).Take(take).ToListAsync(ct);
+        var totalItems = await query.CountAsync(ct);
 
         var totalPages = (int)Math.Ceiling(totalItems / (double)take);
+        var currentPage = (skip / take) + 1;
 
-        return new PaginatedResponse<Product>(products, totalItems, (int)Math.Ceiling((skip + 1) / (double)take), totalPages);
+        return new PaginatedResponse<Product>(products, totalItems, currentPage, totalPages);
     }
 
-    public async Task<GroupedPaginatedResponse<Product>> GetProductsGroupedByCategoryAsync(int skip = 0, int take = 20)
+    public async Task<GroupedPaginatedResponse<Product>> GetProductsGroupedByCategoryAsync(int skip = 0, int take = 20, CancellationToken ct = default)
     {
         using var session = documentStore.OpenAsyncSession();
 
-
-        var query = session.Query<Product>()
-            .GroupBy(p => p.Category);
-
-        var totalGroupsTask = query.CountAsync();
-
-        var groupedResultsTask = query
-            .Select(g => new { Key = g.Key, Products = g.ToList() })
+        var products = await session.Query<Product>()
+            .OrderBy(p => p.Category)
             .Skip(skip)
             .Take(take)
-            .ToListAsync();
+            .ToListAsync(ct);
 
-        await Task.WhenAll(totalGroupsTask, groupedResultsTask);
+        var grouped = products
+            .GroupBy(p => p.Category)
+            .ToDictionary(
+                g => g.Key ?? string.Empty,
+                g => (IList<Product>)g.ToList()
+            );
 
-        var totalGroups = totalGroupsTask.Result;
-        var groupedResults = groupedResultsTask.Result;
-
-        var totalItems = totalGroupsTask.Result;
+        var totalGroups = await session.Query<Product>()
+            .Select(p => p.Category)
+            .Distinct()
+            .CountAsync(ct);
 
         var totalPages = (int)Math.Ceiling(totalGroups / (double)take);
+        var currentPage = (skip / take) + 1;
 
-        var result = groupedResults.ToDictionary(
-            r => r.Key?.ToString() ?? string.Empty,
-            r => (IList<Product>)[.. r.Products]
-        );
-
-        return new GroupedPaginatedResponse<Product>(result, totalItems, (int)Math.Ceiling((skip + 1) / (double)take), totalPages);
+        return new GroupedPaginatedResponse<Product>(grouped, totalGroups, currentPage, totalPages);
     }
-    public async Task<Product> GetProductAsync(string id)
+
+    public async Task<Product> GetProductAsync(string id, CancellationToken ct = default)
     {
         using var session = documentStore.OpenAsyncSession();
 
-        return await session.LoadAsync<Product>(id) ?? throw new NotFoundException(nameof(Product));
+        return await session.LoadAsync<Product>(id, ct) ?? throw new NotFoundException(nameof(Product));
     }
 
-    public async Task DeleteProductAsync(string id)
+    public async Task<IList<Product>> GetProductAsync(IEnumerable<string> ids, CancellationToken ct = default)
+    {
+        using var session = documentStore.OpenAsyncSession();
+        var products = await session.LoadAsync<Product>(ids, ct);
+        return [.. products.Values.Where(p => p != null)];
+    }
+
+    public async Task DeleteProductAsync(string id, CancellationToken ct = default)
     {
         using var session = documentStore.OpenAsyncSession();
 
@@ -75,16 +74,16 @@ public sealed class ProductRepository(IDocumentStore documentStore) : IProductRe
 
         session.Delete(product);
 
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(ct);
 
     }
 
-    public async Task UpsertProductAsync(Product product)
+    public async Task UpsertProductAsync(Product product, CancellationToken ct = default)
     {
 
         using var session = documentStore.OpenAsyncSession();
 
-        var existing = await session.LoadAsync<Product>(product.Id);
+        var existing = await session.LoadAsync<Product>(product.Id, ct);
 
         if (existing is null)
         {
@@ -102,6 +101,6 @@ public sealed class ProductRepository(IDocumentStore documentStore) : IProductRe
             );
         }
 
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(ct);
     }
 }

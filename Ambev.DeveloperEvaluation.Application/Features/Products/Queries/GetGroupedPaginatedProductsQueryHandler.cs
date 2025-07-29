@@ -9,6 +9,6 @@ public sealed class GetGroupedPaginatedProductQueryHandler(IProductRepository pr
 {
     public Task<GroupedPaginatedResponse<Product>> Handle(GetGroupedPaginatedProductQuery input, CancellationToken ct)
     {
-        return productRepository.GetProductsGroupedByCategoryAsync(input.Skip, input.Take);
+        return productRepository.GetProductsGroupedByCategoryAsync(input.Skip, input.Take, ct);
     }
 }

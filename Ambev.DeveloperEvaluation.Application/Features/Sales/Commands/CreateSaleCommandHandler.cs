@@ -16,7 +16,7 @@ public sealed class CreateSaleCommandHandler(ISaleRepository saleRepository, ICa
 
         var productTasks = cart.Products.Select(async s =>
         {
-            var product = await productRepository.GetProductAsync(s.ProductId) ?? throw new NotFoundException("Produto não encontrado");
+            var product = await productRepository.GetProductAsync(s.ProductId, ct) ?? throw new NotFoundException("Produto não encontrado");
             return SaleItem.Create(s.ProductId, s.ProductName, s.Quantity, product.Price);
         });
 
@@ -24,7 +24,7 @@ public sealed class CreateSaleCommandHandler(ISaleRepository saleRepository, ICa
 
         var sale = Sale.Create(cart.UserId, cart.UserName, [.. salesItems]);
 
-        await saleRepository.CreateSaleAsync(sale, cart);
+        await saleRepository.CreateSaleAsync(sale, cart , ct);
 
         return MutationResult<Sale>.Ok("Venda criada com sucesso", sale);
 

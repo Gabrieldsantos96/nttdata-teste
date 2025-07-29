@@ -13,7 +13,7 @@ public sealed class DeleteCartCommandHandler(ICartRepository cartRepository, ICl
         var cart = await cartRepository.GetCartAsync(input.CartId, claimsService.GetUserRefId().ToString())
             ?? throw new NotFoundException($"Carrinho com ID {input.CartId} não encontrado para o usuário.");
 
-        await cartRepository.DeleteCartAsync(input.CartId);
+        await cartRepository.DeleteCartAsync(input.CartId, ct);
 
         return MutationResult<Cart>.Ok("Carrinho excluído com sucesso", cart);
     }

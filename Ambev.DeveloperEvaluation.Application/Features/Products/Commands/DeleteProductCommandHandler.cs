@@ -6,7 +6,7 @@ public sealed class DeleteProductCommandHandler(IProductRepository productReposi
 {
     public async Task Handle(DeleteProductCommand input, CancellationToken ct)
     {
-        await productRepository.DeleteProductAsync(input.ProductId);
+        await productRepository.DeleteProductAsync(input.ProductId, ct);
 
     }
 }

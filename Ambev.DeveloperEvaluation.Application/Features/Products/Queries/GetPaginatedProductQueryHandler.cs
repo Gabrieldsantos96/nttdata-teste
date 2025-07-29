@@ -8,6 +8,6 @@ public sealed class GetPaginatedProductQueryHandler(IProductRepository productRe
 {
     public Task<PaginatedResponse<Product>> Handle(GetPaginatedProductQuery input, CancellationToken ct)
     {
-        return productRepository.GetPaginatedProductsAsync(input.Skip, input.Take, input.Filter);
+        return productRepository.GetPaginatedProductsAsync(input.Skip, input.Take, input.Filter, ct);
     }
 }

@@ -8,7 +8,7 @@ using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
-public sealed class SaleItem : Entity
+public sealed class SaleItem
 {
     public string ProductId { get; set; } = null!;
     public string ProductName { get; set; } = null!;
@@ -83,7 +83,8 @@ public sealed class Sale : Entity, IHasDomainEvent
             CustomerId = customerId,
             CustomerName = customerName,
             SaleDate = DateTime.UtcNow,
-            Items = items ?? []
+            Items = items ?? [],
+            CreatedBy = customerId
         };
 
         new SaleValidator().ValidateAndThrow(sale);
@@ -97,7 +98,7 @@ public sealed class Sale : Entity, IHasDomainEvent
             throw new DomainException("Não é possível modificar uma venda finalizada.");
     }
 
-    public void UpdateItems(List<SaleItem> newItems, string updatedBy)
+    public void UpdateItems(List<SaleItem> newItems, string userId)
     {
         CheckIfNotCompleted();
 
@@ -106,7 +107,7 @@ public sealed class Sale : Entity, IHasDomainEvent
         foreach (var existing in Items.Where(i => i.Status == SalesItemConsts.Active && !newItemsDictionary.ContainsKey(i.ProductId)))
         {
             existing.Cancel();
-            DomainEvents.Add(new ItemCancelledEvent(existing.ProductName, SaleNumber, updatedBy));
+            DomainEvents.Add(new ItemCancelledEvent(existing.ProductName, SaleNumber, userId));
         }
 
         foreach (var newItem in newItems)
@@ -125,10 +126,12 @@ public sealed class Sale : Entity, IHasDomainEvent
 
         if (Items.All(i => i.Status == SalesItemConsts.Cancelled))
         {
-            CancelSale(updatedBy);
+            CancelSale(userId);
         }
 
-        DomainEvents.Add(new SaleModifiedEvent(Id, updatedBy));
+        UpdatedBy = userId;
+
+        DomainEvents.Add(new SaleModifiedEvent(Id, userId));
 
         new SaleValidator().ValidateAndThrow(this);
     }

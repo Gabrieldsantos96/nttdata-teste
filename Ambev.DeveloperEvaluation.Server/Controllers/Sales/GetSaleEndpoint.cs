@@ -4,7 +4,6 @@ using FastEndpoints;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Server.Controllers.Sales;
-
 public sealed class GetSaleEndpoint(IMediator mediator) : EndpointWithoutRequest
 {
     public override void Configure()

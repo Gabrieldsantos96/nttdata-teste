@@ -8,6 +8,8 @@ public sealed class GetCartQueryHandler(ICartRepository cartRepository, IClaimsS
 {
     public Task<Cart> Handle(GetCartQuery input, CancellationToken ct)
     {
-        return cartRepository.GetCartAsync(input.CartId, claimsService.GetUserRefId().ToString());
+        var userRefId = claimsService.GetUserRefId().ToString();
+
+        return cartRepository.GetCartAsync(input.CartId, userRefId, ct);
     }
 }

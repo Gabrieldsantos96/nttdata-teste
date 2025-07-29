@@ -7,6 +7,6 @@ public sealed class GetProductQueryHandler(IProductRepository productRepository)
 {
     public Task<Product> Handle(GetProductQuery input, CancellationToken ct)
     {
-        return productRepository.GetProductAsync(input.ProductId);
+        return productRepository.GetProductAsync(input.ProductId, ct);
     }
 }

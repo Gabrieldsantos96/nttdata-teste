@@ -85,7 +85,7 @@ public static class ConfigureServices
         using var serviceScope = services.BuildServiceProvider().CreateScope();
         var store = serviceScope.ServiceProvider.GetRequiredService<IDocumentStore>();
 
-        await RavenDbContext.SeedDatabase(store);
+        //await RavenDbContext.SeedDatabase(store);
 
     }
 }

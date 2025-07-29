@@ -79,7 +79,7 @@ public class Cart : Entity
     }
 }
 
-public class CartItem : Entity
+public class CartItem
 {
     public string ProductId { get; set; } = null!;
     public string ProductName { get; set; } = null!;
@@ -113,6 +113,11 @@ public class CartValidator : AbstractValidator<Cart>
         RuleFor(x => x.Products)
             .NotNull().WithMessage(ValidationHelper.RequiredErrorMessage("Items"))
             .Must(items => items != null && items.Count > 0).WithMessage("O carrinho deve ter pelo menos um item.");
+
+        RuleFor(cart => cart.Products)
+            .NotNull().WithMessage("Não pode nula")
+            .Must(products => products == null || !products.GroupBy(p => p.ProductId).Any(g => g.Count() > 1))
+            .WithMessage("Não pode ID duplicado");
 
         RuleForEach(x => x.Products).SetValidator(new CartItemValidator());
     }

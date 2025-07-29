@@ -8,78 +8,68 @@ namespace Ambev.DeveloperEvaluation.Infra.Repositories;
 
 public sealed class SaleRepository(IDocumentStore documentStore) : ISaleRepository
 {
-    private readonly IDocumentStore _documentStore = documentStore;
-
-    public async Task<Sale?> GetSaleAsync(string id)
+    public async Task<Sale?> GetSaleAsync(string id, CancellationToken ct = default)
     {
-        using var session = _documentStore.OpenAsyncSession();
-        return await session.LoadAsync<Sale>(id);
+        using var session = documentStore.OpenAsyncSession();
+        return await session.LoadAsync<Sale>(id,ct);
     }
 
-    public async Task<PaginatedResponse<Sale>> GetPaginatedSalesAsync(string userId, int skip = 0, int take = 20, string? filter = null)
+    public async Task<PaginatedResponse<Sale>> GetPaginatedSalesAsync(string userId, int skip = 0, int take = 20, string? filter = null, CancellationToken ct = default)
     {
-        using var session = _documentStore.OpenAsyncSession();
+        using var session = documentStore.OpenAsyncSession();
 
         var query = session.Query<Sale>()
             .Where(s => s.CustomerId == userId)
             .OrderByDescending(s => s.CreatedAt);
 
-        var paginatedTask = query.Skip(skip).Take(take).ToListAsync();
-        var countTask = query.CountAsync();
-
-        await Task.WhenAll(paginatedTask, countTask);
-
-        var sales = paginatedTask.Result;
-        var totalItems = countTask.Result;
+        var sales = await query.Skip(skip).Take(take).ToListAsync(ct);
+        var totalItems = await query.CountAsync(ct);
 
         var totalPages = (int)Math.Ceiling(totalItems / (double)take);
+        var currentPage = (skip / take) + 1;
 
-        return new PaginatedResponse<Sale>(sales, totalItems, (int)Math.Ceiling((skip + 1) / (double)take), totalPages);
+        return new PaginatedResponse<Sale>(sales, totalItems, currentPage, totalPages);
     }
 
-    public async Task<PaginatedResponse<Sale>> GetPaginatedSalesAsync(int skip = 0, int take = 20, string? filter = null)
+    public async Task<PaginatedResponse<Sale>> GetPaginatedSalesAsync(int skip = 0, int take = 20, string? filter = null, CancellationToken ct = default)
     {
-        using var session = _documentStore.OpenAsyncSession();
+        using var session = documentStore.OpenAsyncSession();
 
         var query = session.Query<Sale>()
             .OrderByDescending(s => s.CreatedAt);
 
-        var paginatedTask = query.Skip(skip).Take(take).ToListAsync();
-        var countTask = query.CountAsync();
-
-        await Task.WhenAll(paginatedTask, countTask);
-
-        var sales = paginatedTask.Result;
-        var totalItems = countTask.Result;
+        var sales = await query.Skip(skip).Take(take).ToListAsync(ct);
+        var totalItems = await query.CountAsync(ct);
 
         var totalPages = (int)Math.Ceiling(totalItems / (double)take);
+        var currentPage = (skip / take) + 1;
 
-        return new PaginatedResponse<Sale>(sales, totalItems, (int)Math.Ceiling((skip + 1) / (double)take), totalPages);
+        return new PaginatedResponse<Sale>(sales, totalItems, currentPage, totalPages);
     }
 
-    public async Task CreateSaleAsync(Sale sale, Cart cart)
+    public async Task CreateSaleAsync(Sale sale, Cart cart, CancellationToken ct = default)
     {
-        using var session = _documentStore.OpenAsyncSession();
-        session.Delete(cart);
+        using var session = documentStore.OpenAsyncSession();
+        session.Delete(cart.Id);
         await session.StoreAsync(sale);
 
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(ct);
     }
 
 
-    public async Task UpdateSaleAsync(Sale sale)
+    public async Task UpdateSaleAsync(Sale sale, CancellationToken ct = default)
     {
-        using var session = _documentStore.OpenAsyncSession();
+        using var session = documentStore.OpenAsyncSession();
         await session.StoreAsync(sale);
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteSaleAsync(string id, string userId)
+    public async Task DeleteSaleAsync(string id, string userId, CancellationToken ct = default)
     {
-        using var session = _documentStore.OpenAsyncSession();
+        using var session = documentStore.OpenAsyncSession();
         var sale = await session.LoadAsync<Sale>(id) ?? throw new NotFoundException(nameof(Sale));
         sale.CancelSale(userId);
         await session.StoreAsync(sale);
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(ct);
     }
 }

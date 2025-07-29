@@ -7,7 +7,7 @@ public sealed class CancelSaleCommandHandler(ISaleRepository saleRepository, ICl
 {
     public async Task Handle(CancelSaleCommand input, CancellationToken ct)
     {
-        await saleRepository.DeleteSaleAsync(input.SaleId, claimsService.GetUserRefId().ToString());
+        await saleRepository.DeleteSaleAsync(input.SaleId, claimsService.GetUserRefId().ToString(), ct);
 
     }
 }

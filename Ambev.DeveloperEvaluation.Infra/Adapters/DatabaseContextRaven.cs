@@ -1,6 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 
 namespace Ambev.DeveloperEvaluation.Infra.Adapters;
@@ -15,6 +16,10 @@ public static class RavenDbContext
         };
 
         store.Initialize();
+
+        IndexCreation.CreateIndexes(
+            typeof(Cart_ByIdAndUserId).Assembly,
+            store);
 
         return store;
     }
@@ -58,3 +63,13 @@ public static class RavenDbContext
         return products;
     }
 }
+
+public class Cart_ByIdAndUserId : AbstractIndexCreationTask<Cart>
+{
+    public Cart_ByIdAndUserId()
+    {
+        Map = carts => from cart in carts
+                       select new { cart.Id, cart.UserId };
+    }
+}
+

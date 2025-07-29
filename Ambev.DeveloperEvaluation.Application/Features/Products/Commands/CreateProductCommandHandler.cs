@@ -21,7 +21,7 @@ public sealed class CreateProductCommandHandler(IProductRepository productReposi
             claimsService.GetUserRefId().ToString()!
         );
 
-        await productRepository.UpsertProductAsync(product);
+        await productRepository.UpsertProductAsync(product, ct);
 
         return MutationResult<Product>.Ok("Produto criado com sucesso", product);
     }

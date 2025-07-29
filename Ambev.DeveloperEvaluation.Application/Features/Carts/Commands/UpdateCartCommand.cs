@@ -5,4 +5,4 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
 public record UpdateCartItemDto(string ProductId, string ProductName, int Quantity);
 public record UpdateCartDto(UpdateCartItemDto[] Items);
-public record UpdateCartCommand(UpdateCartDto Command, string CartId) : IRequest<MutationResult<Cart>>;
+public record UpdateCartCommand(UpdateCartItemDto[] Items, string CartId) : IRequest<MutationResult<Cart>>;

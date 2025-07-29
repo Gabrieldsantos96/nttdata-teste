@@ -14,14 +14,14 @@ public sealed class UpdateSaleCommandHandler(
 {
     public async Task<MutationResult<Sale>> Handle(UpdateSaleCommand input, CancellationToken ct)
     {
-        var sale = await saleRepository.GetSaleAsync(input.SaleId)
+        var sale = await saleRepository.GetSaleAsync(input.SaleId, ct)
             ?? throw new NotFoundException($"Venda com ID {input.SaleId} não encontrada.");
 
         var userRefId = claimsService.GetUserRefId().ToString();
 
         var itemTasks = input.Items.Select(async s =>
         {
-            var product = await productRepository.GetProductAsync(s.ProductId)
+            var product = await productRepository.GetProductAsync(s.ProductId , ct)
                 ?? throw new NotFoundException($"Produto com ID {s.ProductId} não encontrado.");
 
             return SaleItem.Create(s.ProductId, s.ProductName, s.Quantity, product.Price);
@@ -31,7 +31,7 @@ public sealed class UpdateSaleCommandHandler(
 
         sale.UpdateItems(updatedItems.ToList(), userRefId);
 
-        await saleRepository.UpdateSaleAsync(sale);
+        await saleRepository.UpdateSaleAsync(sale, ct);
 
         return MutationResult<Sale>.Ok("Venda atualizada com sucesso", sale);
     }

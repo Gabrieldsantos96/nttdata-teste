@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Server.Controllers.Sales;
 
-public sealed class CreateProductEndpoint(IMediator mediator) : EndpointWithoutRequest<MutationResult<Sale>>
+public sealed class CreateSaleEndpoint(IMediator mediator) : EndpointWithoutRequest<MutationResult<Sale>>
 {
     public override void Configure()
     {
@@ -16,7 +16,7 @@ public sealed class CreateProductEndpoint(IMediator mediator) : EndpointWithoutR
     }
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var cartId = Route<string>("id", isRequired: true);
+        var cartId = Route<string>("cartId", isRequired: true);
 
         var sale = await mediator.Send(new CreateSaleCommand()
         {

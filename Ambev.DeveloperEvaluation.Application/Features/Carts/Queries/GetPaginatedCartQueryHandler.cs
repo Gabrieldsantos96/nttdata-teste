@@ -9,6 +9,6 @@ public sealed class GetPaginatedCartQueryHandler(ICartRepository cartRepository,
 {
     public Task<PaginatedResponse<Cart>> Handle(GetPaginatedCartQuery input, CancellationToken ct)
     {
-        return cartRepository.GetPaginatedCartsAsync(claimsService.GetUserRefId().ToString(), input.Skip, input.Take);
+        return cartRepository.GetPaginatedCartsAsync(claimsService.GetUserRefId().ToString(), input.Skip, input.Take, ct);
     }
 }
