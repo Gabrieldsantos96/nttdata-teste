@@ -1,24 +1,40 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using NodaMoney;
+using System.Text.Json.Serialization;
 
 namespace Ambev.DeveloperEvaluation.Domain.ValueObjects;
+
 public sealed class MoneyValue : IEquatable<MoneyValue>
 {
-    public Money Value { get; set; }
+    [JsonIgnore]
+    public Money Value { get; }
+
+    public decimal Amount { get; }
+    public string Currency { get; }
+
+    [JsonConstructor]
     public MoneyValue(decimal amount, string currency = "BRL")
     {
-        Value = new Money(amount, Currency.FromCode(currency));
+        Currency = currency ?? throw new ArgumentNullException(nameof(currency));
+        Amount = amount;
+        Value = new Money(amount, NodaMoney.Currency.FromCode(currency));
     }
 
-    public static implicit operator decimal(MoneyValue money) => money.Value.Amount;
-
-    public static explicit operator Money(MoneyValue money) => money.Value;
+    private MoneyValue(Money money)
+    {
+        Value = money;
+        Amount = money.Amount;
+        Currency = money.Currency.Code;
+    }
 
     public override string ToString() => Value.ToString();
 
+    public static implicit operator decimal(MoneyValue money) => money.Value.Amount;
+    public static explicit operator Money(MoneyValue money) => money.Value;
+
     public static MoneyValue operator +(MoneyValue left, MoneyValue right)
     {
-        if (left.Value.Currency != right.Value.Currency)
+        if (left.Currency != right.Currency)
             throw new InvalidOperationException("Cannot add money with different currencies");
 
         return new MoneyValue(left.Value + right.Value);
@@ -43,25 +59,22 @@ public sealed class MoneyValue : IEquatable<MoneyValue>
 
     public override bool Equals(object? obj) => obj is MoneyValue other && Equals(other);
     public override int GetHashCode() => Value.GetHashCode();
+
     public static MoneyValue Sum(params MoneyValue[] values)
     {
         if (values.Length == 0)
-            return new MoneyValue(0);
+            return new MoneyValue(0, "BRL");
 
-        var currency = values[0].Value.Currency;
+        var currency = values[0].Currency;
         var total = values.Aggregate(
-            new Money(0, currency),
+            new Money(0, NodaMoney.Currency.FromCode(currency)),
             (acc, mv) =>
             {
-                if (mv.Value.Currency != currency)
+                if (mv.Currency != currency)
                     throw new DomainException("All MoneyValues must have the same currency.");
                 return acc + mv.Value;
             });
 
-        return new MoneyValue(total.Amount, total.Currency.Code);
-    }
-    private MoneyValue(Money money)
-    {
-        Value = money;
+        return new MoneyValue(total);
     }
 }
