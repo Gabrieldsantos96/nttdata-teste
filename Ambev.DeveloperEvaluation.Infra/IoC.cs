@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationM
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Raven.Client.Documents;
 
 namespace Ambev.DeveloperEvaluation.Infra;
 public static class ConfigureServices
@@ -24,6 +25,23 @@ public static class ConfigureServices
 
             options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
+        });
+
+        services.AddSingleton<IDocumentStore>(serviceProvider =>
+        {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+            string serverUrl = configuration["RavenDB:Server"]!;
+            string databaseName = configuration["RavenDB:Database"]!;
+
+            var store = new DocumentStore
+            {
+                Urls = new[] { serverUrl },
+                Database = databaseName
+            };
+
+            store.Initialize();
+            return store;
         });
 
         services.AddScoped<IClaimsService, ClaimsService>();
@@ -44,6 +62,9 @@ public static class ConfigureServices
         services.AddScoped<IPasswordHelper, PasswordHelper>();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ISaleRepository, SaleRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
     }
 }

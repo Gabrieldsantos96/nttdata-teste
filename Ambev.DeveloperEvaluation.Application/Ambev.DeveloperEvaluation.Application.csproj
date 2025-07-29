@@ -13,15 +13,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\Authentication\DTOs\" />
-	  <Folder Include="Features\Carts\Commands\" />
-	  <Folder Include="Features\Carts\Queries\" />
-	  <Folder Include="Features\Costumer\Commands\" />
-	  <Folder Include="Features\Costumer\Queries\" />
-	  <Folder Include="Features\Products\Commands\" />
-	  <Folder Include="Features\Products\Queries\" />
-	  <Folder Include="Features\Sales\Commands\" />
-	  <Folder Include="Features\Sales\Queries\" />
 	  <Folder Include="Features\Users\Commands\" />
 	  <Folder Include="Features\Users\Queries\" />
 	</ItemGroup>

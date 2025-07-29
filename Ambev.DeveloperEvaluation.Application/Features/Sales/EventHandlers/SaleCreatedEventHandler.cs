@@ -14,6 +14,6 @@ public class SaleCreatedEventHandler(IServiceScopeFactory serviceScopeFactory) :
 
         var context = await contextFactory.CreateDbContextAsync();
 
-        Console.WriteLine($"Sale {notification.SaleNumber} with total {notification.Total} was created by {notification.UserName} at {notification.CreatedAt}.");
+        Console.WriteLine($"Sale {notification.SaleNumber} with total {notification.Total} was created by {notification.UserId} at {notification.CreatedAt}.");
     }
 }

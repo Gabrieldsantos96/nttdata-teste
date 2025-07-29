@@ -65,7 +65,6 @@ public sealed class Sale : Entity, IHasDomainEvent
     public string SaleNumber { get; set; } = null!;
     public string CustomerId { get; set; } = null!;
     public string CustomerName { get; set; } = null!;
-    public string BranchId { get; set; } = null!;
     public DateTime SaleDate { get; set; }
     public string Status { get; private set; } = SalesConsts.Pending;
     public List<SaleItem> Items { get; private set; } = [];
@@ -76,8 +75,6 @@ public sealed class Sale : Entity, IHasDomainEvent
     public static Sale Create(
         string customerId,
         string customerName,
-        string branchId,
-        DateTime saleDate,
         List<SaleItem> items)
     {
         var sale = new Sale
@@ -85,9 +82,8 @@ public sealed class Sale : Entity, IHasDomainEvent
             SaleNumber = CodeGenerator.GenerateCode<Sale>(),
             CustomerId = customerId,
             CustomerName = customerName,
-            BranchId = branchId,
-            SaleDate = saleDate,
-            Items = items ?? new List<SaleItem>()
+            SaleDate = DateTime.UtcNow,
+            Items = items ?? []
         };
 
         new SaleValidator().ValidateAndThrow(sale);
@@ -101,58 +97,44 @@ public sealed class Sale : Entity, IHasDomainEvent
             throw new DomainException("Não é possível modificar uma venda finalizada.");
     }
 
-    public void AddSaleItem(SaleItem item)
+    public void UpdateItems(List<SaleItem> newItems, string updatedBy)
     {
         CheckIfNotCompleted();
 
-        if (item == null)
-            throw new DomainException(ValidationHelper.RequiredErrorMessage("item"));
+        var newItemsDictionary = newItems.ToDictionary(i => i.ProductId);
 
-        new SaleItemValidator().ValidateAndThrow(item);
-
-        var existingItem = Items.FirstOrDefault(i => i.ProductId == item.ProductId);
-
-        if (existingItem != null)
+        foreach (var existing in Items.Where(i => i.Status == SalesItemConsts.Active && !newItemsDictionary.ContainsKey(i.ProductId)))
         {
-            existingItem.UpdateQuantity(existingItem.Quantity + item.Quantity);
-        }
-        else
-        {
-            Items.Add(item);
+            existing.Cancel();
+            DomainEvents.Add(new ItemCancelledEvent(existing.ProductName, SaleNumber, updatedBy));
         }
 
-        DomainEvents.Add(new SaleModifiedEvent(Id, item.CreatedBy!));
+        foreach (var newItem in newItems)
+        {
+            var existing = Items.FirstOrDefault(i => i.ProductId == newItem.ProductId && i.Status == SalesItemConsts.Active);
 
-    }
-
-    public void RemoveSaleItem(string productId, string userEmail)
-    {
-        CheckIfNotCompleted();
-
-        var item = Items.FirstOrDefault(i => i.ProductId == productId && i.Status == SalesItemConsts.Active)
-            ?? throw new DomainException($"Active item with ProductId {productId} not found in sale.");
-
-        item.Cancel();
-
-        DomainEvents.Add(new ItemCancelledEvent(item.ProductName, SaleNumber, userEmail));
+            if (existing is not null)
+            {
+                existing.UpdateQuantity(newItem.Quantity);
+            }
+            else
+            {
+                Items.Add(SaleItem.Create(newItem.ProductId, newItem.ProductName, newItem.Quantity, newItem.UnitPrice));
+            }
+        }
 
         if (Items.All(i => i.Status == SalesItemConsts.Cancelled))
-            CancelSale(userEmail);
+        {
+            CancelSale(updatedBy);
+        }
+
+        DomainEvents.Add(new SaleModifiedEvent(Id, updatedBy));
+
+        new SaleValidator().ValidateAndThrow(this);
     }
 
-    public void UpdateSaleItem(string productId, int quantity)
-    {
-        CheckIfNotCompleted();
 
-        var item = Items.FirstOrDefault(i => i.ProductId == productId && i.Status == "Active")
-            ?? throw new DomainException($"Active item with ProductId {productId} not found in sale.");
-
-        item.UpdateQuantity(quantity);
-
-        DomainEvents.Add(new SaleModifiedEvent(Id, item.UpdatedBy!));
-    }
-
-    public void CancelSale(string userEmail)
+    public void CancelSale(string userId)
     {
         CheckIfNotCompleted();
 
@@ -163,7 +145,7 @@ public sealed class Sale : Entity, IHasDomainEvent
         }
         new SaleValidator().ValidateAndThrow(this);
 
-        DomainEvents.Add(new SaleCancelledEvent(SaleNumber, userEmail));
+        DomainEvents.Add(new SaleCancelledEvent(SaleNumber, userId));
     }
 
     public void CompleteSale(string userEmail)
@@ -220,9 +202,6 @@ public sealed class SaleValidator : AbstractValidator<Sale>
 
         RuleFor(x => x.CustomerName)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("CustomerName"));
-
-        RuleFor(x => x.BranchId)
-            .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("BranchId"));
 
         RuleFor(x => x.SaleDate)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("SaleDate"))

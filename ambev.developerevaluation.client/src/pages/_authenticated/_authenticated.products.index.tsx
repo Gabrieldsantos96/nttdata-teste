@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +23,6 @@ import { MoreHorizontal, Plus, Edit, Trash2, Star, Search } from "lucide-react";
 import { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { useProducts } from "~/hooks/tanstack-hooks/use-product";
-import { useSession } from "~/contexts/session-provider";
 
 export const Route = createFileRoute(
   "/_authenticated/_authenticated/products/"
@@ -86,7 +85,7 @@ function RouteComponent() {
 
   if (isFetching) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex items-center justify-between">
             <div>
@@ -97,6 +96,12 @@ function RouteComponent() {
                 Gerencie seu catálogo de produtos
               </p>
             </div>
+            <Link to="/products">
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Adicionar Produto
+              </Button>
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -117,7 +122,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -128,10 +133,12 @@ function RouteComponent() {
               Gerencie seu catálogo de produtos
             </p>
           </div>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Adicionar Produto
-          </Button>
+          <Link to="/products">
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Adicionar Produto
+            </Button>
+          </Link>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -146,7 +153,7 @@ function RouteComponent() {
           </div>
         </div>
 
-        {filteredProducts.length === 0 ? (
+        {!filteredProducts.length ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground">Nenhum produto encontrado.</p>
           </div>

@@ -1,25 +1,22 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Exceptions;
+using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 using Ambev.DeveloperEvaluation.Shared.Validations;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
-public sealed class Rating(decimal rate, int count)
-{
-    public decimal Rate { get; set; } = rate;
-    public required int Count { get; set; } = count;
-}
+public record Rating(int Rate, int Count);
 public sealed class Product : Entity
 {
-    public string Title { get; private set; } = null!;
-    public decimal Price { get; private set; }
-    public string Description { get; private set; } = null!;
-    public string Category { get; private set; } = null!;
-    public string Image { get; private set; } = null!;
-    public Rating Rating { get; private set; } = null!;
+    public string Title { get; set; } = null!;
+    public MoneyValue Price { get; set; }
+    public string Description { get; set; } = null!;
+    public string Category { get; set; } = null!;
+    public string Image { get; set; } = null!;
+    public Rating Rating { get; set; } = null!;
 
     public static Product Create(
         string title,
-        decimal price,
+        MoneyValue price,
         string description,
         string category,
         string image,
@@ -41,7 +38,7 @@ public sealed class Product : Entity
 
     public void Update(
         string? title = null,
-        decimal? price = null,
+        MoneyValue? price = null,
         string? description = null,
         string? category = null,
         string? image = null,
@@ -80,7 +77,7 @@ public sealed class ProductValidator : AbstractValidator<Product>
             .MaximumLength(200).WithMessage(ValidationHelper.MaxLengthErrorMessage("Título", 200));
 
         RuleFor(x => x.Price)
-            .GreaterThanOrEqualTo(0).WithMessage("O preço deve ser maior ou igual a zero");
+            .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Preço"));
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Descrição"))

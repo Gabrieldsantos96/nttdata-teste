@@ -26,4 +26,5 @@ public sealed class UserRepository(IDatabaseContextFactory databaseContextFactor
     {
         throw new NotImplementedException();
     }
+
 }

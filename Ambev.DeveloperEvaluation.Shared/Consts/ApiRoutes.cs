@@ -13,30 +13,38 @@ public static class ApiRoutes
 
     public static class Carts
     {
-        public const string GetAllCarts = "/carts";
-        public const string CreateCart = "/carts";
-        public const string GetCartById = "/carts/{id}";
-        public const string UpdateCart = "/carts/{id}";
-        public const string DeleteCart = "/carts/{id}";
+        public const string GetPaginatedCarts = "/carts";
+        public const string CreateCart = "/cart";
+        public const string GetCartById = "/cart/{id}";
+        public const string UpdateCart = "/cart/{id}";
+        public const string DeleteCart = "/cart/{id}";
+    }
+
+    public static class Sales
+    {
+        public const string GetPaginatedSales = "/sales";
+        public const string CreateSale = "/sale";
+        public const string GetSaleById = "/sale/{id}";
+        public const string UpdateSale = "/sale/{id}";
+        public const string DeleteSale = "/sale/{id}";
     }
 
     public static class Products
     {
-        public const string GetAllProducts = "/products";
-        public const string CreateProduct = "/products";
-        public const string GetProductById = "/products/{id}";
-        public const string UpdateProduct = "/products/{id}";
-        public const string DeleteProduct = "/products/{id}";
-        public const string GetAllCategories = "/products/categories";
-        public const string GetProductsByCategory = "/products/category/{category}";
+        public const string GetPaginatedProducts = "/products";
+        public const string GetGroupedPaginatedProducts = "/products/categories";
+        public const string CreateProduct = "/product";
+        public const string GetProductById = "/product/{id}";
+        public const string UpdateProduct = "/product/{id}";
+        public const string DeleteProduct = "/product/{id}";
+        
     }
 
     public static class Users
     {
-        public const string GetAllUsers = "/users";
-        public const string CreateUser = "/users";
-        public const string GetUserById = "/users/{id}";
-        public const string UpdateUser = "/users/{id}";
-        public const string DeleteUser = "/users/{id}";
+        public const string GetPaginatedUsers = "/users";
+        public const string GetUserById = "/user/{id}";
+        public const string UpdateUser = "/user/{id}";
+        public const string DeleteUser = "/user/{id}";
     }
 }

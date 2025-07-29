@@ -1,3 +1,4 @@
+version: '3.9'
 
 services:
   ambev.developerevaluation.server:
@@ -12,14 +13,17 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - SqlServer=Server=sqlserver;Database=AmbevDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=True
+      - RavenDB=Server=http://ravendb:8083;Database=AmbevRavenDb
     depends_on:
       - sqlserver
+      - ravendb
     restart: always
     networks:
       - app-backend
       - app-frontend
     links:
       - sqlserver
+      - ravendb
 
   ambev.developerevaluation.client:
     image: ${DOCKER_REGISTRY:-}ambevdeveloperevaluationclient
@@ -54,9 +58,30 @@ services:
     networks:
       - app-backend
 
+  ravendb:
+    image: ravendb/ravendb:latest
+    container_name: ravendb
+    environment:
+      - RAVEN_Setup_Mode=None
+      - RAVEN_License_Eula_Accepted=true
+      - RAVEN_Security_UnsecuredAccessAllowed=PrivateNetwork
+      - RAVEN_ServerUrl=http://0.0.0.0:8083
+      - RAVEN_PublicServerUrl=http://ravendb:8083
+      - RAVEN_ServerUrl_Tcp=tcp://0.0.0.0:38888
+      - RAVEN_PublicServerUrl_Tcp=tcp://ravendb:38888
+    ports:
+      - "8083:8083"
+      - "38888:38888"
+    volumes:
+      - ravendb-data:/var/lib/ravendb/data
+    networks:
+      - app-backend
+    restart: always
+
 networks:
   app-backend: {}
   app-frontend: {}
 
 volumes:
   sqlserver-data:
+  ravendb-data:

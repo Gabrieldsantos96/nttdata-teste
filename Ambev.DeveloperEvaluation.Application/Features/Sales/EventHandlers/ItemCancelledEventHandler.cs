@@ -14,6 +14,6 @@ public class ItemCancelledEventHandler(IServiceScopeFactory serviceScopeFactory)
 
         var context = await contextFactory.CreateDbContextAsync();
 
-        Console.WriteLine($"Item with {notification.ProductName} from {notification.SaleNumber} was cancelled by {notification.UserEmail} at {notification.CreatedAt}.");
+        Console.WriteLine($"Item with {notification.ProductName} from {notification.SaleNumber} was cancelled by {notification.UserId} at {notification.CreatedAt}.");
     }
 }

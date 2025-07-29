@@ -27,13 +27,6 @@ export const Route = createFileRoute("/_authenticated/_authenticated")({
   ]),
 });
 
-const navigationItems = [
-  { name: "Dashboard", href: "/", icon: BarChart3 },
-  { name: "Produtos", href: "/products", icon: Package },
-  { name: "Vendas", href: "/sales", icon: TrendingUp },
-  { name: "Usuários", href: "/users", icon: Users },
-];
-
 function AppSidebar() {
   return (
     <Sidebar>
@@ -48,16 +41,33 @@ function AppSidebar() {
           <SidebarGroupLabel>Navegação</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.name}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.href}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/">
+                    <BarChart3 className="size-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <Link to="/products">
+                    <Package className="size-4" />
+                    <span>Produtos</span>
+                  </Link>
+                </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <Link to="/sales">
+                    <TrendingUp className="size-4" />
+                    <span>Vendas</span>
+                  </Link>
+                </SidebarMenuButton>
+
+                <SidebarMenuButton asChild>
+                  <Link to="/users">
+                    <Users className="size-4" />
+                    <span>Usuários</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

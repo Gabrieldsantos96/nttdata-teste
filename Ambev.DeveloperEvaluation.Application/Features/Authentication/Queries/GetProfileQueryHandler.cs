@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
-using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
+﻿using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Queries;

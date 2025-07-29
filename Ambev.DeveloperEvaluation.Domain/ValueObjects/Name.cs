@@ -8,8 +8,8 @@ namespace Ambev.DeveloperEvaluation.Domain.ValueObjects;
 [Owned]
 public sealed class Name : IEquatable<Name>
 {
-    public string FirstName { get; } = null!;
-    public string LastName { get; } = null!;
+    public string FirstName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
 
     private const char Separator = '|';
     public Name() { }

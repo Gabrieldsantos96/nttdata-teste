@@ -26,6 +26,14 @@ public class ValidationHelper
     {
         return $"'{fieldName}' está em um formato inválido";
     }
+    public static string MinValueErrorMessage(string fieldName, int minValue)
+    {
+        return $"'{fieldName}' deve ser maior que {minValue}";
+    }
+    public static string MaxValueErrorMessage(string fieldName, int maxValue)
+    {
+        return $"'{fieldName}' não pode ser maior que {maxValue}";
+    }
 
     public static string InvalidErrorMessage(string fieldName)
     {
