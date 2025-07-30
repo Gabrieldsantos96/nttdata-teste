@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationM
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 
 namespace Ambev.DeveloperEvaluation.Infra;
@@ -78,7 +77,7 @@ public static class ConfigureServices
         using var serviceScope = services.BuildServiceProvider().CreateScope();
         var store = serviceScope.ServiceProvider.GetRequiredService<IDocumentStore>();
 
-        //await RavenDbContext.SeedDatabase(store);
+        await RavenDbContext.SeedDatabase(store);
 
     }
 }
