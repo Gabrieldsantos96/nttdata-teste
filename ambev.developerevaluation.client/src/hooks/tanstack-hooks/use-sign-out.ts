@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import {
   AUTH_STORAGE_KEY,
   REFRESH_TOKEN_STORAGE_KEY,
@@ -24,11 +25,13 @@ async function signOutRequest(input: SignOutInput): Promise<SignOutResult> {
 }
 
 export function useSignOut() {
+  const router = useRouter();
   const mutation = useMutation({
     mutationFn: signOutRequest,
     onSettled: () => {
       localStorage.removeItem(AUTH_STORAGE_KEY);
       localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
+      router.navigate({ to: "/sign-in" });
     },
   });
 

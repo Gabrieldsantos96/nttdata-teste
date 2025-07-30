@@ -13,9 +13,11 @@ import {
 import { CartDrawer } from "./cart-drawer";
 import { Navigation } from "./navigation";
 import { useTheme } from "~/contexts/theme-provider";
+import { useSession } from "~/contexts/session-provider";
 
 export function Header() {
   const { toggleTheme, hexColors } = useTheme();
+  const { signOut } = useSession();
   return (
     <main className="flex-1 flex items-center justify-start">
       <Navigation />
@@ -37,7 +39,7 @@ export function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem>Configurações</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Sair</DropdownMenuItem>
+              <DropdownMenuItem onClick={signOut}>Sair</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -32,10 +32,12 @@ async function getRefreshToken() {
     if (!currentRefreshToken) {
       throw new Error("No refresh token available");
     }
-    console.log("getRefreshToken", Routes.Authentication.RefreshJwt);
-    const response = await axios.post(`${Routes.Authentication.RefreshJwt}`, {
-      refreshToken: currentRefreshToken,
-    });
+    const response = await axios.post(
+      `${API_HTTP_URL}/${Routes.Authentication.RefreshJwt}`,
+      {
+        refreshToken: currentRefreshToken,
+      }
+    );
 
     const { accessToken, refreshToken } = response.data;
 
