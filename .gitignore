@@ -95,16 +95,13 @@ TestResults/
 .tmpproj
 Thumbs.db
 .env
-appsettings*.json
 secrets.json
-*.local.settings.json
 
 docker-compose.override.yml
 *.dockerignore
 
 coverage/
 
-Migrations/
 *.mdf
 *.ldf
 

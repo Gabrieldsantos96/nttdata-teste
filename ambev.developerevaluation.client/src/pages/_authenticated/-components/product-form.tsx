@@ -35,6 +35,7 @@ import { showToast } from "~/utils/trigger-toast";
 import { MessageType } from "~/services/toast-service";
 import { CurrencyInput } from "~/components/currency-input";
 import { Link, useRouter } from "@tanstack/react-router";
+import TextInput from "~/components/text-input";
 
 interface ProductFormProps {
   productId?: string;
@@ -187,7 +188,10 @@ export function ProductForm({
                     <FormItem>
                       <FormLabel>Título *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Título do produto" {...field} />
+                        <TextInput
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -237,9 +241,9 @@ export function ProductForm({
                       <FormLabel>Categoria *</FormLabel>
                       <FormControl>
                         <FormControl>
-                          <Input
-                            placeholder="categoria do produto"
-                            {...field}
+                          <TextInput
+                            onChange={field.onChange}
+                            value={field.value}
                           />
                         </FormControl>
                       </FormControl>
