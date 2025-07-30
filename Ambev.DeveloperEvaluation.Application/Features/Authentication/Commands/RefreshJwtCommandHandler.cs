@@ -3,9 +3,10 @@ using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;
 using Ambev.DeveloperEvaluation.Shared.Models;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Authentication.Commands;
-public sealed class RefreshJwtCommandHandler(IJwtService jwtService, IClaimsService claimsService, IAuthenticationService authenticationService, IUserRepository userRepository)
+public sealed class RefreshJwtCommandHandler(IJwtService jwtService, IClaimsService claimsService, IAuthenticationService authenticationService, IUserRepository userRepository): IRequestHandler<RefreshJwtCommand, MutationResult<RefreshTokenResult>>
 {
     public async Task<MutationResult<RefreshTokenResult>> Handle(RefreshJwtCommand input, CancellationToken ct)
     {
