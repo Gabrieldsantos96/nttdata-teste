@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   ShoppingCart,
   Plus,
@@ -9,6 +9,7 @@ import {
   X,
   Package,
   CreditCard,
+  Loader,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
@@ -35,10 +36,12 @@ import httpClient from "~/lib/http-client";
 import { Routes } from "~/constants/consts";
 
 export function CartDrawer() {
-  const { cart, addCartItem, refetchCarts } = useCartsContext();
+  const { cart, addCartItem, refetchCarts, confirmSale } = useCartsContext();
+  const confirmSaleFn = confirmSale!;
   const refetch = refetchCarts!;
   const { hexColors } = useTheme();
   const add = addCartItem!;
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const totalItems = useMemo(
     () =>
@@ -58,6 +61,7 @@ export function CartDrawer() {
       });
 
       if (result) {
+        setIsUpdating(true);
         await httpClient.delete(
           Routes.Carts.DeleteCart.replace("{id}", cart!.id)
         );
@@ -65,8 +69,11 @@ export function CartDrawer() {
         showToast({ text: "Excluído com sucesso", type: MessageType.Success });
 
         refetch();
+
+        setIsUpdating(false);
       }
     } catch (err) {
+      setIsUpdating(false);
       handleError(err);
     }
   }
@@ -187,6 +194,12 @@ export function CartDrawer() {
                           variant="outline"
                           size="icon"
                           className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent shrink-0"
+                          onClick={() =>
+                            add({
+                              productId: product.productId,
+                              quantity: 0,
+                            })
+                          }
                         >
                           <X className="h-4 w-4" />
                         </Button>
@@ -227,6 +240,7 @@ export function CartDrawer() {
                             }
                           >
                             <Plus className="h-4 w-4" />
+                            ss
                           </Button>
                         </div>
                         <div className="text-right">
@@ -267,8 +281,18 @@ export function CartDrawer() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-2  items-end justify-end">
-                    <Button size="icon" className="sm:w-auto w-full h-10 px-8">
-                      <CreditCard className="h-4 w-4" />
+                    <Button
+                      size="icon"
+                      className="sm:w-auto w-full h-10 px-8"
+                      onClick={confirmSaleFn}
+                      disabled={isUpdating}
+                    >
+                      {isUpdating ? (
+                        <Loader className="size-4 animate-spin" />
+                      ) : (
+                        <CreditCard className="size-4" />
+                      )}
+
                       <span className="ml-2">Confirmar compra</span>
                     </Button>
                   </div>

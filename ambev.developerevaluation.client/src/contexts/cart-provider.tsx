@@ -21,6 +21,7 @@ type AuthState = {
   cart: Cart | null;
   addCartItem?: (cartItem: CartItem) => Promise<void>;
   refetchCarts?: () => unknown;
+  confirmSale?: () => unknown;
 };
 
 export const AuthContext = createContext<AuthState>({
@@ -124,9 +125,26 @@ export function CartsProvider({ children }: PropsWithChildren) {
     }
   }
 
+  async function confirmSale() {
+    try {
+      await httpClient.post(
+        Routes.Sales.CreateSale.replace("{id}", cart!.id),
+        {}
+      );
+
+      showToast({
+        text: "Compra realizada com sucesso",
+        type: MessageType.Success,
+      });
+    } catch (err) {
+      handleError(err);
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
+        confirmSale,
         refetchCarts,
         isLoading,
         isError,
