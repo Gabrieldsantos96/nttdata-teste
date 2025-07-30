@@ -49,6 +49,7 @@ import { Routes } from "~/constants/consts";
 import { showToast } from "~/utils/trigger-toast";
 import { MessageType } from "~/services/toast-service";
 import { handleError } from "~/utils/handle-error";
+import { MaskedInput } from "~/components/masked-input";
 
 const rolesOptions = Object.entries(USER_ROLE).map(([key, value]) => ({
   value: value,
@@ -771,11 +772,12 @@ function FinalStep({ form }: StepProps) {
           <FormItem>
             <FormLabel>Telefone</FormLabel>
             <FormControl>
-              <TextInput
+              <MaskedInput
                 id="phone"
                 name="phone"
                 type="tel"
                 required
+                mask="(99) 99999-99999"
                 placeholder="(00) 00000-0000"
                 onChange={field.onChange}
                 value={field.value}

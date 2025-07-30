@@ -53,7 +53,7 @@ public static class RavenDbContext
                 Price = new MoneyValue((decimal)(50 + random.NextDouble() * 150), "BRL"),
                 Description = $"Descrição detalhada do item {i}, ideal para uso diário.",
                 Category = categories[random.Next(categories.Length)],
-                Image = $"https://example.com/images/product{i}.jpg",
+                Image = "",
                 Rating = new Rating(random.Next(0, 100), (int)(random.NextDouble() * 5)),
                 CreatedBy = "system"
             };

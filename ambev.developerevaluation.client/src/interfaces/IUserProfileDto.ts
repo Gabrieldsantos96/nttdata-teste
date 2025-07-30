@@ -5,9 +5,9 @@ export const enum IUserRole {
 }
 
 export const USER_ROLE: Record<string, string> = {
-  Gerente: "MANAGER",
-  Cliente: "CLIENT",
-  Administrador: "ADMIN",
+  MANAGER: "Gerente",
+  CLIENT: "Cliente",
+  ADMIN: "Administrador",
 };
 
 export const enum IUserStatus {
@@ -16,10 +16,16 @@ export const enum IUserStatus {
   SUSPENDED = "SUSPENDED",
 }
 
+export const SALE_STATUS = {
+  Pending: "Pendente",
+  Completed: "Finalizada",
+  Cancelled: "Cancelada",
+};
+
 export const USER_STATUS: Record<string, string> = {
-  Ativo: "ACTIVE",
-  Inativo: "INACTIVE",
-  Suspenso: "SUSPENDED",
+  ACTIVE: "Ativo",
+  INACTIVE: "Inativo",
+  SUSPENDED: "Suspenso",
 };
 
 export interface IUserProfileDto {

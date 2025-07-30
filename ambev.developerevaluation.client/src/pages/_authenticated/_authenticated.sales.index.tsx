@@ -1,15 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
   Table,
   TableBody,
@@ -18,21 +11,9 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { SaleTableRow } from "./-components/sales-table-row";
-import {
-  Search,
-  TrendingUp,
-  ShoppingCart,
-  Clock,
-  DollarSign,
-  Loader2,
-} from "lucide-react";
+import { Search, ShoppingCart, Loader2 } from "lucide-react";
 import { useSales } from "~/hooks/tanstack-hooks/use-sales";
-import {
-  ISaleItemStatus,
-  ISaleStatus,
-  Sale,
-  SALE_STATUS,
-} from "~/interfaces/ISale";
+import { ISaleItemStatus, ISaleStatus, Sale } from "~/interfaces/ISale";
 import { TablePagination } from "~/components/table-pagination";
 import { Authorize } from "~/guards/guards";
 import { IUserRole } from "~/interfaces/IUserProfileDto";

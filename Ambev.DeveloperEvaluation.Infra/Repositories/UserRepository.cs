@@ -24,20 +24,20 @@ public sealed class UserRepository(IDatabaseContextFactory databaseContextFactor
              .FirstOrDefaultAsync(u => u.Email == email, ct);
     }
 
-    public async Task<PaginatedResponse<User>> GetPaginatedUsersAsync(int skip = 0, int take = 20, string? filter = null)
+    public async Task<PaginatedResponse<User>> GetPaginatedUsersAsync(int skip = 0, int take = 20, string? filter = null, CancellationToken ct = default)
     {
         await using var ctx = await databaseContextFactory.CreateDbContextAsync();
 
         var query = ctx.Users.AsNoTracking()
             .OrderByDescending(s => s.CreatedAt);
 
-        var paginatedTask = query.Skip(skip).Take(take).ToListAsync();
-        var countTask = query.CountAsync();
+        var totalItems = await query.CountAsync(ct);
+        var users = await query.Skip(skip).Take(take).ToListAsync(ct);
 
-        await Task.WhenAll(paginatedTask, countTask);
-
-        var users = paginatedTask.Result;
-        var totalItems = countTask.Result;
+        foreach (var item in users)
+        {
+            item.PasswordHash = "";
+        }
 
         var totalPages = (int)Math.Ceiling(totalItems / (double)take);
 

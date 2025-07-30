@@ -13,13 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\Users\**" />
-    <Content Remove="Controllers\Users\**" />
-    <EmbeddedResource Remove="Controllers\Users\**" />
-    <None Remove="Controllers\Users\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
     </PackageReference>
