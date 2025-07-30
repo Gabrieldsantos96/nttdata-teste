@@ -12,6 +12,7 @@ import { MutationResult } from "~/interfaces/IMutationResult";
 import { showToast } from "~/utils/trigger-toast";
 import { MessageType } from "~/services/toast-service";
 import { handleError } from "~/utils/handle-error";
+import { useRouter } from "@tanstack/react-router";
 
 type AuthState = {
   isLoading: boolean;
@@ -33,6 +34,7 @@ export const AuthContext = createContext<AuthState>({
 });
 
 export function CartsProvider({ children }: PropsWithChildren) {
+  const router = useRouter();
   const [isUpdating, setIsUpdating] = useState(false);
   const {
     data: result,
@@ -128,9 +130,19 @@ export function CartsProvider({ children }: PropsWithChildren) {
   async function confirmSale() {
     try {
       await httpClient.post(
-        Routes.Sales.CreateSale.replace("{id}", cart!.id),
-        {}
+        Routes.Sales.CreateSale.replace("{cartId}", cart!.id)
       );
+
+      router.navigate({
+        to: "/sales",
+        search: {
+          pageSize: 10,
+          searchTerm: "",
+          skip: 0,
+        },
+      });
+
+      refetchCarts();
 
       showToast({
         text: "Compra realizada com sucesso",

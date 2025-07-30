@@ -112,11 +112,17 @@ public sealed class Sale : Entity, IHasDomainEvent
 
         foreach (var newItem in newItems)
         {
-            var existing = Items.FirstOrDefault(i => i.ProductId == newItem.ProductId && i.Status == SalesItemConsts.Active);
+            var existing = Items.FirstOrDefault(i => i.ProductId == newItem.ProductId);
 
             if (existing is not null)
             {
+                if (existing.Status == SalesItemConsts.Cancelled)
+                {
+                    throw new DomainException($"O item com ProductId '{newItem.ProductId}' está cancelado e não pode ser reativado ou recriado.");
+                }
                 existing.UpdateQuantity(newItem.Quantity);
+                existing.ProductName = newItem.ProductName;
+                existing.UnitPrice = newItem.UnitPrice;
             }
             else
             {
@@ -146,7 +152,6 @@ public sealed class Sale : Entity, IHasDomainEvent
         {
             item.Cancel();
         }
-        new SaleValidator().ValidateAndThrow(this);
 
         DomainEvents.Add(new SaleCancelledEvent(SaleNumber, userId));
     }
@@ -217,7 +222,7 @@ public sealed class SaleValidator : AbstractValidator<Sale>
 
         RuleFor(x => x.Items)
             .NotNull().WithMessage(ValidationHelper.RequiredErrorMessage("Items"))
-            .Must(items => items != null && items.Count > 0 && items.All(s => s.Status == SalesItemConsts.Active))
+            .Must(items => items != null && items.Count > 0 && items.Any(s => s.Status == SalesItemConsts.Active))
             .WithMessage("A venda deve ter pelo menos um item ativo, a menos que esteja cancelada.");
 
         RuleForEach(x => x.Items).SetValidator(new SaleItemValidator());

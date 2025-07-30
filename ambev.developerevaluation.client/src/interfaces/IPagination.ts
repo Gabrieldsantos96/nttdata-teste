@@ -1,6 +1,6 @@
 export interface IPaginationResponse<T> {
   data: T[];
-  totalCount: number;
+  totalItems: number;
   currentPage: number;
-  pageSize: number;
+  totalPages: number;
 }

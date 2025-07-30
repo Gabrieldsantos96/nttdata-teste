@@ -1,19 +1,13 @@
 "use client";
 
-import { useQuery, useMutation, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Routes } from "~/constants/consts";
 import { MutationResult } from "~/interfaces/IMutationResult";
+import { IPaginationResponse } from "~/interfaces/IPagination";
 import { IProduct } from "~/interfaces/IProduct";
 import httpClient from "~/lib/http-client";
 import { queryClient } from "~/lib/tanstack-query";
 import { ProductFormData } from "~/validations/create-product-schema";
-
-interface IPaginationResponse<T> {
-  data: T[];
-  totalItems: number;
-  currentPage: number;
-  totalPages: number;
-}
 
 export function useProducts(skip: number = 0, pageSize: number = 10) {
   return useQuery({

@@ -3,9 +3,9 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Routes } from "~/constants/consts";
 import httpClient from "~/lib/http-client";
-import { IPaginationResponse } from "~/interfaces/IPagination";
 import { Sale } from "~/interfaces/ISale";
 import { queryClient } from "~/lib/tanstack-query";
+import { IPaginationResponse } from "~/interfaces/IPagination";
 
 export function useSales(page: number = 1, pageSize: number = 10) {
   return useQuery({
@@ -23,15 +23,16 @@ export function useSale(id: string) {
   return useQuery({
     queryKey: ["sale", id],
     queryFn: async () => {
-      return httpClient.get<Sale>(
+      const { data } = await httpClient.get<Sale>(
         `${Routes.Sales.GetSaleById.replace("{id}", id!)}`
       );
+      return data;
     },
     enabled: !!id,
   });
 }
 
-export function useCreateSale(page: number = 1, pageSize: number = 10) {
+export function useCreateSale() {
   return useMutation({
     mutationFn: async (id: string) => {
       const result = await httpClient.post<Sale>(
@@ -40,13 +41,13 @@ export function useCreateSale(page: number = 1, pageSize: number = 10) {
 
       return result?.data;
     },
-    onSuccess: (_data) => {
-      queryClient.invalidateQueries({ queryKey: ["sales", page, pageSize] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sales"] });
     },
   });
 }
 
-export function useDeleteSale(page: number = 1, pageSize: number = 10) {
+export function useDeleteSale() {
   return useMutation({
     mutationFn: async (id: string) => {
       const { data } = await httpClient.delete<string>(
@@ -54,28 +55,13 @@ export function useDeleteSale(page: number = 1, pageSize: number = 10) {
       );
       return data;
     },
-    onSuccess: (_data, id) => {
-      queryClient.setQueryData<IPaginationResponse<Sale>>(
-        ["sales", page, pageSize],
-        (prevState) =>
-          prevState
-            ? {
-                items: prevState.items.filter((sale) => sale.id !== id),
-                pagination: {
-                  currentPage: prevState.pagination.currentPage,
-                  hasNext: prevState.pagination.hasNext,
-                  pageSize: prevState.pagination.pageSize,
-                  totalCount: prevState.pagination.totalCount - 1,
-                },
-              }
-            : prevState
-      );
-      queryClient.setQueryData(["sale", id], undefined);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sales"] });
     },
   });
 }
 
-export function useUpdateSaleItem(page: number = 1, pageSize: number = 10) {
+export function useUpdateSaleItem() {
   return useMutation({
     mutationFn: async ({
       saleId,
@@ -92,32 +78,8 @@ export function useUpdateSaleItem(page: number = 1, pageSize: number = 10) {
       );
       return data;
     },
-    onSuccess: (data, variables) => {
-      queryClient.setQueryData<IPaginationResponse<Sale>>(
-        ["sales", page, pageSize],
-        (prevState: IPaginationResponse<Sale>) =>
-          prevState
-            ? ({
-                ...prevState,
-                status: data?.status,
-                totalAmount: data?.totalAmount,
-                items: prevState.items.map((sale) =>
-                  sale.id === variables.saleId
-                    ? {
-                        ...sale,
-                        ...sale.items.find((s) => s.id !== variables.itemId),
-                      }
-                    : sale
-                ),
-                pagination: {
-                  currentPage: prevState.pagination.currentPage,
-                  hasNext: prevState.pagination.hasNext,
-                  pageSize: prevState.pagination.pageSize,
-                  totalCount: prevState.pagination.totalCount,
-                },
-              } as IPaginationResponse<Sale>)
-            : prevState
-      );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sales"] });
     },
   });
 }

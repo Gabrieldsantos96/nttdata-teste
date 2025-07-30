@@ -3,7 +3,7 @@ import {
   getRouteApi,
   Link,
   useNavigate,
-} from "@tanstack/react-router"; // Importe useNavigate
+} from "@tanstack/react-router";
 import { z } from "zod";
 
 import {
@@ -223,7 +223,7 @@ function RouteComponent() {
               {filteredProducts.map((product: IProduct) => (
                 <Card
                   key={product.id}
-                  className="group hover:shadow-lg transition-all duration-200 bg-white relative overflow-hidden"
+                  className="group hover:shadow-lg transition-all duration-200 relative overflow-hidden"
                 >
                   <CardHeader className="p-0">
                     <div className="relative overflow-hidden rounded-t-lg p-2">

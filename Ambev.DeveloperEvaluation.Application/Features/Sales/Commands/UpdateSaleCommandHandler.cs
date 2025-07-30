@@ -24,7 +24,7 @@ public sealed class UpdateSaleCommandHandler(
             var product = await productRepository.GetProductAsync(s.ProductId , ct)
                 ?? throw new NotFoundException($"Produto com ID {s.ProductId} não encontrado.");
 
-            return SaleItem.Create(s.ProductId, s.ProductName, s.Quantity, product.Price);
+            return SaleItem.Create(s.ProductId, product.Title, s.Quantity, product.Price);
         });
 
         var updatedItems = await Task.WhenAll(itemTasks);

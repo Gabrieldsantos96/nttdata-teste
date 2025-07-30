@@ -15,6 +15,5 @@ public sealed class UpdateSaleCommand : IRequest<MutationResult<Sale>>
 public sealed class UpdateSaleItemDto
 {
     public string ProductId { get; init; } = null!;
-    public string ProductName { get; init; } = null!;
     public int Quantity { get; init; }
 }

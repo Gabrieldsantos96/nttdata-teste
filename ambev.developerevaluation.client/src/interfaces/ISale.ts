@@ -1,3 +1,5 @@
+import { Money } from "./IProduct";
+
 export const enum ISaleItemStatus {
   Active = "Active",
   Cancelled = "Cancelled",
@@ -21,16 +23,15 @@ export const SALE_STATUS = {
 };
 
 export interface SaleItem {
-  id: string;
   createdBy?: string;
   updatedBy?: string;
   productId: string;
   productName: string;
   quantity: number;
-  unitPrice: string;
+  unitPrice: Money;
   status: ISaleItemStatus;
   discountPercentage: string;
-  totalPriceWithDiscount: string;
+  totalPriceWithDiscount: Money;
 }
 
 export interface Sale {
@@ -44,5 +45,5 @@ export interface Sale {
   saleDate: string;
   status: ISaleStatus;
   items: SaleItem[];
-  totalAmount: string;
+  totalAmount: Money;
 }
