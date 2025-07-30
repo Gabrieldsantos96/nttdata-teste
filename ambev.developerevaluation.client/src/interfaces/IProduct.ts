@@ -1,7 +1,7 @@
 export interface IProduct {
   id: string;
   title: string;
-  price: string;
+  price: Money;
   description: string;
   category: string;
   image: string;
@@ -9,3 +9,8 @@ export interface IProduct {
   createdAt: string;
   updatedAt?: string;
 }
+
+export type Money = {
+  amount: number;
+  currency: "BRL";
+};

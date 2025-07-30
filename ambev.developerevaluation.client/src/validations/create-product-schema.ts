@@ -10,8 +10,8 @@ export const createProductSchema = z.object({
     .string()
     .nonempty(ValidationMessages.FieldRequired.replace("{field}", "descrição")),
   price: z
-    .string()
-    .nonempty(ValidationMessages.FieldRequired.replace("{field}", "preço")),
+    .number()
+    .min(0.1, ValidationMessages.FieldRequired.replace("{field}", "preço")),
   category: z
     .string()
     .nonempty(ValidationMessages.FieldRequired.replace("{field}", "categoria")),

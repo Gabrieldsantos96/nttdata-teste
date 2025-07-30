@@ -12,7 +12,7 @@ export function useUsers(page: number = 1, pageSize: number = 10) {
     queryKey: ["users", page, pageSize],
     queryFn: async () => {
       const result = await httpClient.get<IPaginationResponse<IUserProfileDto>>(
-        `/${Routes.User.LIST}?page=${page}&pageSize=${pageSize}`
+        `/${Routes.Users.GetPaginatedUsers}?skip=${page}&take=${pageSize}`
       );
 
       return result?.data;
@@ -25,7 +25,7 @@ export function useUser(id?: string) {
     queryKey: ["user", id],
     queryFn: async () => {
       const { data } = await httpClient.get<IUserProfileDto>(
-        `${Routes.User.GET.replace("{id}", id!)}`
+        `${Routes.Users.GetUserById.replace("{id}", id!)}`
       );
 
       return data;
@@ -34,29 +34,11 @@ export function useUser(id?: string) {
   });
 }
 
-export function useCreateUser(page: number = 1, pageSize: number = 10) {
-  return useMutation({
-    mutationFn: async (
-      data: Omit<IUserProfileDto, "id" | "createdAt" | "updatedAt">
-    ) => {
-      const result = await httpClient.post<IUserProfileDto>(
-        Routes.User.CREATE,
-        data
-      );
-
-      return result?.data;
-    },
-    onSuccess: (_data) => {
-      queryClient.invalidateQueries({ queryKey: ["users", page, pageSize] });
-    },
-  });
-}
-
 export function useUpdateUser(page: number = 1, pageSize: number = 10) {
   return useMutation({
     mutationFn: async ({ id, ...data }: IUserProfileDto) => {
       const result = await httpClient.put<IUserProfileDto>(
-        `${Routes.User.UPDATE.replace("{id}", id)}`,
+        `${Routes.Users.UpdateUser.replace("{id}", id)}`,
         data
       );
       return result?.data;
@@ -87,7 +69,7 @@ export function useDeleteUser(page: number = 1, pageSize: number = 10) {
   return useMutation({
     mutationFn: async (id: string) => {
       const result = await httpClient.delete<string>(
-        `${Routes.User.DELETE.replace("{id}", id)}`
+        `${Routes.Users.DeleteUser.replace("{id}", id)}`
       );
 
       return result?.data;

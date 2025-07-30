@@ -7,7 +7,6 @@ using FluentValidation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
-
 public sealed class CreateCartCommandHandler(
     ICartRepository cartRepository,
     IClaimsService claimsService,
@@ -29,7 +28,7 @@ public sealed class CreateCartCommandHandler(
             .Select(item => CartItem.Create(
                 item.ProductId,
                 existingProducts.First(p => p.Id == item.ProductId).Title,
-                item.Quantity))
+                item.Quantity, existingProducts.First(p => p.Id == item.ProductId).Image))
             .ToList();
 
         var cart = Cart.Create(

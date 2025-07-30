@@ -12,6 +12,6 @@ export function handleError(error: any) {
 
   showToast({
     type: MessageType.Danger,
-    text: "Error",
+    text: "Ocorreu um erro no servidor. Por favor, tente novamente em instantes.",
   });
 }

@@ -1,18 +1,26 @@
 "use client";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, keepPreviousData } from "@tanstack/react-query";
 import { Routes } from "~/constants/consts";
-import httpClient from "~/lib/http-client";
-import { IPaginationResponse } from "~/interfaces/IPagination";
+import { MutationResult } from "~/interfaces/IMutationResult";
 import { IProduct } from "~/interfaces/IProduct";
+import httpClient from "~/lib/http-client";
 import { queryClient } from "~/lib/tanstack-query";
+import { ProductFormData } from "~/validations/create-product-schema";
 
-export function useProducts(page: number = 1, pageSize: number = 10) {
+interface IPaginationResponse<T> {
+  data: T[];
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+}
+
+export function useProducts(skip: number = 0, pageSize: number = 10) {
   return useQuery({
-    queryKey: ["products", page, pageSize],
+    queryKey: ["products", skip, pageSize],
     queryFn: async () => {
       const { data } = await httpClient.get<IPaginationResponse<IProduct>>(
-        `/${Routes.Product.LIST}?page=${page}&pageSize=${pageSize}`
+        `${Routes.Products.GetPaginatedProducts}?skip=${skip}&take=${pageSize}`
       );
       return data;
     },
@@ -24,7 +32,7 @@ export function useProduct(id?: string) {
     queryKey: ["product", id],
     queryFn: async () => {
       const { data } = await httpClient.get<IProduct>(
-        `${Routes.Product.GET.replace("{id}", id!)}`
+        `${Routes.Products.GetProductById.replace("{id}", id!)}`
       );
       return data;
     },
@@ -32,81 +40,75 @@ export function useProduct(id?: string) {
   });
 }
 
-export function useCreateProduct(page: number = 1, pageSize: number = 10) {
+export function useCreateProduct() {
   return useMutation({
-    mutationFn: async (
-      data: Omit<IProduct, "id" | "createdAt" | "updatedAt">
-    ) => {
+    mutationFn: async (data: ProductFormData) => {
       const result = await httpClient.post<IProduct>(
-        Routes.Product.CREATE,
-        data
+        Routes.Products.CreateProduct,
+        data,
+        {
+          headers: {
+            Accept: "multipart/form-data",
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       return result?.data;
-    },
-    onSuccess: (_) => {
-      queryClient.invalidateQueries({ queryKey: ["products", page, pageSize] });
     },
   });
 }
 
-export function useUpdateProduct(page: number = 1, pageSize: number = 10) {
+export function useUpdateProductRating() {
   return useMutation({
-    mutationFn: async ({ id, ...data }: IProduct) => {
+    mutationFn: async (data: Record<string, unknown> & { id: string }) => {
       const result = await httpClient.put<IProduct>(
-        `${Routes.Product.UPDATE.replace("{id}", id)}`,
+        `${Routes.Products.UpdateProduct.replace("{id}", data.id!)}`,
         data
       );
       return result?.data;
     },
     onSuccess: (_, variables) => {
-      queryClient.setQueryData<IPaginationResponse<IProduct>>(
-        ["products", page, pageSize],
-        (prevState) =>
-          prevState
-            ? {
-                items: prevState.items.map((product) =>
-                  product.id === variables.id
-                    ? { ...product, ...variables }
-                    : product
-                ),
-                pagination: {
-                  currentPage: prevState.pagination.currentPage,
-                  hasNext: prevState.pagination.hasNext,
-                  pageSize: prevState.pagination.pageSize,
-                  totalCount: prevState.pagination.totalCount,
-                },
-              }
-            : prevState
-      );
+      queryClient.cancelQueries({ queryKey: ["product", variables.id] });
     },
   });
 }
 
-export function useDeleteProduct(page: number = 1, pageSize: number = 10) {
+export function useUpdateProduct() {
   return useMutation({
-    mutationFn: async (id: string) => {
-      const result = await httpClient.delete<string>(
-        `${Routes.Product.DELETE.replace("{id}", id)}`
+    mutationFn: async (data: ProductFormData) => {
+      const f = data as any;
+      const result = await httpClient.put<MutationResult<IProduct>>(
+        `${Routes.Products.UpdateProduct.replace("{id}", f.get("id"))}`,
+        data,
+        {
+          headers: {
+            Accept: "multipart/form-data",
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       return result?.data;
     },
-    onSuccess: (_data, id) => {
-      queryClient.setQueryData<IPaginationResponse<IProduct>>(
-        ["products", page, pageSize],
-        (prevState) =>
-          prevState
-            ? {
-                items: prevState.items.filter((product) => product.id !== id),
-                pagination: {
-                  currentPage: prevState.pagination.currentPage,
-                  hasNext: prevState.pagination.hasNext,
-                  pageSize: prevState.pagination.pageSize,
-                  totalCount: prevState.pagination.totalCount - 1,
-                },
-              }
-            : prevState
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      queryClient.setQueryData<IProduct>(["product", response.data.id], () => {
+        const data = response.data;
+        return {
+          ...data,
+        } as IProduct;
+      });
+    },
+  });
+}
+export function useDeleteProduct() {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const result = await httpClient.delete<string>(
+        `${Routes.Products.DeleteProduct.replace("{id}", id)}`
       );
-      queryClient.setQueryData(["product", id], undefined);
+      return result?.data;
     },
   });
 }

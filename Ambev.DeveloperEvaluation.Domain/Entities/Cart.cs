@@ -84,15 +84,17 @@ public class CartItem
     public string ProductId { get; set; } = null!;
     public string ProductName { get; set; } = null!;
     public int Quantity { get; set; }
+    public string? Image { get; set; } = null!;
     private CartItem() { }
 
-    public static CartItem Create(string productId, string productName, int quantity)
+    public static CartItem Create(string productId, string productName, int quantity, string? imageUrl = null)
     {
         var item = new CartItem
         {
             ProductId = productId,
             ProductName = productName,
-            Quantity = quantity
+            Quantity = quantity,
+            Image = imageUrl
         };
 
         new CartItemValidator().ValidateAndThrow(item);

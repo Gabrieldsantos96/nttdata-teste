@@ -64,6 +64,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   async function signIn(email: string, password: string) {
     try {
+      console.log(email, password);
       const { data: result } = await signInAsync({
         email,
         password,
@@ -78,6 +79,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
       router.navigate({ to: "/" });
     } catch (error) {
+      console.log(error);
       handleError(error);
     }
   }

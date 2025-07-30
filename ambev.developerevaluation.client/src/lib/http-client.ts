@@ -32,12 +32,10 @@ async function getRefreshToken() {
     if (!currentRefreshToken) {
       throw new Error("No refresh token available");
     }
-
-    const response = await axios.post(
-      `${Routes.Authentication.REFRESH_TOKEN}`,
-      { refreshToken: currentRefreshToken },
-      { headers: { "Content-Type": "application/json" } }
-    );
+    console.log("getRefreshToken", Routes.Authentication.RefreshJwt);
+    const response = await axios.post(`${Routes.Authentication.RefreshJwt}`, {
+      refreshToken: currentRefreshToken,
+    });
 
     const { accessToken, refreshToken } = response.data;
 
@@ -61,7 +59,7 @@ httpClient.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      originalRequest.url !== `${Routes.Authentication.REFRESH_TOKEN}`
+      originalRequest.url !== `${Routes.Authentication.RefreshJwt}`
     ) {
       originalRequest._retry = true;
 

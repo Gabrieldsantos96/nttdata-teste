@@ -1,4 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  getRouteApi,
+  Link,
+  useNavigate,
+} from "@tanstack/react-router"; // Importe useNavigate
+import { z } from "zod";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,14 +26,40 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { MoreHorizontal, Plus, Edit, Trash2, Star, Search } from "lucide-react";
-import { useState } from "react";
+import {
+  MoreHorizontal,
+  Plus,
+  Edit,
+  Trash2,
+  Star,
+  Search,
+  ShoppingCart,
+} from "lucide-react";
 import { Input } from "~/components/ui/input";
-import { useProducts } from "~/hooks/tanstack-hooks/use-product";
+import {
+  useDeleteProduct,
+  useProducts,
+} from "~/hooks/tanstack-hooks/use-product";
+import { formatValue } from "~/utils/format-value";
+import { DestructiveDialog } from "~/components/destructive-dialog";
+import { openDialog } from "~/utils/trigger-dialog";
+import { showToast } from "~/utils/trigger-toast";
+import { MessageType } from "~/services/toast-service";
+import { handleError } from "~/utils/handle-error";
+import { queryClient } from "~/lib/tanstack-query";
+import { ProductImage } from "~/components/image";
+import { useCartsContext } from "~/contexts/cart-provider";
+
+const productSearchSchema = z.object({
+  searchTerm: z.string().catch(""),
+  skip: z.number().catch(0),
+  pageSize: z.number().catch(10),
+});
 
 export const Route = createFileRoute(
   "/_authenticated/_authenticated/products/"
 )({
+  validateSearch: productSearchSchema,
   component: Authorize(RouteComponent, [
     IUserRole.ADMIN,
     IUserRole.CLIENT,
@@ -34,26 +67,56 @@ export const Route = createFileRoute(
   ]),
 });
 
-const renderStars = (rating: number) => {
+const renderStars = (product: IProduct) => {
   return Array.from({ length: 5 }, (_, i) => (
     <Star
       key={i}
-      className={`h-4 w-4 ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+      className={`h-4 w-4 cursor-pointer ${
+        i < Math.floor(product.rating.rate)
+          ? "fill-yellow-400 text-yellow-400"
+          : "text-gray-300"
+      }`}
     />
   ));
 };
 
 function RouteComponent() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const { searchTerm, skip, pageSize } = Route.useSearch();
 
-  const { data, isFetching } = useProducts(currentPage, pageSize);
+  const navigate = useNavigate();
 
-  const products = data?.items || [];
-  const pagination = data?.pagination;
+  const { data: result, isFetching } = useProducts(skip, pageSize);
 
-  const handleDelete = async (id: string) => {};
+  const { mutateAsync: deleteProductByIdAsync } = useDeleteProduct();
+
+  const { isLoading: isLoadingCart, addCartItem } = useCartsContext();
+
+  const add = addCartItem!;
+
+  const products = result?.data || [];
+
+  const handleDelete = async (data: IProduct) => {
+    try {
+      const result = await openDialog(DestructiveDialog, {
+        componentProps: {
+          title: `${data.title}`,
+          message: "Deseja confirmar a exclusão do produto?",
+          variant: "destructive",
+        },
+      });
+
+      if (result) {
+        await deleteProductByIdAsync(data.id);
+        showToast({ text: "Excluído com sucesso", type: MessageType.Success });
+
+        queryClient.invalidateQueries({
+          queryKey: ["products", skip, pageSize],
+        });
+      }
+    } catch (err) {
+      handleError(err);
+    }
+  };
 
   const filteredProducts = products.filter(
     (product: IProduct) =>
@@ -63,25 +126,22 @@ function RouteComponent() {
   );
 
   function handlePageChange(page: number) {
-    setCurrentPage(page);
+    navigate({
+      search: { skip: (page - 1) * pageSize, pageSize, searchTerm },
+    } as never);
   }
 
   function handlePageSizeChange(newPageSize: number) {
-    setPageSize(newPageSize);
-    setCurrentPage(1);
+    navigate({
+      search: { pageSize: newPageSize, skip: 0, searchTerm },
+    } as never);
   }
 
-  const totalPages = pagination
-    ? Math.ceil(pagination.totalCount / pagination.pageSize)
-    : 0;
-
-  const formatPrice = (price: string) => {
-    const numPrice = Number.parseFloat(price);
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(numPrice);
-  };
+  function handleSearchTermChange(newSearchTerm: string) {
+    navigate({
+      search: { searchTerm: newSearchTerm, skip: 0, pageSize },
+    } as never);
+  }
 
   if (isFetching) {
     return (
@@ -96,7 +156,7 @@ function RouteComponent() {
                 Gerencie seu catálogo de produtos
               </p>
             </div>
-            <Link to="/products">
+            <Link to="/products/new">
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
                 Adicionar Produto
@@ -133,7 +193,7 @@ function RouteComponent() {
               Gerencie seu catálogo de produtos
             </p>
           </div>
-          <Link to="/products">
+          <Link to="/products/new">
             <Button>
               <Plus className="mr-2 h-4 w-4" />
               Adicionar Produto
@@ -147,13 +207,13 @@ function RouteComponent() {
             <Input
               placeholder="Buscar produtos..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleSearchTermChange(e.target.value)}
               className="pl-8"
             />
           </div>
         </div>
 
-        {!filteredProducts.length ? (
+        {!filteredProducts.length && !isFetching ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground">Nenhum produto encontrado.</p>
           </div>
@@ -163,38 +223,67 @@ function RouteComponent() {
               {filteredProducts.map((product: IProduct) => (
                 <Card
                   key={product.id}
-                  className="group hover:shadow-lg transition-shadow bg-white"
+                  className="group hover:shadow-lg transition-all duration-200 bg-white relative overflow-hidden"
                 >
                   <CardHeader className="p-0">
-                    <div className="relative overflow-hidden rounded-t-lg">
-                      <img
-                        src={product.image || "/placeholder.svg"}
+                    <div className="relative overflow-hidden rounded-t-lg p-2">
+                      <ProductImage
+                        src={product.image}
                         alt={product.title}
                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
                       />
+
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                        <Button
+                          onClick={() =>
+                            add({
+                              productId: product.id,
+                              quantity: 1,
+                            })
+                          }
+                          className="bg-white text-black hover:bg-gray-100 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-200"
+                          size="sm"
+                        >
+                          {isLoadingCart ? (
+                            <div className="w-4 h-4 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
+                          ) : (
+                            <>
+                              <ShoppingCart className="mr-2 h-4 w-4" />
+                              Adicionar
+                            </>
+                          )}
+                        </Button>
+                      </div>
+
                       <div className="absolute top-2 right-2">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button
                               variant="secondary"
                               size="sm"
-                              className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 hover:bg-white"
                             >
                               <span className="sr-only">Abrir menu</span>
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Editar
-                            </DropdownMenuItem>
+                            <Link
+                              from="/products"
+                              to={"/products/edit/$productId"}
+                              params={{ productId: product.id }}
+                            >
+                              <DropdownMenuItem>
+                                <Edit className="mr-2 h-4 w-4" />
+                                <span>Editar</span>
+                              </DropdownMenuItem>
+                            </Link>
                             <DropdownMenuItem
-                              onClick={() => handleDelete(product.id)}
-                              className="text-red-600"
+                              onClick={() => handleDelete(product)}
+                              className="text-red-600 flex items-center"
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Excluir
+                              <span>Excluir</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -202,25 +291,22 @@ function RouteComponent() {
                     </div>
                   </CardHeader>
 
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 pt-0">
                     <div className="space-y-2">
                       <div className="flex items-start justify-between">
                         <CardTitle className="text-lg line-clamp-2 leading-tight">
                           {product.title}
                         </CardTitle>
                       </div>
-
                       <CardDescription className="line-clamp-2 text-sm">
                         {product.description}
                       </CardDescription>
-
                       <div className="flex items-center justify-between">
                         <Badge variant="outline" className="text-xs">
                           {product.category}
                         </Badge>
-
                         <div className="flex items-center space-x-1">
-                          {renderStars(product.rating.rate)}
+                          {renderStars(product)}
                           <span className="text-xs text-muted-foreground ml-1">
                             ({product.rating.count})
                           </span>
@@ -229,28 +315,42 @@ function RouteComponent() {
                     </div>
                   </CardContent>
 
-                  <CardFooter className="p-4 pt-0">
-                    <div className="flex items-center justify-between w-full">
-                      <div className="text-2xl font-bold text-primary">
-                        {formatPrice(product.price)}
+                  <CardFooter className="p-4 pt-0 pb-0">
+                    <div className="flex items-center justify-between w-full gap-3">
+                      <div className="flex flex-col">
+                        <div className="text-2xl font-bold text-primary">
+                          {formatValue(product.price.amount)}
+                        </div>
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        {new Date(product.createdAt).toLocaleDateString(
-                          "pt-BR"
+
+                      <Button
+                        size="sm"
+                        className="shrink-0 bg-primary hover:bg-primary/90"
+                        onClick={() =>
+                          add({
+                            productId: product.id,
+                            quantity: 1,
+                          })
+                        }
+                      >
+                        {isLoadingCart ? (
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                          <Plus className="h-4 w-4" />
                         )}
-                      </div>
+                      </Button>
                     </div>
                   </CardFooter>
                 </Card>
               ))}
             </div>
 
-            {pagination && (
+            {result && (
               <TablePagination
-                currentPage={pagination.currentPage}
-                totalPages={totalPages}
-                totalCount={pagination.totalCount}
-                pageSize={pagination.pageSize}
+                currentPage={result.currentPage}
+                totalPages={result.totalPages}
+                totalCount={result.totalItems}
+                pageSize={result.data.length}
                 onPageChange={handlePageChange}
                 onPageSizeChange={handlePageSizeChange}
                 isLoading={isFetching}

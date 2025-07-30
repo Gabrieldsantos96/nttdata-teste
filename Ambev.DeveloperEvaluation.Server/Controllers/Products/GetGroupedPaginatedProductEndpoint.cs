@@ -6,7 +6,7 @@ using FastEndpoints;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Server.Controllers.Products;
-public sealed class GetGroupedPaginatedProductsEndpoint(IMediator mediator) : Endpoint<PaginationDto, GroupedPaginatedResponse<Product>>
+public sealed class GetGroupedPaginatedProductsEndpoint(IMediator mediator) : EndpointWithoutRequest<GroupedPaginatedResponse<Product>>
 {
     public override void Configure()
     {
@@ -14,9 +14,15 @@ public sealed class GetGroupedPaginatedProductsEndpoint(IMediator mediator) : En
         Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Client);
     }
 
-    public override async Task HandleAsync(PaginationDto req, CancellationToken ct)
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        var result = await mediator.Send(new GetGroupedPaginatedProductQuery(req.Skip, req.Take), ct);
+        int skip = Query<int>("skip", isRequired: false);
+        int take = Query<int>("take", isRequired: false);
+
+        skip = skip < 0 ? 0 : skip;
+        take = take <= 0 ? 10 : take;
+
+        var result = await mediator.Send(new GetGroupedPaginatedProductQuery(skip, take), ct);
 
         await SendOkAsync(result, ct);
     }

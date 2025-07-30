@@ -1,30 +1,47 @@
 "use client";
 
 import type React from "react";
-
-import { forwardRef } from "react";
-import { Input } from "~/components/ui/input";
+import { forwardRef, useCallback, useState, useEffect } from "react";
 import { cn } from "~/lib/utils";
+import TextInput from "./text-input";
 
 interface CurrencyInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  currency?: string;
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "onChange" | "value"
+  > {
+  currency?: "USD" | "BRL";
+  containerClassName?: string;
+  inputClassName?: string;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  value: number | string;
+  onChange?: (value: number) => void;
 }
 
 const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
-  ({ className, currency = "BRL", value, onChange, ...props }, ref) => {
+  (
+    {
+      currency = "BRL",
+      value,
+      onChange,
+      containerClassName,
+      inputClassName,
+      startIcon,
+      endIcon,
+      ...props
+    },
+    ref
+  ) => {
+    const [displayValue, setDisplayValue] = useState("");
+
     const currencies = {
       USD: "$",
       BRL: "R$",
     };
 
-    function formatInputCurrency(inputValue: string | number = ""): string {
-      if (typeof inputValue === "number") {
-        inputValue = String(inputValue);
-      }
-      const digits = inputValue.replace(/\D/g, "");
-      return moneyFormatter.format(Number(digits) / 100);
-    }
+    const currencySymbol =
+      currencies[currency as keyof typeof currencies] || currency;
 
     const moneyFormatter = Intl.NumberFormat("pt-BR", {
       currency: "BRL",
@@ -35,39 +52,68 @@ const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
       maximumFractionDigits: 2,
     });
 
-    function cleanValue(inputValue: string): string {
-      return inputValue.replace(/[^0-9]/g, "");
-    }
+    const formatDecimalToDisplay = useCallback(
+      (decimalValue: number | string | undefined): string => {
+        if (
+          decimalValue === undefined ||
+          decimalValue === null ||
+          decimalValue === ""
+        ) {
+          return moneyFormatter.format(0);
+        }
+        const numericValue =
+          typeof decimalValue === "string"
+            ? parseFloat(decimalValue)
+            : decimalValue;
+        if (isNaN(numericValue)) return moneyFormatter.format(0);
+        return moneyFormatter.format(numericValue);
+      },
+      [moneyFormatter]
+    );
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-      const rawValue = cleanValue(e.target.value);
-      const formattedValue = formatInputCurrency(e.target.value);
+    const cleanInputToRawNumberString = useCallback(
+      (inputStr: string): string => {
+        const cleaned = inputStr
+          .replace(currencySymbol, "")
+          .replace(/\./g, "")
+          .replace(",", "");
+        return cleaned.replace(/[^0-9]/g, "");
+      },
+      [currencySymbol]
+    );
 
-      const newEvent = {
-        ...e,
-        target: {
-          ...e.target,
-          value: rawValue,
-        },
-      };
+    useEffect(() => {
+      setDisplayValue(formatDecimalToDisplay(value));
+    }, [value, formatDecimalToDisplay]);
 
-      onChange?.(newEvent);
-      e.target.value = formattedValue;
-    }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newRawString = cleanInputToRawNumberString(e.target.value);
+
+      let tempDisplay = newRawString;
+      if (newRawString.length < 3) {
+        tempDisplay = newRawString.padStart(3, "0");
+      }
+
+      const formattedForDisplay = formatDecimalToDisplay(
+        Number(tempDisplay) / 100
+      );
+      setDisplayValue(formattedForDisplay);
+
+      const decimalValueToSend = Number(newRawString) / 100;
+      onChange?.(decimalValueToSend);
+    };
 
     return (
-      <div className="relative">
-        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-muted-foreground">
-          {currencies[currency as keyof typeof currencies] || currency}
-        </span>
-        <Input
-          {...props}
-          className={cn("pl-10", className)}
-          value={formatInputCurrency(value as string)}
-          ref={ref}
-          onChange={handleChange}
-        />
-      </div>
+      <TextInput
+        ref={ref}
+        type="text"
+        value={displayValue}
+        onChange={handleChange}
+        containerClassName={containerClassName}
+        inputClassName={cn("pr-3", inputClassName)}
+        endIcon={endIcon}
+        {...props}
+      />
     );
   }
 );

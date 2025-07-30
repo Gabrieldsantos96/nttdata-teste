@@ -110,8 +110,7 @@ function RouteComponent() {
 
   const { mutateAsync } = useDeleteUser();
 
-  const users = usersResponse?.items || [];
-  const pagination = usersResponse?.pagination;
+  const users = usersResponse?.data || [];
 
   const filteredUsers = users.filter(
     (user: IUserProfileDto) =>
@@ -296,12 +295,12 @@ function RouteComponent() {
       <div className="rounded-md border">
         <DataTable columns={columns} data={filteredUsers} />
 
-        {pagination && (
+        {usersResponse && (
           <TablePagination
-            currentPage={pagination.currentPage}
-            totalPages={Math.ceil(pagination.totalCount / pagination.pageSize)}
-            totalCount={pagination.totalCount}
-            pageSize={pagination.pageSize}
+            currentPage={currentPage}
+            totalPages={Math.ceil(usersResponse.totalCount / pageSize)}
+            totalCount={usersResponse.totalCount}
+            pageSize={pageSize}
             onPageChange={setCurrentPage}
             onPageSizeChange={(newPageSize) => {
               setPageSize(newPageSize);

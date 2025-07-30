@@ -97,7 +97,7 @@ const steps = [
 ];
 
 async function signUpRequest(data: unknown) {
-  return httpClient.post(Routes.Authentication.REGISTER, data);
+  return httpClient.post(Routes.Authentication.Register, data);
 }
 
 export function SignUpFormSteps() {

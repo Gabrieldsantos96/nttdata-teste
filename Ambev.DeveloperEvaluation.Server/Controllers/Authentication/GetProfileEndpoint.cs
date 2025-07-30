@@ -8,7 +8,7 @@ public class GetProfileEndpoint(IMediator mediator) : EndpointWithoutRequest
 {
     public override void Configure()
     {
-        Post(ApiRoutes.Authentication.GetProfile);
+        Get(ApiRoutes.Authentication.GetProfile);
         Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Client);
     }
 

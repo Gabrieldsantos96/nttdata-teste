@@ -26,7 +26,6 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { formatDateToShort, formatDateToTime } from "~/utils/date";
-import { useCancelSaleItem } from "~/hooks/tanstack-hooks/use-sales";
 
 interface SaleTableRowProps {
   sale: Sale;
@@ -45,7 +44,6 @@ const itemStatusColors = {
 
 export function SaleTableRow({ sale }: SaleTableRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { mutateAsync } = useCancelSaleItem();
 
   const activeItems = sale.items.filter(
     (item) => item.status === ISaleItemStatus.Active
@@ -55,7 +53,7 @@ export function SaleTableRow({ sale }: SaleTableRowProps) {
   );
 
   async function handleCancelItem(itemId: string) {
-    await mutateAsync({ saleId: sale.id, itemId: itemId });
+    // await mutateAsync({ saleId: sale.id, itemId: itemId });
   }
 
   return (

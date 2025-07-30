@@ -14,12 +14,14 @@ interface UseProfileOptions {
 }
 
 async function fetchUserProfile(): Promise<IUserProfileDto> {
-  const { status, data } = await httpClient.post(Routes.Authentication.PROFILE);
+  const { status, data } = await httpClient.get(
+    Routes.Authentication.GetProfile
+  );
 
   await sleep(1200);
 
   if (!isSuccessStatus(status)) {
-    throw new Error(`${Routes.Authentication.PROFILE}: ${status}`);
+    throw new Error(`${Routes.Authentication.GetProfile}: ${status}`);
   }
 
   return data;

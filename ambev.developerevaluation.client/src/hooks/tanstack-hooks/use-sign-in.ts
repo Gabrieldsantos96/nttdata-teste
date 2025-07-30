@@ -19,14 +19,15 @@ interface SignInResult {
 }
 
 async function signInRequest(input: SignInInput): Promise<SignInResult> {
+  console.log("input", input);
   const { status, data } = await httpClient.post(
-    Routes.Authentication.SIGN_IN,
+    Routes.Authentication.SignIn,
     input
   );
 
   if (!data.success) {
     throw new Error(
-      data?.message || `${Routes.Authentication.SIGN_IN}: ${status}`
+      data?.message || `${Routes.Authentication.SignIn}: ${status}`
     );
   }
 

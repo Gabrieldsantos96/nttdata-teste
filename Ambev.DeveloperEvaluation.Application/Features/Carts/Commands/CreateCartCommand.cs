@@ -3,6 +3,6 @@ using Ambev.DeveloperEvaluation.Shared.Models;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Carts.Commands;
-public record CreateCartItemDto(string ProductId, string ProductName, int Quantity);
+public record CreateCartItemDto(string ProductId,int Quantity);
 public record CreateCartDto(CreateCartItemDto[] Items);
 public record CreateCartCommand(CreateCartItemDto[] Items) : IRequest<MutationResult<Cart>>;

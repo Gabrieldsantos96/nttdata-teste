@@ -6,17 +6,20 @@ using Ambev.DeveloperEvaluation.Shared.Models;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Features.Products.Commands;
-public sealed class CreateProductCommandHandler(IProductRepository productRepository, IClaimsService claimsService)
+public sealed class CreateProductCommandHandler(IProductRepository productRepository, IClaimsService claimsService, IFileStorageService storageService)
     : IRequestHandler<CreateProductCommand, MutationResult<Product>>
 {
     public async Task<MutationResult<Product>> Handle(CreateProductCommand request, CancellationToken ct)
     {
+
+        var (fileUrl, _) = await storageService.UploadFileAsync(request.Image, ct: ct);
+
         var product = Product.Create(
             request.Title,
             new MoneyValue(request.Price),
             request.Description,
             request.Category,
-            request.Image,
+            fileUrl,
             new Rating(0, 0),
             claimsService.GetUserRefId().ToString()!
         );

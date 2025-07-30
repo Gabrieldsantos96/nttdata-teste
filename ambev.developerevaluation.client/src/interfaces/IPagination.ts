@@ -1,11 +1,6 @@
-export interface Pagination {
+export interface IPaginationResponse<T> {
+  data: T[];
   totalCount: number;
   currentPage: number;
   pageSize: number;
-  hasNext: boolean;
-}
-
-export interface IPaginationResponse<T> {
-  items: T[];
-  pagination: Pagination;
 }

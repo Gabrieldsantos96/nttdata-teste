@@ -13,7 +13,7 @@ public sealed class UpdateCartCommandHandler(
 {
     public async Task<MutationResult<Cart>> Handle(UpdateCartCommand input, CancellationToken ct)
     {
-        var cart = await cartRepository.GetCartAsync(input.CartId, claimsService.GetUserRefId().ToString())
+        var cart = await cartRepository.GetCartAsync(input.CartId, claimsService.GetUserRefId().ToString(), ct)
             ?? throw new NotFoundException($"Carrinho com ID {input.CartId} não encontrado para o usuário.");
 
         var productIds = input.Items.Select(item => item.ProductId).Distinct().ToList();
@@ -26,11 +26,11 @@ public sealed class UpdateCartCommandHandler(
         }
 
         var cartItems = input.Items
-            .Select(item => CartItem.Create(
-                item.ProductId,
-                existingProducts.First(p => p.Id == item.ProductId).Title,
-                item.Quantity))
-            .ToList();
+             .Select(item => CartItem.Create(
+                 item.ProductId,
+                 existingProducts.First(p => p.Id == item.ProductId).Title,
+                 item.Quantity, existingProducts.First(p => p.Id == item.ProductId).Image))
+             .ToList();
 
         cart.Update(claimsService.GetUserRefId().ToString(), cart.UserName, cartItems);
 

@@ -18,7 +18,7 @@ interface SignOutResult {
 }
 
 async function signOutRequest(input: SignOutInput): Promise<SignOutResult> {
-  const { data } = await httpClient.post(Routes.Authentication.SIGN_OUT, input);
+  const { data } = await httpClient.post(Routes.Authentication.SignOut, input);
 
   return data;
 }

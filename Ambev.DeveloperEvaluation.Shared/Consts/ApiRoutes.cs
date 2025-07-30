@@ -13,38 +13,38 @@ public static class ApiRoutes
 
     public static class Carts
     {
-        public const string GetPaginatedCarts = "/carts";
-        public const string CreateCart = "/cart";
-        public const string GetCartById = "/cart/{id}";
-        public const string UpdateCart = "/cart/{id}";
-        public const string DeleteCart = "/cart/{id}";
+        public const string GetPaginatedCarts = "/features/carts";
+        public const string CreateCart = "/features/cart";
+        public const string GetCartById = "/features/features/cart/{id}";
+        public const string UpdateCart = "/features/cart/{id}";
+        public const string DeleteCart = "/features/cart/{id}";
     }
 
     public static class Sales
     {
-        public const string GetPaginatedSales = "/sales";
-        public const string CreateSale = "/sale/{cartId}";
-        public const string GetSaleById = "/sale/{id}";
-        public const string UpdateSale = "/sale/{id}";
-        public const string DeleteSale = "/sale/{id}";
+        public const string GetPaginatedSales = "/features/sales";
+        public const string CreateSale = "/features/sale/{cartId}";
+        public const string GetSaleById = "/features/sale/{id}";
+        public const string UpdateSale = "/features/sale/{id}";
+        public const string DeleteSale = "/features/sale/{id}";
     }
 
     public static class Products
     {
-        public const string GetPaginatedProducts = "/products";
-        public const string GetGroupedPaginatedProducts = "/products/categories";
-        public const string CreateProduct = "/product";
-        public const string GetProductById = "/product/{id}";
-        public const string UpdateProduct = "/product/{id}";
-        public const string DeleteProduct = "/product/{id}";
+        public const string GetPaginatedProducts = "/features/products";
+        public const string GetGroupedPaginatedProducts = "/features/products/categories";
+        public const string CreateProduct = "/features/product";
+        public const string GetProductById = "/features/product/{id}";
+        public const string UpdateProduct = "/features/product/{id}";
+        public const string DeleteProduct = "/features/product/{id}";
         
     }
 
     public static class Users
     {
-        public const string GetPaginatedUsers = "/users";
-        public const string GetUserById = "/user/{id}";
-        public const string UpdateUser = "/user/{id}";
-        public const string DeleteUser = "/user/{id}";
+        public const string GetPaginatedUsers = "/features/users";
+        public const string GetUserById = "/features/user/{id}";
+        public const string UpdateUser = "/features/user/{id}";
+        public const string DeleteUser = "/features/user/{id}";
     }
 }

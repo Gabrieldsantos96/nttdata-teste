@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
+﻿using Amazon.S3;
+using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;
 using Ambev.DeveloperEvaluation.Infra.Adapters;
 using Ambev.DeveloperEvaluation.Infra.Repositories;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationM
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 
 namespace Ambev.DeveloperEvaluation.Infra;
@@ -25,23 +27,6 @@ public static class ConfigureServices
 
             options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
-        });
-
-        services.AddSingleton<IDocumentStore>(serviceProvider =>
-        {
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-
-            string serverUrl = configuration["RavenDB:Server"]!;
-            string databaseName = configuration["RavenDB:Database"]!;
-
-            var store = new DocumentStore
-            {
-                Urls = new[] { serverUrl },
-                Database = databaseName
-            };
-
-            store.Initialize();
-            return store;
         });
 
         services.AddSingleton<IDocumentStore>(serviceProvider =>
@@ -70,11 +55,19 @@ public static class ConfigureServices
 
         services.AddMemoryCache();
 
+        services.AddSingleton<IAmazonS3>(sp =>
+        {
+            return S3FileStorageService.CreateAmazonS3Client(configuration);
+        });
+
+        services.AddSingleton<IFileStorageService, S3FileStorageService>();
+
         services.AddScoped<IDatabaseContextFactory, DatabaseContextFactory>();
 
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IClaimsService, ClaimsService>();
         services.AddScoped<IPasswordHelper, PasswordHelper>();
+        
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICartRepository, CartRepository>();

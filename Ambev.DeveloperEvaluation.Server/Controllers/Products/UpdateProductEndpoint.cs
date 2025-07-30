@@ -6,7 +6,7 @@ using FastEndpoints;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Server.Controllers.Products;
-public sealed class UpdateProductEndpoint(IMediator mediator) : Endpoint<UpdateProductDto, MutationResult<Product>>
+public sealed class UpdateProductEndpoint(IMediator mediator) : EndpointWithoutRequest<MutationResult<Product>>
 {
     public override void Configure()
     {
@@ -14,20 +14,29 @@ public sealed class UpdateProductEndpoint(IMediator mediator) : Endpoint<UpdateP
         Roles(RoleConsts.Manager, RoleConsts.Admin, RoleConsts.Client);
     }
 
-    public override async Task HandleAsync(UpdateProductDto req, CancellationToken ct)
+    public override async Task HandleAsync(CancellationToken ct)
     {
         var productId = Route<string>("id", isRequired: true);
+
+        if (Form.Count < 1)
+        {
+            throw new Exception(nameof(Product.Image));
+        }
+
+        var category = Form["category"];
+        var description = Form["description"];
+        var price = decimal.Parse(Form["price"]!);
+        var title = Form["title"];
+        var image = Form["image"];
 
         var result = await mediator.Send(new UpdateProductCommand
         {
             Id = productId!,
-            Category = req.Category,
-            Description = req.Description,
-            Image = req.Image,
-            Price = req.Price,
-            RatingCount = req.RatingCount,
-            RatingRate = req.RatingRate,
-            Title = req.Title
+            Category = category!,
+            Description = description!,
+            Image = image,
+            Price = price!,
+            Title = title!
         }, ct);
 
         await SendOkAsync(result, ct);

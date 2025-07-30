@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ambev.DeveloperEvaluation.Infra")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9b6d0ca202cf6e936f8321b3d0699e60c48f2a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4df7c21ad317945e06a25f396a3ebf87d1c4c976")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ambev.DeveloperEvaluation.Infra")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ambev.DeveloperEvaluation.Infra")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
