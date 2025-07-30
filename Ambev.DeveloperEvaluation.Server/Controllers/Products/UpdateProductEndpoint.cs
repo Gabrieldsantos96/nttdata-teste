@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Shared.Consts;
 using Ambev.DeveloperEvaluation.Shared.Models;
 using FastEndpoints;
 using MediatR;
+using System.Globalization;
 
 namespace Ambev.DeveloperEvaluation.Server.Controllers.Products;
 public sealed class UpdateProductEndpoint(IMediator mediator) : EndpointWithoutRequest<MutationResult<Product>>
@@ -25,7 +26,7 @@ public sealed class UpdateProductEndpoint(IMediator mediator) : EndpointWithoutR
 
         var category = Form["category"];
         var description = Form["description"];
-        var price = decimal.Parse(Form["price"]!);
+        var price = decimal.Parse(Form["price"]!, NumberStyles.Any, CultureInfo.InvariantCulture);
         var title = Form["title"];
         var image = Form["image"];
 

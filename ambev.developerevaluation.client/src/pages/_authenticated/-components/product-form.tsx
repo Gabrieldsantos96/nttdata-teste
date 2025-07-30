@@ -36,10 +36,11 @@ import { MessageType } from "~/services/toast-service";
 import { CurrencyInput } from "~/components/currency-input";
 import { Link, useRouter } from "@tanstack/react-router";
 import TextInput from "~/components/text-input";
+import { MutationResult } from "~/interfaces/IMutationResult";
 
 interface ProductFormProps {
   productId?: string;
-  onSubmitFn: (data: unknown) => Promise<IProduct>;
+  onSubmitFn: (data: unknown) => Promise<MutationResult<IProduct>>;
   isPending?: boolean;
 }
 
@@ -85,7 +86,7 @@ export function ProductForm({
         category: product.category,
         image: product.image,
       });
-
+      console.log(product);
       if (product.image) {
         setImagePreview(product.image);
       }
@@ -261,17 +262,9 @@ export function ProductForm({
                     {!!imagePreview && (
                       <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
                         <img
-                          src={
-                            imagePreview ||
-                            "/placeholder.svg?height=128&width=128"
-                          }
+                          src={imagePreview}
                           alt="Preview"
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src =
-                              "/placeholder.svg?height=128&width=128&text=Erro+ao+carregar";
-                          }}
                         />
                         <Button
                           type="button"
@@ -306,6 +299,11 @@ export function ProductForm({
                             Escolher arquivo
                           </label>
                         </div>
+                        {form.formState.errors.image && (
+                          <span className="tex-red-500">
+                            {form.formState.errors.image.message}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
