@@ -100,9 +100,9 @@ public sealed class ProductValidator : AbstractValidator<Product>
 
         RuleFor(x => x.Rating.Rate)
             .GreaterThanOrEqualTo(0).WithMessage("A nota deve ser maior ou igual a zero")
-            .LessThanOrEqualTo(5).WithMessage("A nota deve ser menor ou igual a 5");
+            .LessThanOrEqualTo(5).WithMessage("A nota deve ser menor ou igual a 5").When(x => x.Rating != null);
 
         RuleFor(x => x.Rating.Count)
-            .GreaterThanOrEqualTo(0).WithMessage("A contagem de avaliações deve ser maior ou igual a zero");
+            .GreaterThanOrEqualTo(0).WithMessage("A contagem de avaliações deve ser maior ou igual a zero").When(x => x.Rating != null);
     }
 }

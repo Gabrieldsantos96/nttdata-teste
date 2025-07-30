@@ -140,11 +140,11 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(x => x.Name.FirstName)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Primeiro nome"))
-            .MaximumLength(100).WithMessage(ValidationHelper.MaxLengthErrorMessage("Primeiro nome", 100));
+            .MaximumLength(100).WithMessage(ValidationHelper.MaxLengthErrorMessage("Primeiro nome", 100)).When(x => x.Name != null);
 
         RuleFor(x => x.Name.LastName)
             .NotEmpty().WithMessage(ValidationHelper.RequiredErrorMessage("Sobrenome"))
-            .MaximumLength(100).WithMessage(ValidationHelper.MaxLengthErrorMessage("Sobrenome", 100));
+            .MaximumLength(100).WithMessage(ValidationHelper.MaxLengthErrorMessage("Sobrenome", 100)).When(x => x.Name != null);
 
         RuleFor(x => x.Address)
             .NotNull().WithMessage(ValidationHelper.RequiredErrorMessage("Endereço"));

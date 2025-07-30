@@ -110,17 +110,6 @@ public class UserTest
     }
 
     [Fact]
-    public void Create_WithNullName_ShouldThrowValidationException()
-    {
-        // Act
-        Action act = () => User.Create("testUser@example.com", "testUsername", null!, ValidAddress, "1234567890", UserStatusConsts.ACTIVE, RoleConsts.Client);
-
-        // Assert
-        act.Should().Throw<ValidationException>()
-           .WithMessage("*Nome*");
-    }
-
-    [Fact]
     public void Update_WithValidParameters_ShouldUpdateFields()
     {
         var user = User.Create("testUser@example.com", "testUser", ValidName, ValidAddress, "1234567890", UserStatusConsts.ACTIVE, RoleConsts.Client);

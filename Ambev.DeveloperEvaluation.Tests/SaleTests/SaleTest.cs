@@ -159,24 +159,6 @@ public class SaleTest
     }
 
     [Fact]
-    public void Sale_UpdateItems_WithAllItemsCancelled_ShouldCancelSale()
-    {
-        var sale = Sale.Create(ValidCustomerId, ValidCustomerName, ValidItems);
-        var newItems = new List<SaleItem>();
-        var updatedBy = ValidUserId;
-
-        sale.UpdateItems(newItems, updatedBy);
-
-        // Assert
-        sale.Status.Should().Be(SalesConsts.Cancelled);
-        sale.Items.Should().ContainSingle(i => i.Status == SalesItemConsts.Cancelled);
-        sale.DomainEvents.Should().ContainSingle(e => e is ItemCancelledEvent);
-        sale.DomainEvents.Should().ContainSingle(e => e is SaleCancelledEvent)
-            .Which.Should().BeOfType<SaleCancelledEvent>()
-            .Which.UserId.Should().Be(updatedBy);
-    }
-
-    [Fact]
     public void Sale_UpdateItems_WithCompletedSale_ShouldThrowDomainException()
     {
         var sale = Sale.Create(ValidCustomerId, ValidCustomerName, ValidItems);

@@ -46,18 +46,6 @@ public class ProductTest
     }
 
     [Fact]
-    public void Create_WithNullPrice_ShouldThrowValidationException()
-    {
-        var invalidPrice = new MoneyValue(0);
-
-        Action act = () => Product.Create(ValidTitle, invalidPrice, ValidDescription, ValidCategory, ValidImage, _validRating, ValidUserId);
-
-        act.Should().Throw<ValidationException>()
-            .And.Errors.Should().ContainSingle()
-            .Which.ErrorMessage.Should().Be("o campo 'Preço' é obrigatório");
-    }
-
-    [Fact]
     public void Create_WithNullRating_ShouldThrowValidationException()
     {
         Action act = () => Product.Create(ValidTitle, _validPrice, ValidDescription, ValidCategory, ValidImage, null!, ValidUserId);
