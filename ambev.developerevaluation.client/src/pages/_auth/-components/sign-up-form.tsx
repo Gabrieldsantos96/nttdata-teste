@@ -52,14 +52,16 @@ import { handleError } from "~/utils/handle-error";
 import { MaskedInput } from "~/components/masked-input";
 
 const rolesOptions = Object.entries(USER_ROLE).map(([key, value]) => ({
-  value: value,
-  label: key,
+  value: key,
+  label: value,
 }));
 
 const statusOptions = Object.entries(USER_STATUS).map(([key, value]) => ({
-  value: value,
-  label: key,
+  value: key,
+  label: value,
 }));
+
+console.log(statusOptions, rolesOptions);
 
 const steps = [
   {
