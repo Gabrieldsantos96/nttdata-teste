@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as EmptyRouteImport } from './pages/_empty'
+import { Route as R401RouteImport } from './pages/401'
 import { Route as AuthenticatedAuthenticatedRouteImport } from './pages/_authenticated/_authenticated'
 import { Route as AuthSignUpRouteImport } from './pages/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './pages/_auth/sign-in'
@@ -24,6 +25,11 @@ import { Route as AuthenticatedAuthenticatedProductsEditProductIdRouteImport } f
 
 const EmptyRoute = EmptyRouteImport.update({
   id: '/_empty',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R401Route = R401RouteImport.update({
+  id: '/401',
+  path: '/401',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAuthenticatedRoute =
@@ -90,6 +96,7 @@ const AuthenticatedAuthenticatedProductsEditProductIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/401': typeof R401Route
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/users/edit/$userId': typeof AuthenticatedAuthenticatedUsersEditUserIdRoute
 }
 export interface FileRoutesByTo {
+  '/401': typeof R401Route
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
@@ -115,6 +123,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/401': typeof R401Route
   '/_empty': typeof EmptyRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/sign-in': typeof AuthSignInRoute
@@ -131,6 +140,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/401'
     | '/forgot-password'
     | '/sign-in'
     | '/sign-up'
@@ -143,6 +153,7 @@ export interface FileRouteTypes {
     | '/users/edit/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/401'
     | '/forgot-password'
     | '/sign-in'
     | '/sign-up'
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/users/edit/$userId'
   id:
     | '__root__'
+    | '/401'
     | '/_empty'
     | '/_auth/forgot-password'
     | '/_auth/sign-in'
@@ -170,6 +182,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  R401Route: typeof R401Route
   EmptyRoute: typeof EmptyRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthSignInRoute: typeof AuthSignInRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof EmptyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/401': {
+      id: '/401'
+      path: '/401'
+      fullPath: '/401'
+      preLoaderRoute: typeof R401RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/_authenticated': {
@@ -299,6 +319,7 @@ const AuthenticatedAuthenticatedRouteWithChildren =
   )
 
 const rootRouteChildren: RootRouteChildren = {
+  R401Route: R401Route,
   EmptyRoute: EmptyRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthSignInRoute: AuthSignInRoute,

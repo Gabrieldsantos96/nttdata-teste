@@ -8,8 +8,10 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 import { Shield, LogIn, Building2, Users, Lock } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignInForm } from "~/pages/_auth/-components/sign-in-form";
+import { useSession } from "~/contexts/session-provider";
+import { useRouter } from "@tanstack/react-router";
 
 interface UnauthorizedComponentProps {
   title?: string;
@@ -21,6 +23,15 @@ export function UnauthorizedComponent({
   message = "Esta funcionalidade requer permissões específicas. Faça login com uma conta autorizada ou contate o administrador do sistema.",
 }: UnauthorizedComponentProps) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const { applicationUser } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (applicationUser) {
+      router.navigate({ to: "/" });
+    }
+  }, [applicationUser]);
 
   return (
     <>

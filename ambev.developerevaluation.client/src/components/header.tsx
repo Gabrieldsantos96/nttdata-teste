@@ -16,7 +16,7 @@ import { useTheme } from "~/contexts/theme-provider";
 import { useSession } from "~/contexts/session-provider";
 
 export function Header() {
-  const { toggleTheme, hexColors } = useTheme();
+  const { theme, setTheme, hexColors } = useTheme();
   const { signOut } = useSession();
   return (
     <main className="flex-1 flex items-center justify-start">
@@ -34,7 +34,9 @@ export function Header() {
               <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Perfil</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => toggleTheme()}>
+              <DropdownMenuItem
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
                 Trocar tema
               </DropdownMenuItem>
               <DropdownMenuItem>Configurações</DropdownMenuItem>

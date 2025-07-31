@@ -39,7 +39,7 @@ export function useProfile(options: UseProfileOptions = {}) {
   });
 
   return {
-    loading: query.isLoading,
+    loading: query.isFetching,
     data: query.data,
     error: query.error,
     refetch: query.refetch,

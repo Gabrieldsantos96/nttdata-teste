@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { useSession } from "~/contexts/session-provider";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/_authenticated/_authenticated/")({
   component: Authorize(RouteComponent, [

@@ -1,30 +1,33 @@
-import { LaunchScreen } from "~/components/launch-screen";
+import axios from "axios";
 import {
   AUTH_STORAGE_KEY,
   REFRESH_TOKEN_STORAGE_KEY,
+  Routes,
 } from "~/constants/consts";
+import { LaunchScreen } from "~/components/launch-screen";
 import { type IUserProfileDto } from "~/interfaces/IUserProfileDto";
 import { useProfile } from "~/hooks/tanstack-hooks/use-profile";
 import { useSignOut } from "~/hooks/tanstack-hooks/use-sign-out";
 import { useSignIn } from "~/hooks/tanstack-hooks/use-sign-in";
 import { queryClient } from "~/lib/tanstack-query";
 import { handleError } from "~/utils/handle-error";
-
 import {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
+  useCallback,
   useState,
   type PropsWithChildren,
 } from "react";
-import { useRouter } from "@tanstack/react-router";
+import httpClient from "~/lib/http-client";
 
 type AuthState = {
   isFetching: boolean;
   hasSession: boolean;
   isFetchingSignin: boolean;
   applicationUser: IUserProfileDto | null;
-  signIn: (email: string, password: string) => void;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   refetchUser: () => void;
 };
@@ -34,13 +37,12 @@ export const AuthContext = createContext<AuthState>({
   hasSession: false,
   isFetchingSignin: false,
   applicationUser: null,
-  signIn: () => {},
+  signIn: async () => {},
   refetchUser: () => {},
   signOut: () => {},
 });
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const router = useRouter();
   const { signInAsync, loading: isFetchingSignin } = useSignIn();
   const { signOutAsync } = useSignOut();
 
@@ -62,9 +64,71 @@ export function SessionProvider({ children }: PropsWithChildren) {
     staleTime: Infinity,
   });
 
-  async function signIn(email: string, password: string) {
+  async function getRefreshToken(refreshToken: string): Promise<any> {
+    const result = await httpClient.post(Routes.Authentication.RefreshJwt, {
+      refreshToken,
+    });
+
+    return result?.data;
+  }
+
+  useLayoutEffect(() => {
+    console.log("Add request interceptor");
+
+    const interceptorId = httpClient.interceptors.request.use((config) => {
+      const accessToken = localStorage.getItem(AUTH_STORAGE_KEY);
+
+      if (accessToken) {
+        config.headers.set("Authorization", `Bearer ${accessToken}`);
+      }
+
+      return config;
+    });
+
+    return () => {
+      httpClient.interceptors.request.eject(interceptorId);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    console.log("Add response interceptor");
+
+    const interceptorId = httpClient.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
+
+        if (originalRequest.url === Routes.Authentication.RefreshJwt) {
+          setSignedIn(false);
+          localStorage.clear();
+          return Promise.reject(error);
+        }
+
+        if (error.response?.status !== 401 || !refreshToken) {
+          return Promise.reject(error);
+        }
+
+        const result = await getRefreshToken(refreshToken);
+        console.log("result", result);
+
+        localStorage.setItem(AUTH_STORAGE_KEY, result.data.accessToken);
+        localStorage.setItem(
+          REFRESH_TOKEN_STORAGE_KEY,
+          result.data.refreshToken
+        );
+
+        return httpClient(originalRequest);
+      }
+    );
+
+    return () => {
+      httpClient.interceptors.response.eject(interceptorId);
+    };
+  }, []);
+
+  const signIn = useCallback(async (email: string, password: string) => {
     try {
-      console.log(email, password);
       const { data: result } = await signInAsync({
         email,
         password,
@@ -76,15 +140,12 @@ export function SessionProvider({ children }: PropsWithChildren) {
       localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
 
       setSignedIn(true);
-
-      router.navigate({ to: "/" });
     } catch (error) {
-      console.log(error);
       handleError(error);
     }
-  }
+  }, []);
 
-  function signOut() {
+  const signOut = useCallback(() => {
     try {
       const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
       if (refreshToken) {
@@ -96,7 +157,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       queryClient.clear();
       setSignedIn(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -105,7 +166,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         signOut();
       }
     }
-  }, [isError]);
+  }, [isError, signOut]);
 
   return (
     <AuthContext.Provider

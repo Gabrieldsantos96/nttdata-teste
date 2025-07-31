@@ -19,7 +19,6 @@ interface SignInResult {
 }
 
 async function signInRequest(input: SignInInput): Promise<SignInResult> {
-  console.log("input", input);
   const { status, data } = await httpClient.post(
     Routes.Authentication.SignIn,
     input

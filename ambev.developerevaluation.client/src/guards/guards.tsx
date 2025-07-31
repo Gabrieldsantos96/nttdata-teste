@@ -1,6 +1,7 @@
 import { useSession } from "~/contexts/session-provider";
 import type { IUserRole } from "~/interfaces/IUserProfileDto";
 import { UnauthorizedComponent } from "./unauthorized-access";
+import { Navigate } from "@tanstack/react-router";
 
 export function Authorize(
   Component: React.ComponentType<any>,
@@ -13,7 +14,7 @@ export function Authorize(
       applicationUser && allowedRoles.includes(applicationUser.role);
 
     if (!hasRequiredRole) {
-      return <UnauthorizedComponent />;
+      return <Navigate to="/401" />;
     }
 
     return <Component {...props} />;

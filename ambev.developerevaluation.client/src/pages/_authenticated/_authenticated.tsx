@@ -1,5 +1,10 @@
 import { cn } from "~/lib/utils";
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  useRouter,
+} from "@tanstack/react-router";
 import { BarChart3, Package, TrendingUp, Users } from "lucide-react";
 import { Header } from "~/components/header";
 import { Authorize } from "~/guards/guards";
@@ -18,6 +23,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "~/components/ui/sidebar";
+import { useSession } from "~/contexts/session-provider";
+import { useEffect, useRef } from "react";
 
 export const Route = createFileRoute("/_authenticated/_authenticated")({
   component: Authorize(RouteComponent, [
@@ -28,6 +35,17 @@ export const Route = createFileRoute("/_authenticated/_authenticated")({
 });
 
 function AppSidebar() {
+  const firstRender = useRef(true);
+  const { applicationUser } = useSession();
+  useEffect(() => {
+    if (applicationUser) {
+      if (firstRender.current) {
+        firstRender.current = false;
+        return;
+      }
+      window.location.reload();
+    }
+  }, [applicationUser]);
   return (
     <Sidebar>
       <SidebarHeader>
@@ -49,20 +67,29 @@ function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
                 <SidebarMenuButton asChild>
-                  <Link to="/products">
+                  <Link
+                    to="/products"
+                    search={{ pageSize: 10, searchTerm: "", skip: 0 }}
+                  >
                     <Package className="size-4" />
                     <span>Produtos</span>
                   </Link>
                 </SidebarMenuButton>
                 <SidebarMenuButton asChild>
-                  <Link to="/sales">
+                  <Link
+                    to="/sales"
+                    search={{ pageSize: 10, searchTerm: "", skip: 0 }}
+                  >
                     <TrendingUp className="size-4" />
                     <span>Vendas</span>
                   </Link>
                 </SidebarMenuButton>
 
                 <SidebarMenuButton asChild>
-                  <Link to="/users">
+                  <Link
+                    to="/users"
+                    search={{ pageSize: 10, searchTerm: "", skip: 0 }}
+                  >
                     <Users className="size-4" />
                     <span>Usuários</span>
                   </Link>

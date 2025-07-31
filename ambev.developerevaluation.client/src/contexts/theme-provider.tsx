@@ -1,68 +1,73 @@
-import { APP_THEME } from "~/constants/consts";
-import { hexColors, type IHexColors } from "~/wwwroot/styles/theme";
+import { hexColors, IHexColors } from "~/wwwroot/styles/theme";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface ThemeProviderProps {
+type Theme = "dark" | "light" | "system";
+
+type ThemeProviderProps = {
   children: React.ReactNode;
-}
+  defaultTheme?: Theme;
+  storageKey?: string;
+};
 
-export const Theme = {
-  Light: "light",
-  Dark: "dark",
-} as const;
-
-export type Theme = (typeof Theme)[keyof typeof Theme];
-
-export const ThemeContext = createContext<{
+type ThemeProviderState = {
   theme: Theme;
+  setTheme: (theme: Theme) => void;
   hexColors: IHexColors;
-  isDark: boolean;
-  toggleTheme: (theme?: Theme) => void;
-}>({
-  hexColors: hexColors["dark"]!,
-  isDark: true,
-  theme: Theme.Dark,
-  toggleTheme: (_?: Theme) => {},
-});
+};
 
-export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [themeColor, setTheme] = useState<Theme>(Theme.Dark);
+const initialState: ThemeProviderState = {
+  theme: "system",
+  hexColors: hexColors["dark"],
+  setTheme: () => null,
+};
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+
+export function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  storageKey = "vite-ui-theme",
+  ...props
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+  );
+  const _hexColors = hexColors[theme]!;
 
   useEffect(() => {
-    const stored = localStorage.getItem(APP_THEME);
-    if (stored === Theme.Light || stored === Theme.Dark) {
-      setTheme(stored);
+    const root = window.document.documentElement;
+
+    root.classList.remove("light", "dark");
+
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+
+      root.classList.add(systemTheme);
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark");
-  }, [themeColor]);
+    root.classList.add(theme);
+  }, [theme]);
 
-  const _hexColors = hexColors[themeColor]!;
-  const isDark = themeColor === Theme.Dark;
-
-  const toggleTheme = (value?: Theme) => {
-    const next =
-      value ?? (themeColor === Theme.Dark ? Theme.Light : Theme.Dark);
-    localStorage.setItem(APP_THEME, next);
-    setTheme(next);
+  const value = {
+    hexColors: _hexColors,
+    theme,
+    setTheme: (theme: Theme) => {
+      localStorage.setItem(storageKey, theme);
+      setTheme(theme);
+    },
   };
 
   return (
-    <ThemeContext.Provider
-      value={{
-        isDark,
-        theme: themeColor,
-        hexColors: _hexColors,
-        toggleTheme,
-      }}
-    >
+    <ThemeProviderContext.Provider {...props} value={value}>
       {children}
-    </ThemeContext.Provider>
+    </ThemeProviderContext.Provider>
   );
-};
-
-export function useTheme() {
-  return useContext(ThemeContext);
 }
+
+export const useTheme = () => {
+  return useContext(ThemeProviderContext);
+};
