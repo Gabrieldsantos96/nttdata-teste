@@ -23,12 +23,15 @@ import TextInput from "~/components/text-input";
 import LocationPicker, { LocationData } from "~/components/location-picker";
 import { SignupFormData, signupSchema } from "~/validations/sign-up-schema";
 import { User, Mail, MapPin, Phone, Shield, Activity } from "lucide-react";
+import { Badge } from "~/components/ui/badge";
 import { useEffect, useState } from "react";
 import { MaskedInput } from "~/components/masked-input";
 import z from "zod";
 import { showToast } from "~/utils/trigger-toast";
 import { MessageType } from "~/services/toast-service";
 import { handleError } from "~/utils/handle-error";
+import { Link } from "@tanstack/react-router";
+import { IUserStatus } from "~/interfaces/IUserProfileDto";
 
 interface UpdateUserFormProps {
   userId?: string;
@@ -52,6 +55,7 @@ export function UserForm({
   const form = useForm<UpdateUserFormData>({
     resolver: zodResolver(updateUserSchema),
   });
+  const isDisabled = initialData?.status === IUserStatus.INACTIVE;
   const [key, setKey] = useState(0);
 
   const reRender = () => setKey((s) => s + 1);
@@ -130,6 +134,7 @@ export function UserForm({
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
               Dados Pessoais
+              <Badge className="bg-destructive">Inativo</Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -137,6 +142,7 @@ export function UserForm({
               <FormField
                 control={form.control}
                 name="email"
+                disabled
                 render={() => (
                   <FormItem>
                     <FormLabel>E-mail</FormLabel>
@@ -388,10 +394,12 @@ export function UserForm({
         </Card>
 
         <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" disabled={isPending}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={isPending}>
+          <Link to="/users" search={{ pageSize: 10, searchTerm: "", skip: 0 }}>
+            <Button type="button" variant="outline" disabled={isPending}>
+              Cancelar
+            </Button>
+          </Link>
+          <Button type="submit" disabled={isPending || isDisabled}>
             {isPending ? "Salvando..." : "Atualizar Usuário"}
           </Button>
         </div>

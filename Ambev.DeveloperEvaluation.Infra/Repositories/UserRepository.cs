@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Domain.Exceptions;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Adapters;
 using Ambev.DeveloperEvaluation.Domain.Infrastructure.Interfaces.Repositories;
 using Ambev.DeveloperEvaluation.Domain.ValueObjects;
+using Ambev.DeveloperEvaluation.Shared.Consts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.Infra.Repositories;
@@ -58,8 +59,7 @@ public sealed class UserRepository(IDatabaseContextFactory databaseContextFactor
 
         if (user is null)
             throw new NotFoundException(nameof(User));
-
-        ctx.Users.Remove(user);
+        user.Status = UserStatusConsts.INACTIVE;
         await ctx.SaveChangesAsync();
     }
 

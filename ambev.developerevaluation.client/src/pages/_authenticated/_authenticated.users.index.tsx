@@ -34,6 +34,11 @@ import { Input } from "~/components/ui/input";
 import { Authorize } from "~/guards/guards";
 import z from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { DestructiveDialog } from "~/components/destructive-dialog";
+import { openDialog } from "~/utils/trigger-dialog";
+import { MessageType } from "~/services/toast-service";
+import { showToast } from "~/utils/trigger-toast";
+import { handleError } from "~/utils/handle-error";
 
 const userSearchSchema = z.object({
   searchTerm: z.string().catch(""),
@@ -70,9 +75,22 @@ function RouteComponent() {
 
   const handleDelete = async (id: string) => {
     try {
-      await mutateAsync(id);
+      const result = await openDialog(DestructiveDialog, {
+        componentProps: {
+          message: "Deseja confirmar do usuário?",
+          variant: "destructive",
+        },
+      });
+
+      if (result) {
+        await mutateAsync(id);
+        showToast({
+          text: "Usuário excluído com sucesso",
+          type: MessageType.Success,
+        });
+      }
     } catch (error) {
-      console.error("Erro ao deletar produto:", error);
+      handleError(error);
     }
   };
 
@@ -196,7 +214,7 @@ function RouteComponent() {
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 className="text-red-600"
-                onClick={() => handleDelete(row.original.id)}
+                onClick={() => handleDelete(row.original.refId!)}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Excluir
