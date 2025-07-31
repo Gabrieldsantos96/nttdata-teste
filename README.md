@@ -35,7 +35,7 @@
 - RavenDB (NoSQL)
 
 ### Backend
-- Padrão Mediator para organização do código
+- Padrão Mediator
 - Fluent Validations para validação de dados
 - Integração com S3 (AWS) para armazenamento de arquivos
 - Entity Framework para acesso a dados
