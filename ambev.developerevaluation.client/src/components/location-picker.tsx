@@ -306,11 +306,6 @@ export default function LocationPicker({
                   <strong>Cidade:</strong> {selectedLocation.address.city}
                 </p>
               )}
-              {selectedLocation.address.state && (
-                <p>
-                  <strong>Estado:</strong> {selectedLocation.address.state}
-                </p>
-              )}
               {selectedLocation.address.zipCode && (
                 <p>
                   <strong>CEP:</strong> {selectedLocation.address.zipCode}

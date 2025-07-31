@@ -30,6 +30,7 @@ export const USER_STATUS: Record<string, string> = {
 
 export interface IUserProfileDto {
   id: string;
+  refId?: string;
   email: string;
   name: {
     firstName: string;

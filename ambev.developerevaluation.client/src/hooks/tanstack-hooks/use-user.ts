@@ -6,6 +6,7 @@ import httpClient from "~/lib/http-client";
 import { IPaginationResponse } from "~/interfaces/IPagination";
 import { IUserProfileDto } from "~/interfaces/IUserProfileDto";
 import { queryClient } from "~/lib/tanstack-query";
+import { SignupFormData } from "~/validations/sign-up-schema";
 
 export function useUsers(page: number = 1, pageSize: number = 10) {
   return useQuery({
@@ -24,7 +25,7 @@ export function useUser(id?: string) {
   return useQuery({
     queryKey: ["user", id],
     queryFn: async () => {
-      const { data } = await httpClient.get<IUserProfileDto>(
+      const { data } = await httpClient.get<any>(
         `${Routes.Users.GetUserById.replace("{id}", id!)}`
       );
 
@@ -34,38 +35,22 @@ export function useUser(id?: string) {
   });
 }
 
-export function useUpdateUser(page: number = 1, pageSize: number = 10) {
+export function useUpdateUser() {
   return useMutation({
-    mutationFn: async ({ id, ...data }: IUserProfileDto) => {
+    mutationFn: async (data: SignupFormData) => {
       const result = await httpClient.put<IUserProfileDto>(
-        `${Routes.Users.UpdateUser.replace("{id}", id)}`,
+        `${Routes.Users.UpdateUser.replace("{id}", data.id!)}`,
         data
       );
       return result?.data;
     },
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData<IPaginationResponse<IUserProfileDto>>(
-        ["users", page, pageSize],
-        (prevState) =>
-          prevState
-            ? {
-                items: prevState.items.map((user) =>
-                  user.id === variables.id ? { ...user, ...variables } : user
-                ),
-                pagination: {
-                  currentPage: prevState.pagination.currentPage,
-                  hasNext: prevState.pagination.hasNext,
-                  pageSize: prevState.pagination.pageSize,
-                  totalCount: prevState.pagination.totalCount,
-                },
-              }
-            : prevState
-      );
+    onSuccess: (_) => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 }
 
-export function useDeleteUser(page: number = 1, pageSize: number = 10) {
+export function useDeleteUser() {
   return useMutation({
     mutationFn: async (id: string) => {
       const result = await httpClient.delete<string>(
@@ -75,21 +60,7 @@ export function useDeleteUser(page: number = 1, pageSize: number = 10) {
       return result?.data;
     },
     onSuccess: (_data, id) => {
-      queryClient.setQueryData<IPaginationResponse<IUserProfileDto>>(
-        ["users", page, pageSize],
-        (prevState) =>
-          prevState
-            ? {
-                items: prevState.items.filter((user) => user.id !== id),
-                pagination: {
-                  currentPage: prevState.pagination.currentPage,
-                  hasNext: prevState.pagination.hasNext,
-                  pageSize: prevState.pagination.pageSize,
-                  totalCount: prevState.pagination.totalCount - 1,
-                },
-              }
-            : prevState
-      );
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       queryClient.setQueryData(["user", id], undefined);
     },
   });

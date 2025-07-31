@@ -23,23 +23,46 @@ import TextInput from "~/components/text-input";
 import LocationPicker, { LocationData } from "~/components/location-picker";
 import { SignupFormData, signupSchema } from "~/validations/sign-up-schema";
 import { User, Mail, MapPin, Phone, Shield, Activity } from "lucide-react";
+import { useEffect, useState } from "react";
+import { MaskedInput } from "~/components/masked-input";
+import z from "zod";
+import { showToast } from "~/utils/trigger-toast";
+import { MessageType } from "~/services/toast-service";
+import { handleError } from "~/utils/handle-error";
 
 interface UpdateUserFormProps {
   userId?: string;
-  onSubmitFn: (data: SignupFormData) => Promise<void>;
+  onSubmitFn: (data: SignupFormData) => Promise<unknown>;
   isPending: boolean;
-  initialData?: Partial<SignupFormData>;
+  initialData?: Record<string, any>;
 }
+
+const updateUserSchema = signupSchema.omit({
+  password: true,
+  confirmPassword: true,
+});
+
+export type UpdateUserFormData = z.infer<typeof updateUserSchema>;
 
 export function UserForm({
   onSubmitFn,
   isPending,
   initialData,
 }: UpdateUserFormProps) {
-  const form = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      id: initialData?.id,
+  const form = useForm<UpdateUserFormData>({
+    resolver: zodResolver(updateUserSchema),
+  });
+  const [key, setKey] = useState(0);
+
+  const reRender = () => setKey((s) => s + 1);
+
+  useEffect(() => {
+    const geo = "LONG--49.295658,LAT--25.499792";
+    const parts = geo.split(",");
+    const long = parts[0].replace("LONG-", "");
+    const lat = parts[1].replace("LAT-", "");
+    form.reset({
+      id: initialData?.refId,
       email: initialData?.email,
       userName: initialData?.userName,
       name: {
@@ -50,23 +73,27 @@ export function UserForm({
         street: initialData?.address?.street,
         number: initialData?.address?.number,
         city: initialData?.address?.city,
-        state: initialData?.address?.state,
-        zipCode: initialData?.address?.zipCode,
+        zipcode: initialData?.address?.zipcode,
         country: initialData?.address?.country || "Brasil",
-        latitude: initialData?.address?.latitude,
-        longitude: initialData?.address?.longitude,
+        latitude: Number(lat),
+        longitude: Number(long),
       },
       phone: initialData?.phone,
       role: initialData?.role,
       status: initialData?.status,
-    },
-  });
+    });
+    reRender();
+  }, [initialData]);
 
   const onSubmit = async (data: SignupFormData) => {
     try {
       await onSubmitFn(data);
+      showToast({
+        text: "Usuário salvo com sucesso",
+        type: MessageType.Success,
+      });
     } catch (error) {
-      console.error("Erro ao salvar usuário:", error);
+      handleError(error);
     }
   };
 
@@ -85,11 +112,9 @@ export function UserForm({
       if (locationData.address.city) {
         form.setValue("address.city", locationData.address.city);
       }
-      if (locationData.address.state) {
-        form.setValue("address.state", locationData.address.state);
-      }
+
       if (locationData.address.zipCode) {
-        form.setValue("address.zipCode", locationData.address.zipCode);
+        form.setValue("address.zipcode", locationData.address.zipCode);
       }
       if (locationData.address.country) {
         form.setValue("address.country", locationData.address.country);
@@ -112,16 +137,16 @@ export function UserForm({
               <FormField
                 control={form.control}
                 name="email"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel>E-mail</FormLabel>
                     <FormControl>
                       <TextInput
+                        disabled
                         startIcon={
                           <Mail className="h-4 w-4 text-muted-foreground" />
                         }
                         placeholder="usuario~exemplo.com"
-                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -141,7 +166,8 @@ export function UserForm({
                           <User className="h-4 w-4 text-muted-foreground" />
                         }
                         placeholder="usuario123"
-                        {...field}
+                        onChange={field.onChange}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -158,7 +184,11 @@ export function UserForm({
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <TextInput placeholder="João" {...field} />
+                      <TextInput
+                        placeholder="João"
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -172,7 +202,11 @@ export function UserForm({
                   <FormItem>
                     <FormLabel>Sobrenome</FormLabel>
                     <FormControl>
-                      <TextInput placeholder="Silva" {...field} />
+                      <TextInput
+                        placeholder="Silva"
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -199,7 +233,11 @@ export function UserForm({
                     <FormItem>
                       <FormLabel>Rua</FormLabel>
                       <FormControl>
-                        <TextInput placeholder="Rua das Flores" {...field} />
+                        <TextInput
+                          placeholder="Rua das Flores"
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -214,7 +252,11 @@ export function UserForm({
                   <FormItem>
                     <FormLabel>Número</FormLabel>
                     <FormControl>
-                      <TextInput placeholder="123" {...field} />
+                      <TextInput
+                        placeholder="123"
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -230,7 +272,11 @@ export function UserForm({
                   <FormItem>
                     <FormLabel>Cidade</FormLabel>
                     <FormControl>
-                      <TextInput placeholder="São Paulo" {...field} />
+                      <TextInput
+                        placeholder="São Paulo"
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -239,46 +285,40 @@ export function UserForm({
 
               <FormField
                 control={form.control}
-                name="address.state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Estado</FormLabel>
-                    <FormControl>
-                      <TextInput placeholder="SP" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="address.zipCode"
+                name="address.zipcode"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>CEP</FormLabel>
                     <FormControl>
-                      <TextInput placeholder="01234-567" {...field} />
+                      <MaskedInput
+                        placeholder="01234-567"
+                        mask="99999-999"
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address.country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>País</FormLabel>
+                    <FormControl>
+                      <TextInput
+                        placeholder="Brasil"
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="address.country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>País</FormLabel>
-                  <FormControl>
-                    <TextInput placeholder="Brasil" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <LocationPicker
               onLocationChange={handleLocationChange}
@@ -303,12 +343,11 @@ export function UserForm({
                 <FormItem>
                   <FormLabel>Telefone</FormLabel>
                   <FormControl>
-                    <TextInput
-                      startIcon={
-                        <Phone className="h-4 w-4 text-muted-foreground" />
-                      }
+                    <MaskedInput
+                      mask="(99) 99999-9999"
                       placeholder="(11) 99999-9999"
-                      {...field}
+                      onChange={field.onChange}
+                      value={field.value}
                     />
                   </FormControl>
                   <FormMessage />
@@ -324,6 +363,7 @@ export function UserForm({
                   <FormItem>
                     <FormLabel>Função</FormLabel>
                     <Select
+                      key={key}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
@@ -334,35 +374,9 @@ export function UserForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="USER">Usuário</SelectItem>
+                        <SelectItem value="CLIENT">Cliente</SelectItem>
                         <SelectItem value="MANAGER">Gerente</SelectItem>
                         <SelectItem value="ADMIN">Administrador</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <Activity className="h-4 w-4 text-muted-foreground mr-2" />
-                          <SelectValue placeholder="Selecione um status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="ACTIVE">Ativo</SelectItem>
-                        <SelectItem value="INACTIVE">Inativo</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

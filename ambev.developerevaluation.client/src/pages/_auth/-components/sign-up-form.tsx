@@ -84,7 +84,6 @@ const steps = [
     fields: [
       "address.street",
       "address.city",
-      "address.state",
       "address.zipCode",
       "address.country",
       "address.latitude",
@@ -126,8 +125,7 @@ export function SignUpFormSteps() {
       address: {
         street: "",
         city: "",
-        state: "",
-        zipCode: "",
+        zipcode: "",
         country: "Brasil",
         latitude: 0,
         longitude: 0,
@@ -544,11 +542,9 @@ function SecondStep({ form }: StepProps) {
       if (locationData.address.city) {
         form.setValue("address.city", locationData.address.city);
       }
-      if (locationData.address.state) {
-        form.setValue("address.state", locationData.address.state);
-      }
+
       if (locationData.address.zipCode) {
-        form.setValue("address.zipCode", locationData.address.zipCode);
+        form.setValue("address.zipcode", locationData.address.zipCode);
       }
       if (locationData.address.country) {
         form.setValue("address.country", locationData.address.country);
@@ -624,31 +620,11 @@ function SecondStep({ form }: StepProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="address.state"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Estado</FormLabel>
-              <FormControl>
-                <TextInput
-                  id="state"
-                  name="state"
-                  required
-                  placeholder="Estado"
-                  onChange={field.onChange}
-                  value={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="address.zipCode"
+          name="address.zipcode"
           render={({ field }) => (
             <FormItem>
               <FormLabel>CEP</FormLabel>

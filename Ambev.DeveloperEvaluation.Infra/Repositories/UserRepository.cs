@@ -12,16 +12,23 @@ public sealed class UserRepository(IDatabaseContextFactory databaseContextFactor
     {
         await using var ctx = await databaseContextFactory.CreateDbContextAsync();
 
-        return await ctx.Users.AsNoTracking()
-             .FirstOrDefaultAsync(u => u.RefId == refId, ct);
+        var result = await ctx.Users.AsNoTracking()
+             .FirstOrDefaultAsync(u => u.RefId == refId, ct) ?? throw new NotFoundException(nameof(User));
+
+        result.PasswordHash = "";
+        return result;
     }
 
     public async Task<User?> GetUserAsync(string email, CancellationToken ct)
     {
         await using var ctx = await databaseContextFactory.CreateDbContextAsync();
 
-        return await ctx.Users.AsNoTracking()
-             .FirstOrDefaultAsync(u => u.Email == email, ct);
+        var result = await ctx.Users.AsNoTracking()
+             .FirstOrDefaultAsync(u => u.Email == email, ct) ?? throw new NotFoundException(nameof(User));
+
+        result.PasswordHash = "";
+
+        return result;
     }
 
     public async Task<PaginatedResponse<User>> GetPaginatedUsersAsync(int skip = 0, int take = 20, string? filter = null, CancellationToken ct = default)

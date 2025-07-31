@@ -64,12 +64,7 @@ export const signupSchema = z
         .nonempty(
           ValidationMessages.FieldRequired.replace("{field}", "número")
         ),
-      state: z
-        .string()
-        .nonempty(
-          ValidationMessages.FieldRequired.replace("{field}", "estado")
-        ),
-      zipCode: z
+      zipcode: z
         .string()
         .nonempty(ValidationMessages.FieldRequired.replace("{field}", "CEP")),
       country: z

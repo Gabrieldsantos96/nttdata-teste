@@ -204,7 +204,7 @@ function RouteComponent() {
               <DropdownMenuItem asChild>
                 <Link
                   to={"/users/edit/$userId"}
-                  params={{ userId: row.original.id }}
+                  params={{ userId: row.original.refId! }}
                 >
                   <Edit className="mr-2 h-4 w-4" />
                   Editar
