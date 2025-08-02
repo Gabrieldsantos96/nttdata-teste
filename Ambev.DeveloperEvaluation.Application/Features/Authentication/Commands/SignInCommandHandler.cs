@@ -13,7 +13,7 @@ public sealed class SignInCommandHandler(IUserRepository userRepository, IAuthen
 {
     public async Task<MutationResult<CommonSignInResult>> Handle(SignInCommand input, CancellationToken ct)
     {
-        var user = await userRepository.GetUserAsync(input.Email, ct)
+        var user = await userRepository.GetUserAsync(input.Email, ct, true)
          ?? throw new AuthenticationException(ValidationMessages.DefaultAuthenticationError);
 
         var result = await signInManager.CheckPasswordSignInAsync(user, input.Password, false);

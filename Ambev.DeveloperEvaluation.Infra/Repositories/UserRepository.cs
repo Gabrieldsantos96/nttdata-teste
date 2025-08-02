@@ -32,6 +32,16 @@ public sealed class UserRepository(IDatabaseContextFactory databaseContextFactor
         return result;
     }
 
+    public async Task<User?> GetUserAsync(string email, CancellationToken ct, bool withPassword = true)
+    {
+        await using var ctx = await databaseContextFactory.CreateDbContextAsync();
+
+        var result = await ctx.Users.AsNoTracking()
+             .FirstOrDefaultAsync(u => u.Email == email, ct) ?? throw new NotFoundException(nameof(User));
+
+        return result;
+    }
+
     public async Task<PaginatedResponse<User>> GetPaginatedUsersAsync(int skip = 0, int take = 20, string? filter = null, CancellationToken ct = default)
     {
         await using var ctx = await databaseContextFactory.CreateDbContextAsync();
